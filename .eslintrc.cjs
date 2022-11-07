@@ -29,7 +29,6 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'import/no-cycle': 'off',
     'react/prop-types': 'off',
-    'comma-dangle': [2, 'always-multiline'],
     'react/jsx-filename-extension': 'off',
     'react/jsx-props-no-spreading': 'off',
     'no-param-reassign': 'off',
