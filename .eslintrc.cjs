@@ -19,6 +19,7 @@ module.exports = {
     'react-hooks',
   ],
   rules: {
+    'react/jsx-one-expression-per-line': 'off',
     'linebreak-style': ['error', 'windows'],
     'import/no-dynamic-require': 'off',
     'global-require': 'off',
@@ -28,6 +29,7 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'import/no-cycle': 'off',
     'react/prop-types': 'off',
+    'comma-dangle': [2, 'always-multiline'],
     'react/jsx-filename-extension': 'off',
     'react/jsx-props-no-spreading': 'off',
     'no-param-reassign': 'off',
