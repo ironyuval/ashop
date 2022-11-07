@@ -19,6 +19,7 @@ module.exports = {
     'react-hooks',
   ],
   rules: {
+    'linebreak-style': ['error', 'windows'],
     'import/no-dynamic-require': 'off',
     'global-require': 'off',
     'react-hooks/rules-of-hooks': 'error',
