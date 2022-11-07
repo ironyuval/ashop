@@ -1,12 +1,10 @@
-const express = require("express");
+import express, { json } from "express";
+import product from "./routes/ProductRoute";
+
 const app = express();
 
-
-app.use(express.json());
-
-const product = require("./routes/ProductRoute")
+app.use(json());
 
 app.use("/api/v2",product);
 
-
-module.exports = app
+export default app
