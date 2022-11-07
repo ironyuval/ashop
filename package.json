@@ -5,9 +5,10 @@
   "main": "backend/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon backend/server.js .",
-    "start": "node backend/server.js ."
+    "dev": "nodemon --experimental-modules --es-module-specifier-resolution=node backend/server.js .",
+    "start": "node --experimental-modules --es-module-specifier-resolution=node backend/server.js ."
   },
+  "type":"module",
   "author": "yuval",
   "license": "ISC",
   "dependencies": {
@@ -16,5 +17,24 @@
     "mongodb": "^4.11.0",
     "mongoose": "^6.7.1",
     "nodemon": "^2.0.20"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest",
+      "plugin:prettier/recommended",
+      "prettier/react"
+    ]
+  },
+  "devDependencies": {
+    "eslint": "^8.27.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.31.10",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "^2.7.1"
   }
 }
