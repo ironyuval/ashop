@@ -10,12 +10,8 @@ const router = Router();
 router.route('/:id').get(getSingleProduct);
 router.route('/').get(getAllProducts);
 // Write - admin user
-/* router.route('/new').post(createProduct);
-router.route('/:id').put(updateProduct);
-router.route('/:id').delete(deleteProduct);
- */
-router.post('/new', Auth, createProduct);
-router.put('/:id', Auth, updateProduct);
-router.delete('/:id', Auth, deleteProduct);
+router.route('/new').post(Auth, createProduct);
+router.route('/:id').put(Auth, updateProduct);
+router.route('/:id').delete(Auth, deleteProduct);
 
 export default router;

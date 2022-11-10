@@ -48,5 +48,6 @@ module.exports = {
     'no-mixed-operators': 'off',
     'no-console': 'off',
     'no-underscore-dangle': ['error', { allow: ['_id'] }],
+    'consistent-return': 'off',
   },
 };

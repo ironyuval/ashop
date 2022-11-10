@@ -1,5 +1,4 @@
 import Product from '../models/Product';
-import ErrorHandler from '../utils/ErrorHandler';
 import Features from '../utils/Features';
 
 export const createProduct = async (req, res) => {
@@ -25,10 +24,12 @@ export const getAllProducts = async (req, res) => {
   });
 };
 
-export const updateProduct = async (req, res, next) => {
+export const updateProduct = async (req, res) => {
   let product = await Product.findById(req.params.id);
   if (!product) {
-    return next(new ErrorHandler('product is not found with this id', 404));
+    return res.status(404).json({
+      message: 'product is not found with this id',
+    });
   }
 
   product = await Product.findByIdAndUpdate(req.params.id, req.body, {
@@ -41,10 +42,12 @@ export const updateProduct = async (req, res, next) => {
   });
 };
 
-export const deleteProduct = async (req, res, next) => {
+export const deleteProduct = async (req, res) => {
   const product = await Product.findById(req.params.id);
   if (!product) {
-    return next(new ErrorHandler('product is not found with this id', 404));
+    return res.status(404).json({
+      message: 'product is not found with this id',
+    });
   }
   await product.remove();
   return res.status(200).json({
@@ -53,10 +56,12 @@ export const deleteProduct = async (req, res, next) => {
   });
 };
 
-export const getSingleProduct = async (req, res, next) => {
+export const getSingleProduct = async (req, res) => {
   const product = await Product.findById(req.params.id);
   if (!product) {
-    return next(new ErrorHandler('product is not found with this id', 404));
+    return res.status(404).json({
+      message: 'product is not found with this id',
+    });
   }
   return res.status(200).json({
     success: true,

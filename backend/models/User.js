@@ -1,4 +1,4 @@
-import mongoose, { model } from 'mongoose';
+import mongoose, { model, Types } from 'mongoose';
 import { UserTypes } from '../utils/types';
 
 const UserSchema = new mongoose.Schema({
@@ -18,6 +18,10 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     default: UserTypes.User,
     required: [true, 'Please provide a type!'],
+  },
+
+  favorites: {
+    type: [Types.ObjectId],
   },
 });
 
