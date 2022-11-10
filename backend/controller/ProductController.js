@@ -13,7 +13,10 @@ export const createProduct = async (req, res) => {
 export const getAllProducts = async (req, res) => {
   const resultPerPage = 8;
   const productsCount = await Product.countDocuments();
-  const feature = new Features(Product.find(), req.query).search().filter().pagination(resultPerPage);
+  const feature = new Features(Product.find(), req.query)
+    .search()
+    .filter()
+    .pagination(resultPerPage);
   const products = await feature.query;
   res.status(200).json({
     success: true,
