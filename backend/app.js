@@ -3,7 +3,7 @@ import productRoutes from './routes/ProductRoute';
 import userRoutes from './routes/userRoutes';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import auth from './auth';
+import Auth from './auth';
 
 const app = express();
 
@@ -14,7 +14,7 @@ app.use('/api/user', userRoutes);
 app.get('/free-endpoint', (request, response) => {
   response.json({ message: 'You are free to access me anytime' });
 });
-app.get('/auth-endpoint', auth, (request, response) => {
+app.get('/auth-endpoint', Auth, (request, response) => {
   response.json({ message: 'You are authorized to access me' });
 });
 
