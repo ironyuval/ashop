@@ -1,13 +1,20 @@
 import jwt from 'jsonwebtoken';
+import User from './models/User';
+import { UserTypes } from './utils/types';
 
-export const auth = async (request, response, next) => {
+const auth = async (request, response, next) => {
   try {
-    const token = await request.headers.authorization.split(' ')[1];
-    const decodedToken = await jwt.verify(token, 'RANDOM-TOKEN');
-    const user = await decodedToken;
+    const token = request.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, 'RANDOM-TOKEN');
+    const user = decodedToken;
     request.user = user;
 
-    next();
+    if (user.id) {
+      const userFound = await User.findById(user.id);
+      if (userFound && userFound.type === UserTypes.Admin) {
+        next();
+      }
+    }
   } catch (error) {
     response.status(401).json({
       error: new Error('Invalid request!'),

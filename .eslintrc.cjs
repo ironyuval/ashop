@@ -47,5 +47,6 @@ module.exports = {
     'max-len': ['error', { code: 110 }],
     'no-mixed-operators': 'off',
     'no-console': 'off',
+    'no-underscore-dangle': ['error', { allow: ['_id'] }],
   },
 };

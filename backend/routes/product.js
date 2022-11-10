@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import {
   getAllProducts, createProduct, updateProduct, deleteProduct, getSingleProduct,
-} from '../controller/ProductController';
+} from '../controller/product';
 import Auth from '../auth';
 
 const router = Router();
@@ -10,12 +10,12 @@ const router = Router();
 router.route('/:id').get(getSingleProduct);
 router.route('/').get(getAllProducts);
 // Write - admin user
-router.route('/new').post(createProduct);
+/* router.route('/new').post(createProduct);
 router.route('/:id').put(updateProduct);
 router.route('/:id').delete(deleteProduct);
-
-/* router.post('/new', Auth, createProduct);
+ */
+router.post('/new', Auth, createProduct);
 router.put('/:id', Auth, updateProduct);
-router.delete('/:id', Auth, deleteProduct); */
+router.delete('/:id', Auth, deleteProduct);
 
 export default router;

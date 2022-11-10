@@ -1,4 +1,4 @@
-import Product from '../models/ProductModel';
+import Product from '../models/Product';
 import ErrorHandler from '../utils/ErrorHandler';
 import Features from '../utils/Features';
 
