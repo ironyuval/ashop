@@ -1,1 +1,1 @@
-web: nodemon --experimental-modules --es-module-specifier-resolution=node backend/server.js
+web: npm start
