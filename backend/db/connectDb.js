@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 export const connectDb = () => {
-  mongoose.connect(process.env.DB_CLOUD_TEST, {
+  mongoose.connect(process.env.DB_CLOUD, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   }).then((data) => {
