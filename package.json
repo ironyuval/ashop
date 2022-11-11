@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --experimental-modules --es-module-specifier-resolution=node backend/server.js .",
-    "start": "node --experimental-modules --es-module-specifier-resolution=node backend/server.js ."
+    "buildClient": "cd frontend/ && npm run build",
+    "start": "node --experimental-modules --es-module-specifier-resolution=node backend/server.js .",
+    "heroku-postbuild": "npm run buildClient  && npm run start"
   },
   "type": "module",
   "author": "yuval",
