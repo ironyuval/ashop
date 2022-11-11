@@ -20,14 +20,6 @@
     "mongoose": "^6.7.1",
     "morgan": "^1.10.0"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest",
-      "plugin:prettier/recommended",
-      "prettier/react"
-    ]
-  },
   "devDependencies": {
     "eslint": "^8.27.0",
     "eslint-config-airbnb": "^19.0.4",
