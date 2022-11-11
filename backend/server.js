@@ -1,6 +1,6 @@
+import dotenv from 'dotenv';
 import app from './app';
 import { connectDb } from './db/connectDb';
-import dotenv from 'dotenv';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 dotenv.config(isDevelopment ? {
