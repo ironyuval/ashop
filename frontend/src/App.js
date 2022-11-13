@@ -1,5 +1,5 @@
 import './App.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -10,20 +10,25 @@ import Header from './components/Header';
 import 'bootstrap/dist/css/bootstrap.css';
 import Admin from './pages/Admin';
 import axios from 'axios';
+import Browse from './pages/Browse';
 
 const getAllProducts = 'https://ashopauth.herokuapp.com/api/product/';
 
-const getFirstFiveProducts = async () => {
-  try {
-    const { data } = await axios.get(getAllProducts);
-    console.log(data);
-  } catch (e) {
-    console.log(e);
-  }
-};
-
 function App() {
   const user = { name: 'Gal', type: 1 };
+
+  const [products, setProducts] = useState([]);
+
+  const getFirstFiveProducts = async () => {
+    try {
+      const { data } = await axios.get(getAllProducts);
+      setProducts(data.products);
+      console.log('we got products');
+      return data;
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   useEffect(() => {
     getFirstFiveProducts();
@@ -40,7 +45,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<Admin />} />
           <Route path="/auth" element={<Admin />} />
-          <Route path="/browse" element={<Admin />} />
+          <Route path="/browse" element={<Browse products={products} />} />
           <Route path="/product" element={<Admin />} />
           {
             user.type === 1 ? <Route path="/admin" element={<Admin />} /> : undefined
