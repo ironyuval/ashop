@@ -2,10 +2,13 @@ import express, { json } from 'express';
 import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import cors from 'cors';
 import userRoutes from './routes/user';
 import productRoutes from './routes/product';
 
 const app = express();
+
+app.use(cors());
 app.use(morgan('tiny'));
 
 app.use(json());

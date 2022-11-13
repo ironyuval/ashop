@@ -27,10 +27,6 @@ const productSchema = new Schema({
   },
   images: [
     {
-      public_id: {
-        type: String,
-        required: true,
-      },
       url: {
         type: String,
         required: true,
@@ -41,30 +37,6 @@ const productSchema = new Schema({
     type: String,
     /*     required: [true, 'Please add a category of your product'],
  */ },
-  reviews: [
-    {
-      user: {
-        type: Schema.ObjectId,
-        ref: 'User',
-        required: true,
-      },
-      name: {
-        type: String,
-        required: true,
-      },
-      rating: {
-        type: Number,
-        required: true,
-      },
-      comment: {
-        type: String,
-      },
-      time: {
-        type: Date,
-        default: Date.now(),
-      },
-    },
-  ],
   createdBy: {
     type: Schema.ObjectId,
     ref: 'User',
