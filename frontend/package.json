@@ -17,13 +17,12 @@
   },
   "eslintConfig": {
     "plugins": [
-      "react",
       "prettier"
     ],
     "extends": [
+      "react",
       "react-app",
       "airbnb",
-      "prettier",
       "prettier/react"
     ],
     "rules": {}
