@@ -7,7 +7,7 @@ const productSchema = new Schema({
     trim: true,
     maxLength: [20, 'Product name not exceed than 20 characters'],
   },
-  /*   description: {
+  description: {
     type: String,
     required: [true, 'Please add a description of your product'],
     maxlength: [4000, 'Description is can not exceed than 4000 characters'],
@@ -16,10 +16,6 @@ const productSchema = new Schema({
     type: Number,
     required: [true, 'Please add a price for your product'],
     maxLength: [8, 'Price can not exceed than 8 characters'],
-  }, */
-  offerPrice: {
-    type: String,
-    maxLength: [4, 'Discount price can not exceed than 4 characters'],
   },
   ratings: {
     type: Number,
@@ -35,8 +31,8 @@ const productSchema = new Schema({
   ],
   category: {
     type: String,
-    /*     required: [true, 'Please add a category of your product'],
- */ },
+    required: [true, 'Please add a category of your product'],
+  },
   createdBy: {
     type: Schema.ObjectId,
     ref: 'User',
