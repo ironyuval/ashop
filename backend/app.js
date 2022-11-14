@@ -4,7 +4,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
 import productRoutes from './routes/product';
-
 import userRoutes from './routes/user';
 
 const app = express();

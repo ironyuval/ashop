@@ -1,10 +1,14 @@
-import {
-  Link,
-} from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const Footer = () => (
   <nav>
-    <div style={{ display: 'flex', flexDirection: 'row', border: '1px solid black' }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        border: "1px solid black",
+      }}
+    >
       <div>
         <Link to="/">Home</Link>
       </div>

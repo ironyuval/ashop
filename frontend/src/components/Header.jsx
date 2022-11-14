@@ -1,15 +1,17 @@
-import {
-  Link,
-} from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 function Header() {
-  const user = { name: 'Gal', type: 1 };
+  const user = { name: "Gal", type: 1 };
 
   return (
     <nav>
-      <div style={{
-        display: 'flex', flexDirection: 'row', justifyContent: 'space-around', border: '1px solid black',
-      }}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-around",
+          border: "1px solid black",
+        }}
       >
         <div>
           <Link to="/">Home</Link>
@@ -20,14 +22,14 @@ function Header() {
         <div>
           <Link to="/users">Users</Link>
         </div>
-        {
-            user.type === 1
-              ? (
-                <div>
-                  <Link to="/admin">Admin</Link>
-                </div>
-              ) : undefined
-        }
+        <div>
+          <Link to="/register">Register</Link>
+        </div>
+        {user.type === 1 ? (
+          <div>
+            <Link to="/admin">Admin</Link>
+          </div>
+        ) : undefined}
       </div>
     </nav>
   );

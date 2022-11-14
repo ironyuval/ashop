@@ -3,9 +3,12 @@ import Home from "./pages/Home";
 import Header from "./components/Header";
 import Admin from "./pages/Admin";
 import Browse from "./pages/Browse";
+import Register from "./pages/Register";
+import About from "./pages/About";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 const getAllProducts = "https://ashopauth.herokuapp.com/api/product/";
 
@@ -43,10 +46,11 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<Admin />} />
+          <Route path="/about" element={<About />} />
           <Route path="/auth" element={<Admin />} />
           <Route path="/browse" element={<Browse products={products} />} />
           <Route path="/product" element={<Admin />} />
+          <Route path="/register" element={<Register />} />
           {user.type === 1 ? (
             <Route path="/admin" element={<Admin />} />
           ) : undefined}
