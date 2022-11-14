@@ -4,7 +4,7 @@ import { connectDb } from './db/connectDb';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 dotenv.config(isDevelopment ? {
-  path: 'backend/.env',
+  path: '.env',
 } : undefined);
 
 app.listen(process.env.PORT, () => {
