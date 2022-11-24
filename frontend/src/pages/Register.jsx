@@ -1,9 +1,6 @@
 import registerSchema from "../validation/register.validation";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import Joi from "joi";
 import { toast } from "react-toastify";
 import axios from "axios";
 
