@@ -1,13 +1,17 @@
+import registerSchema from "../validation/register.validation";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import Joi from "joi";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const Register = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, setName] = useState("Yuval");
+  const [email, setEmail] = useState("ironyuval65@gmail.com");
+  const [password, setPassword] = useState("12345678");
+  const [confirmPassword, setConfirmPassword] = useState("12345678");
   const [showPasswordErrorMsg, setShowPasswordErrorMsg] = useState(false);
   const history = useNavigate();
 
@@ -17,6 +21,7 @@ const Register = () => {
 
   const handleEmailChange = (ev) => {
     setEmail(ev.target.value);
+    s;
   };
 
   const handlePasswordChange = (ev) => {
@@ -28,18 +33,16 @@ const Register = () => {
   };
 
   const handleSubmit = (ev) => {
-    //ask
     ev.preventDefault();
 
     setShowPasswordErrorMsg(password !== confirmPassword);
 
-    const validatedValue = Joi.validate(
-      { email, password, confirmPassword, name },
-      registerSchema,
-      {
-        abortEarly: false,
-      }
-    );
+    const validatedValue = registerSchema.validate({
+      name,
+      email,
+      password,
+      confirmPassword,
+    });
     const { error } = validatedValue;
 
     if (error) {
@@ -49,14 +52,15 @@ const Register = () => {
     } else {
       if (password === confirmPassword) {
         axios
-          .post("/register", {
+          .post("https://ashopauth.herokuapp.com/api/user/register", {
             name: name,
             email: email,
             password: password,
           })
           .then((res) => {
             console.log(res.data);
-            history.push("/login", { email: email, password: password });
+            /*             history.push("/login", { email: email, password: password });
+             */
           })
           .catch((err) => {
             console.log("err from axios", err);
@@ -132,12 +136,10 @@ const Register = () => {
         <input
           type="checkbox"
           className="form-check-input"
-          id="exampleCheck1" /* checked={isBiz} */
-          /*           onChange={handleCBChanged}
-           */
+          id="exampleCheck1"
         />
         <label className="form-check-label" htmlFor="exampleCheck1">
-          Check me out if you are a buisness
+          Check me out
         </label>
         <br></br>
       </div>

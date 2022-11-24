@@ -9,32 +9,32 @@ const CreateProduct = () => {
   const [Category, setCategory] = useState("");
   const [Image, setImage] = useState("");
 
-  const handleBizNameChange = (ev) => {
+  const handleNameChange = (ev) => {
     setName(ev.target.value);
   };
-  const handleBizDescriptionChange = (ev) => {
+  const handleDescriptionChange = (ev) => {
     setDescription(ev.target.value);
   };
-  const handleBizAddressChange = (ev) => {
+  const handlePriceChange = (ev) => {
     setPrice(ev.target.value);
   };
-  const handleBizPhoneChange = (ev) => {
+  const handleCategoryChange = (ev) => {
     setCategory(ev.target.value);
   };
-  const handleBizImageChange = (ev) => {
+  const handleImageChange = (ev) => {
     setImage(ev.target.value);
   };
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
     let dateToSend = {
-      bizName,
-      bizDescription,
-      bizAddress,
-      bizPhone,
+      Name,
+      Description,
+      Address,
+      Phone,
     };
-    if (bizImage) {
-      dateToSend.bizImage = bizImage;
+    if (Image) {
+      dateToSend.Image = Image;
     }
     axios
       .post("/cards", dateToSend)
@@ -50,63 +50,63 @@ const CreateProduct = () => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="mb-3">
-        <label htmlFor="bizNameInput" className="form-label">
-          Biz Name:
+        <label htmlFor="NameInput" className="form-label">
+          Name:
         </label>
         <input
           type="text"
           className="form-control"
-          id="bizNameInput"
-          value={bizName}
-          onChange={handleBizNameChange}
+          id="NameInput"
+          value={Name}
+          onChange={handleNameChange}
         />
       </div>
       <div className="mb-3">
-        <label htmlFor="bizDescriptionInput" className="form-label">
-          Biz Description:
+        <label htmlFor="DescriptionInput" className="form-label">
+          Description:
         </label>
         <input
           type="text"
           className="form-control"
-          id="bizDescriptionInput"
-          value={bizDescription}
-          onChange={handleBizDescriptionChange}
+          id="DescriptionInput"
+          value={Description}
+          onChange={handleDescriptionChange}
         />
       </div>
       <div className="mb-3">
-        <label htmlFor="bizAddressInput" className="form-label">
-          Biz Address:
+        <label htmlFor="PriceInput" className="form-label">
+          Price:
         </label>
         <input
           type="text"
           className="form-control"
-          id="bizAddressInput"
-          value={bizAddress}
-          onChange={handleBizAddressChange}
+          id="PriceInput"
+          value={Price}
+          onChange={handlePriceChange}
         />
       </div>
       <div className="mb-3">
-        <label htmlFor="bizPhoneInput" className="form-label">
-          Biz Phone:
+        <label htmlFor="CategoryInput" className="form-label">
+          Category:
         </label>
         <input
           type="text"
           className="form-control"
-          id="bizPhoneInput"
-          value={bizPhone}
-          onChange={handleBizPhoneChange}
+          id="CategoryInput"
+          value={Category}
+          onChange={handleCategoryChange}
         />
       </div>
       <div className="mb-3">
-        <label htmlFor="bizImageInput" className="form-label">
-          Biz Image (url):
+        <label htmlFor="ImageInput" className="form-label">
+          Image (url):
         </label>
         <input
           type="text"
           className="form-control"
-          id="bizImageInput"
-          value={bizImage}
-          onChange={handleBizImageChange}
+          id="ImageInput"
+          value={Image}
+          onChange={handleImageChange}
         />
       </div>
       <button type="submit" className="btn btn-primary">
