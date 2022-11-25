@@ -25,9 +25,9 @@ const LoginPage = () => {
     setShowPasswordErrorMsg(password !== confirmPassword);
 
     const validatedValue = loginSchema.validate({
-      name,
       email,
       password,
+      confirmPassword,
     });
     const { error } = validatedValue;
 
@@ -85,6 +85,23 @@ const LoginPage = () => {
       {password.length < 8 && (
         <div className="alert alert-warning" role="alert">
           A simple warning alert—check it out!
+        </div>
+      )}
+      <div className="mb-3">
+        <label htmlFor="exampleInputConfirmPassword1" className="form-label">
+          Confirm Password
+        </label>
+        <input
+          type="password"
+          className="form-control"
+          id="exampleInputConfirmPassword1"
+          value={confirmPassword}
+          onChange={handleConfirmPassword}
+        />
+      </div>
+      {showPasswordErrorMsg && (
+        <div className="alert alert-danger" role="alert">
+          The password and confirm password must be the same
         </div>
       )}
       <div className="mb-3 form-check">
