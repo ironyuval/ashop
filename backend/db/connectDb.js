@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-export const connectDb = () => {
+export default () => {
   mongoose.connect(process.env.DB_CLOUD, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
