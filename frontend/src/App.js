@@ -5,6 +5,7 @@ import Admin from "./pages/Admin";
 import Browse from "./pages/Browse";
 import Register from "./pages/Register";
 import About from "./pages/About";
+import LoginPage from "./pages/LoginPage";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -51,6 +52,7 @@ function App() {
           <Route path="/browse" element={<Browse products={products} />} />
           <Route path="/product" element={<Admin />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<LoginPage />} />
           {user.type === 1 ? (
             <Route path="/admin" element={<Admin />} />
           ) : undefined}

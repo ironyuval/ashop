@@ -25,6 +25,9 @@ function Header() {
         <div>
           <Link to="/register">Register</Link>
         </div>
+        <div>
+          <Link to="/login">Login</Link>
+        </div>
         {user.type === 1 ? (
           <div>
             <Link to="/admin">Admin</Link>
