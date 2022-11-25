@@ -68,7 +68,7 @@ const Register = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h1>Please Fill The Following:</h1>
+      <h1>Please Fill The Following To Register:</h1>
       <div className="mb-3">
         <label htmlFor="exampleInputName1" className="form-label">
           Name

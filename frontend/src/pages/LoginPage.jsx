@@ -9,7 +9,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState("12345678");
   const [confirmPassword, setConfirmPassword] = useState("12345678");
   const [showPasswordErrorMsg, setShowPasswordErrorMsg] = useState(false);
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   const handleEmailChange = (ev) => {
     setEmail(ev.target.value);
@@ -49,8 +49,8 @@ const LoginPage = () => {
           })
           .then((res) => {
             console.log(res.data);
-            /*             history.push("/login", { email: email, password: password });
-             */
+            localStorage.setItem("token", res.data.token);
+            navigate("/", { email: email, password: password });
           })
           .catch((err) => {
             console.log("err from axios", err);
@@ -61,7 +61,7 @@ const LoginPage = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h1>Please Fill The Following:</h1>
+      <h1>Please Fill The Following To Login:</h1>
       <div className="mb-3">
         <label htmlFor="exampleInputEmail1" className="form-label">
           Email address

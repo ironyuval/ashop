@@ -37,7 +37,7 @@ const CreateProduct = () => {
       dateToSend.Image = Image;
     }
     axios
-      .post("/cards", dateToSend)
+      .post("/products", dateToSend)
       .then((data) => {
         toast("new card created 😎 ");
       })
