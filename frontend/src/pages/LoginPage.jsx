@@ -4,7 +4,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-const Login = () => {
+const LoginPage = () => {
   const [email, setEmail] = useState("ironyuval65@gmail.com");
   const [password, setPassword] = useState("12345678");
   const [showPasswordErrorMsg, setShowPasswordErrorMsg] = useState(false);
@@ -136,4 +136,4 @@ const Login = () => {
   );
 };
 
-export default Register;
+export default LoginPage;
