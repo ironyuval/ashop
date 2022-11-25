@@ -6,7 +6,7 @@ import cors from 'cors';
 import productRoutes from './routes/product';
 import userRoutes from './routes/user';
 
-const app = express();
+export const app = express();
 
 app.use(cors());
 app.use(morgan('tiny'));
@@ -25,5 +25,3 @@ app.use(express.static(path.join(__dirname, '../frontend/build')));
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../frontend/build/index.html'));
 });
-
-export default app;
