@@ -59,19 +59,6 @@ const LoginPage = () => {
     <form onSubmit={handleSubmit}>
       <h1>Please Fill The Following:</h1>
       <div className="mb-3">
-        <label htmlFor="exampleInputName1" className="form-label">
-          Name
-        </label>
-        <input
-          type="text"
-          className="form-control"
-          id="exampleInputName1"
-          aria-describedby="emailHelp"
-          value={name}
-          onChange={handleNameChange}
-        />
-      </div>
-      <div className="mb-3">
         <label htmlFor="exampleInputEmail1" className="form-label">
           Email address
         </label>
