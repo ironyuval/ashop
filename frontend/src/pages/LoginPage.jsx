@@ -19,6 +19,7 @@ const LoginPage = () => {
   const handlePasswordChange = (ev) => {
     setPassword(ev.target.value);
   };
+
   const handleConfirmPassword = (ev) => {
     setConfirmPassword(ev.target.value);
   };
