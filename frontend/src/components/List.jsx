@@ -1,24 +1,10 @@
-import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const defaultCardsAmount = 5;
 
-const cardsGenerate = (numOfCards) => {
-  const cards = [];
-
-  for (let i = 0; i < numOfCards; ++i) {
-    cards.push({
-      id: `${i}`,
-      title: "abc",
-      imageUrl: "https://picsum.photos/200/300",
-    });
-  }
-
-  return cards;
-};
-
-function List() {
-  const [cards, setCards] = useState(cardsGenerate(defaultCardsAmount));
-
+function List({ products }) {
+  const navigate = useNavigate();
+  console.log("List rendered with ", products.length);
   return (
     <div
       style={{
@@ -28,18 +14,33 @@ function List() {
         flex: 0.5,
       }}
     >
-      {cards.map((card, index) => (
+      {products.map((product, index) => (
         <div
-          key={card.id}
+          onClick={() => {
+            navigate("/product", { state: { product } });
+          }}
           style={{
-            width: "20%",
+            display: "flex",
+            flexDirection: "column",
             margin: "0px 10px 0px 10px",
             border: "1px solid blue",
-            backgroundImage: `url(${card.imageUrl})`,
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "contain",
+            height: "180px",
+            width: "90px",
           }}
-        />
+          key={product._id}
+        >
+          <div
+            style={{
+              flex: 1,
+              margin: "0px 10px 0px 10px",
+              border: "1px solid blue",
+              backgroundImage: `url(${product.images[0].url})`,
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "contain",
+            }}
+          />
+          <span style={{ textAlign: "center" }}>{product.name}</span>
+        </div>
       ))}
     </div>
   );

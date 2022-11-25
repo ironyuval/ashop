@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom";
+import { getBasename } from "../utils";
+import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useEffect } from "react";
 /* name;
 description;
 price;
@@ -11,14 +13,36 @@ category;
 createdBy;
 createAt; */
 function Product(props) {
-  const [name, setName] = useState("Comics Name");
-  const [description, setDescription] = useState("Description");
-  const [price, setPrice] = useState("25.99");
-  const [ratings, setRatings] = useState("4");
+  const params = useLocation();
+  console.log(params);
+
+  const product = params.state?.product;
+  const isNew = !product;
+  /*   const productId = product._id;
+
+  useEffect(() => {
+    if (productId) {
+      setName(product.name);
+      setDescription(product.description);
+      setPrice(product.price);
+      setRatings(product.ratings);
+      setImages(product.images);
+      setCategory(product.category);
+    }
+  }, [productId]); */
+
+  const [name, setName] = useState(product?.name || "");
+  const [description, setDescription] = useState(product?.description || "");
+  const [price, setPrice] = useState(product?.price || "");
+  const [ratings, setRatings] = useState(product?.ratings || "");
   const [images, setImages] = useState(
-    "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQHvmDqFZZzFng0EqOlrYjdh_xKtIjMY-H3vi3SzwAoFTjEZgyt"
+    product?.images || [
+      {
+        url: "",
+      },
+    ]
   );
-  const [category, setCategory] = useState("Action");
+  const [category, setCategory] = useState(product?.category || "");
 
   const handleSubmit = () => {
     const data = {
@@ -30,13 +54,44 @@ function Product(props) {
       category,
     };
 
+    const config = {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    };
+
+    isNew
+      ? axios
+          .post(`${getBasename()}/api/product/new`, data, config)
+          .then((res) => {
+            toast.success("new product created 😎 ");
+          })
+          .catch((err) => {
+            toast.error("new product failed to created 😎 ");
+            console.log("something went wrong");
+            console.log(err);
+          })
+      : axios
+          .put(`${getBasename()}/api/product/${product._id}`, data, config)
+          .then((res) => {
+            toast.success("exist product updated 😎 ");
+          })
+          .catch((err) => {
+            toast.error("exist product failed to update 😎 ");
+            console.log("something went wrong");
+            console.log(err);
+          });
+  };
+
+  const handleDelete = () => {
+    const config = {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    };
     axios
-      .post("/product", data)
+      .delete(`${getBasename()}/api/product/${product._id}`, config)
       .then((res) => {
-        toast("new product created 😎 ");
+        toast.success("product deleted 😎 ");
       })
       .catch((err) => {
-        console.log("something want wrong");
+        toast.error("new product failed to delete 😎 ");
         console.log(err);
       });
   };
@@ -96,6 +151,7 @@ function Product(props) {
             }}
             className="form-control"
           >
+            <option hidden>Choose Ratings</option>
             <option>5</option>
             <option>4</option>
             <option>3</option>
@@ -106,9 +162,9 @@ function Product(props) {
         <div className="form-group">
           <label>Images</label>
           <input
-            value={images}
+            value={images[0].url}
             onChange={(event) => {
-              setImages(event.target.value);
+              setImages([{ url: event.target.value }]);
             }}
             className="form-control"
             placeholder="Enter name"
@@ -123,6 +179,8 @@ function Product(props) {
             }}
             className="form-control"
           >
+            <option hidden>Choose Category</option>
+
             <option>Action</option>
             <option>Horror</option>
             <option>Comedy</option>
@@ -131,9 +189,20 @@ function Product(props) {
           </select>
         </div>
 
-        <button onClick={handleSubmit} className="btn btn-primary">
-          Submit
-        </button>
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <button onClick={handleSubmit} className="btn btn-primary">
+            Submit
+          </button>
+          {!isNew && (
+            <button
+              onClick={handleDelete}
+              type="button"
+              className="btn btn-danger"
+            >
+              Delete
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

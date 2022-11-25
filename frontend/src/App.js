@@ -7,12 +7,13 @@ import Register from "./pages/Register";
 import About from "./pages/About";
 import LoginPage from "./pages/LoginPage";
 import Product from "./pages/Product";
+import { getBasename } from "./utils";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
-const getAllProducts = "https://ashopauth.herokuapp.com/api/product/";
+const getAllProducts = `${getBasename()}/api/product/`;
 
 function App() {
   const user = { name: "Gal", type: 1 };
@@ -23,8 +24,7 @@ function App() {
     try {
       const { data } = await axios.get(getAllProducts);
       setProducts(data.products);
-      console.log("we got products");
-      return data;
+      console.log(data.products);
     } catch (e) {
       console.log(e);
     }
@@ -56,7 +56,7 @@ function App() {
           }}
         >
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home products={products} />} />
             <Route path="/about" element={<About />} />
             <Route path="/browse" element={<Browse products={products} />} />
             <Route path="/register" element={<Register />} />

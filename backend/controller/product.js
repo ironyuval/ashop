@@ -2,7 +2,7 @@ import Product from '../models/Product';
 import Features from '../utils/Features';
 
 export const createProduct = async (req, res) => {
-  const product = await Product.create(req.body);
+  const product = await Product.create({ ...req.body, createdBy: req.userId });
   res.status(201).json({
     success: true,
     product,

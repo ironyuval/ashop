@@ -1,7 +1,7 @@
 import List from "../components/List";
 import SearchBar from "../components/SearchBar";
 
-function Home(props) {
+function Home({ products }) {
   return (
     <div
       style={{
@@ -16,7 +16,7 @@ function Home(props) {
     >
       <div style={{ border: "1px solid red" }}>LOGO</div>
       <SearchBar />
-      <List />
+      <List products={products} />
     </div>
   );
 }
