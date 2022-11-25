@@ -6,6 +6,7 @@ import Browse from "./pages/Browse";
 import Register from "./pages/Register";
 import About from "./pages/About";
 import LoginPage from "./pages/LoginPage";
+import Product from "./pages/Product";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -34,7 +35,7 @@ function App() {
   }, []);
 
   return (
-    <Router>
+    <Router basename="/">
       <div
         style={{
           display: "flex",
@@ -45,18 +46,30 @@ function App() {
         }}
       >
         <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/auth" element={<Admin />} />
-          <Route path="/browse" element={<Browse products={products} />} />
-          <Route path="/product" element={<Admin />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<LoginPage />} />
-          {user.type === 1 ? (
-            <Route path="/admin" element={<Admin />} />
-          ) : undefined}
-        </Routes>
+        <div
+          style={{
+            display: "flex",
+            flex: 1,
+            flexDirection: "column",
+            height: "100vh",
+            border: "2px solid green",
+          }}
+        >
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/browse" element={<Browse products={products} />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<LoginPage />} />
+            {user.type === 1 ? (
+              <>
+                <Route path="/admin" element={<Admin />} />
+
+                <Route path="/product" element={<Product />} />
+              </>
+            ) : undefined}
+          </Routes>
+        </div>
         <Header />
       </div>
     </Router>
