@@ -1,6 +1,15 @@
 function About(props) {
   return (
-    <div className="about">
+    <div
+      className="about"
+      style={{
+        display: "flex",
+        flex: 1,
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <h1>About Us</h1>
       <p>Hello and Welcome to COMIX</p>
       <br />

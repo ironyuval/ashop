@@ -1,6 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 function Header() {
+  const history = useHistory();
+
   const user = { name: "Gal", type: 1 };
 
   return (
@@ -14,13 +16,13 @@ function Header() {
         }}
       >
         <div>
-          <Link to="/">Home</Link>
+          <button onClick={() => history.push("/")}>Home</button>
         </div>
         <div>
           <Link to="/about">About</Link>
         </div>
         <div>
-          <Link to="/users">Users</Link>
+          <Link to="">Browse</Link>
         </div>
         <div>
           <Link to="/register">Register</Link>

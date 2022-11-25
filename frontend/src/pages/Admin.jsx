@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 /* name;
 description;
 price;
@@ -18,29 +20,7 @@ function Admin(props) {
         border: "2px solid black",
       }}
     >
-      <div className="mb-3">
-        <input
-          type="email"
-          className="form-control"
-          id="exampleFormControlInput1"
-          placeholder="name@example.com"
-        />
-      </div>
-      <div className="mb-3">
-        <textarea
-          className="form-control"
-          id="exampleFormControlTextarea1"
-          rows="3"
-        />
-      </div>
-      <div className="mb-3">
-        <input
-          type="email"
-          className="form-control"
-          id="exampleFormControlInput1"
-          placeholder="name@example.com"
-        />
-      </div>
+      <Link to={"/product"}>Create/Update/Delete product</Link>
     </div>
   );
 }

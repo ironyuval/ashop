@@ -1,6 +1,6 @@
 import registerSchema from "../validation/register.validation";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+/* import { useNavigate } from "react-router-dom";
+ */ import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -10,8 +10,8 @@ const Register = () => {
   const [password, setPassword] = useState("12345678");
   const [confirmPassword, setConfirmPassword] = useState("12345678");
   const [showPasswordErrorMsg, setShowPasswordErrorMsg] = useState(false);
-  const history = useNavigate();
-
+  /*   const history = useNavigate();
+   */
   const handleNameChange = (ev) => {
     setName(ev.target.value);
   };

@@ -1,6 +1,6 @@
 import loginSchema from "../validation/login.validation";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+/* import { useNavigate } from "react-router-dom";
+ */ import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -9,8 +9,8 @@ const LoginPage = () => {
   const [password, setPassword] = useState("12345678");
   const [confirmPassword, setConfirmPassword] = useState("12345678");
   const [showPasswordErrorMsg, setShowPasswordErrorMsg] = useState(false);
-  const navigate = useNavigate();
-
+  /*   const navigate = useNavigate();
+   */
   const handleEmailChange = (ev) => {
     setEmail(ev.target.value);
     s;
@@ -49,6 +49,7 @@ const LoginPage = () => {
           })
           .then((res) => {
             console.log(res.data);
+            toast.success("Login success");
             localStorage.setItem("token", res.data.token);
             navigate("/", { email: email, password: password });
           })
