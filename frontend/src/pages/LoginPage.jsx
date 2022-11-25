@@ -28,7 +28,6 @@ const LoginPage = () => {
       name,
       email,
       password,
-      confirmPassword,
     });
     const { error } = validatedValue;
 
