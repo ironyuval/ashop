@@ -7,6 +7,7 @@ import axios from "axios";
 const LoginPage = () => {
   const [email, setEmail] = useState("ironyuval65@gmail.com");
   const [password, setPassword] = useState("12345678");
+  const [confirmPassword, setConfirmPassword] = useState("12345678");
   const [showPasswordErrorMsg, setShowPasswordErrorMsg] = useState(false);
   const history = useNavigate();
 
@@ -17,6 +18,9 @@ const LoginPage = () => {
 
   const handlePasswordChange = (ev) => {
     setPassword(ev.target.value);
+  };
+  const handleConfirmPassword = (ev) => {
+    setConfirmPassword(ev.target.value);
   };
 
   const handleSubmit = (ev) => {
