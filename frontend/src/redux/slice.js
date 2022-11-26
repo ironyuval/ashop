@@ -26,6 +26,9 @@ export const appSlice = createSlice({
     setIsLogoutModalShown: (state, action) => {
       return { ...state, isLogoutModalShown: action.payload };
     },
+    setIsDeleteModalShown: (state, action) => {
+      return { ...state, isDeleteModalShown: action.payload };
+    },
     setIsLoading: (state, action) => {
       return { ...state, isLoading: action.payload };
     },
