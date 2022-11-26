@@ -4,7 +4,7 @@ export const defaultCardsAmount = 5;
 
 function List({ products }) {
   const navigate = useNavigate();
-  console.log("List rendered with ", products.length);
+
   return (
     <div
       style={{
@@ -14,7 +14,7 @@ function List({ products }) {
         flex: 0.5,
       }}
     >
-      {products.map((product, index) => (
+      {products.map((product) => (
         <div
           onClick={() => {
             navigate("/product", { state: { product } });

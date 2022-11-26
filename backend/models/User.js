@@ -2,6 +2,12 @@ import mongoose, { model, Types } from 'mongoose';
 import { UserTypes } from '../utils/types';
 
 const UserSchema = new mongoose.Schema({
+
+  name: {
+    type: String,
+    required: [true, 'Please provide a name!'],
+  },
+
   email: {
     type: String,
     required: [true, 'Please provide an Email!'],

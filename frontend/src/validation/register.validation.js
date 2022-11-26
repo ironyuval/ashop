@@ -7,7 +7,7 @@ export const registerSchema = Joi.object({
     .max(64)
     .email({ tlds: { allow: false } })
     .required(),
-  password: Joi.string().min(8).max(1024).required(),
+  password: Joi.string().min(6).max(30).required(),
   confirmPassword: Joi.ref("password"),
 });
 

@@ -85,14 +85,20 @@ function Product(props) {
     const config = {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     };
-    axios
+
+    /*     setIsLoading(true);
+     */ axios
       .delete(`${getBasename()}/api/product/${product._id}`, config)
       .then((res) => {
         toast.success("product deleted 😎 ");
+        /*         setIsLoading(false);
+         */
       })
       .catch((err) => {
         toast.error("new product failed to delete 😎 ");
         console.log(err);
+        /*         setIsLoading(false);
+         */
       });
   };
 

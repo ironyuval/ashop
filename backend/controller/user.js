@@ -6,7 +6,7 @@ export const register = async (request, response) => {
   try {
     const userExists = await User.findOne({ email: request.body.email });
     if (userExists) {
-      return response.status(500).send({
+      return response.status(500).json({
         message: 'User already exists',
       });
     }
@@ -15,16 +15,27 @@ export const register = async (request, response) => {
       .hash(request.body.password, 10);
 
     const user = new User({
+      name: request.body.name,
       email: request.body.email,
       password: hashedPassword,
-      type: request.body.type,
     });
 
-    const result = await user.save();
+    const userCreated = (await user.save()).toJSON();
+
+    const token = jwt.sign(
+      {
+        userId: userCreated._id,
+        userEmail: user.email,
+      },
+      process.env.SECRET,
+      { expiresIn: '24h' },
+    );
+
+    delete userCreated.password;
 
     return response.status(201).send({
       message: 'User Created Successfully',
-      result,
+      result: { ...userCreated, token },
     });
   } catch (e) {
     return response.status(500).send({
@@ -62,6 +73,8 @@ export const login = async (request, response) => {
     return response.status(200).send({
       message: 'Login Successful',
       email: user.email,
+      name: user.name,
+      type: user.type,
       token,
     });
   } catch (e) {

@@ -1,4 +1,3 @@
-import "bootstrap/dist/css/bootstrap.css";
 import Home from "./pages/Home";
 import Header from "./components/Header";
 import Admin from "./pages/Admin";
@@ -8,15 +7,18 @@ import About from "./pages/About";
 import LoginPage from "./pages/LoginPage";
 import Product from "./pages/Product";
 import { getBasename } from "./utils";
+import Footer from "./components/Footer";
+import LogoutModal from "./components/LogoutModal";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const getAllProducts = `${getBasename()}/api/product/`;
 
 function App() {
-  const user = { name: "Gal", type: 1 };
+  const user = useSelector((state) => state.app.user);
 
   const [products, setProducts] = useState([]);
 
@@ -24,7 +26,6 @@ function App() {
     try {
       const { data } = await axios.get(getAllProducts);
       setProducts(data.products);
-      console.log(data.products);
     } catch (e) {
       console.log(e);
     }
@@ -46,6 +47,7 @@ function App() {
         }}
       >
         <Header />
+        <LogoutModal />
         <div
           style={{
             display: "flex",
@@ -70,7 +72,9 @@ function App() {
             ) : undefined}
           </Routes>
         </div>
-        <Header />
+        <ToastContainer position="bottom-right" />
+
+        <Footer />
       </div>
     </Router>
   );

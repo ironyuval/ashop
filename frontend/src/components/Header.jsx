@@ -1,40 +1,58 @@
+import { isLoggedIn, setIsLogoutModalShown, setUser } from "../redux/slice";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 function Header() {
-  const user = { name: "Gal", type: 1 };
+  const user = useSelector((state) => state.app.user);
+  const dispatch = useDispatch();
+
+  const isLoggedIn = Boolean(user?.token);
 
   return (
-    <nav>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-around",
-          border: "1px solid black",
-        }}
-      >
-        <div>
-          <Link to="/">Home</Link>
-        </div>
-        <div>
-          <Link to="/about">About</Link>
-        </div>
-        <div>
-          <Link to="/users">Users</Link>
-        </div>
-        <div>
-          <Link to="/register">Register</Link>
-        </div>
-        <div>
-          <Link to="/login">Login</Link>
-        </div>
-        {user.type === 1 ? (
-          <div>
-            <Link to="/admin">Admin</Link>
-          </div>
-        ) : undefined}
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-around",
+        border: "1px solid black",
+      }}
+    >
+      <div>
+        <Link to="/">Home</Link>
       </div>
-    </nav>
+      <div>
+        <Link to="/about">About</Link>
+      </div>
+      <div>
+        <Link to="/browse">Browse</Link>
+      </div>
+      {!isLoggedIn && (
+        <>
+          <div>
+            <Link to="/register">Register</Link>
+          </div>
+          <div>
+            <Link to="/login">Login</Link>
+          </div>
+        </>
+      )}
+      {isLoggedIn && (
+        <div>
+          {user.type === 1 ? (
+            <div>
+              <Link to="/admin">Admin</Link>
+            </div>
+          ) : undefined}
+          <Link
+            onClick={() => {
+              dispatch(setIsLogoutModalShown(true));
+            }}
+          >
+            Logout
+          </Link>
+        </div>
+      )}
+    </div>
   );
 }
 

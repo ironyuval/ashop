@@ -1,8 +1,13 @@
 import registerSchema from "../validation/register.validation";
-import { useNavigate } from "react-router-dom";
+import { getBasename } from "../utils";
+import { setUser } from "../redux/slice";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+
+import { useDispatch } from "react-redux";
 
 const Register = () => {
   const [name, setName] = useState("Yuval");
@@ -10,7 +15,9 @@ const Register = () => {
   const [password, setPassword] = useState("12345678");
   const [confirmPassword, setConfirmPassword] = useState("12345678");
   const [showPasswordErrorMsg, setShowPasswordErrorMsg] = useState(false);
-  const history = useNavigate();
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleNameChange = (ev) => {
     setName(ev.target.value);
@@ -18,7 +25,6 @@ const Register = () => {
 
   const handleEmailChange = (ev) => {
     setEmail(ev.target.value);
-    s;
   };
 
   const handlePasswordChange = (ev) => {
@@ -49,18 +55,31 @@ const Register = () => {
     } else {
       if (password === confirmPassword) {
         axios
-          .post("https://ashopauth.herokuapp.com/api/user/register", {
+          .post(`${getBasename()}/api/user/register`, {
             name: name,
             email: email,
             password: password,
           })
           .then((res) => {
-            console.log(res.data);
-            /*             history.push("/login", { email: email, password: password });
-             */
+            const user = res.data.result;
+            const { name, email, type, token } = user;
+            localStorage.setItem("user", JSON.stringify(user));
+            dispatch(
+              setUser({
+                name,
+                email,
+                type,
+                token,
+              })
+            );
+            navigate("/");
+            toast.success("User registered succesfully");
           })
           .catch((err) => {
             console.log("err from axios", err);
+
+            const message = err.response.data.message;
+            toast.error(message);
           });
       }
     }
@@ -129,17 +148,7 @@ const Register = () => {
           The password and confirm password must be the same
         </div>
       )}
-      <div className="mb-3 form-check">
-        <input
-          type="checkbox"
-          className="form-check-input"
-          id="exampleCheck1"
-        />
-        <label className="form-check-label" htmlFor="exampleCheck1">
-          Check me out
-        </label>
-        <br></br>
-      </div>
+
       <button type="submit" className="btn btn-primary">
         Submit
       </button>
