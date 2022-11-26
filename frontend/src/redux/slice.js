@@ -1,7 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const storagedUser = localStorage.getItem("user");
-const user = (storagedUser && JSON.parse(localStorage.getItem("user"))) || {};
+export const getStorageUser = () => {
+  const storagedUser = localStorage.getItem("user");
+  const user = (storagedUser && JSON.parse(localStorage.getItem("user"))) || {};
+
+  return user;
+};
+
+export const getStorageToken = () => {
+  const user = getStorageUser();
+  return user.token;
+};
+
+const user = getStorageUser();
 
 const initialState = {
   //data
@@ -25,9 +36,6 @@ export const appSlice = createSlice({
     },
     setIsLogoutModalShown: (state, action) => {
       return { ...state, isLogoutModalShown: action.payload };
-    },
-    setIsDeleteModalShown: (state, action) => {
-      return { ...state, isDeleteModalShown: action.payload };
     },
     setIsLoading: (state, action) => {
       return { ...state, isLoading: action.payload };

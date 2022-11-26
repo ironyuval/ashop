@@ -4,7 +4,6 @@ export const UserType = {
 };
 
 export const Category = {
-
   Action: 1,
   Horror: 2,
   Comedy: 3,

@@ -30,7 +30,7 @@ const productSchema = new Schema({
     },
   ],
   category: {
-    type: String,
+    type: Number,
     required: [true, 'Please add a category of your product'],
   },
   createdBy: {

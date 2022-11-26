@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import User from './models/User';
-import { UserTypes } from './utils/types';
+import { UserType } from './utils/types';
 
 const auth = async (req, res, next) => {
   try {
@@ -13,7 +13,7 @@ const auth = async (req, res, next) => {
     req.userId = userId;
     if (userId) {
       const userFound = await User.findById(userId);
-      if (userFound && userFound.type === UserTypes.Admin) {
+      if (userFound && userFound.type === UserType.Admin) {
         next();
       } else {
         throw (Error('Unauthorized user type!'));

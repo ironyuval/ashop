@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import app from './app';
 import User from './models/User';
-import { UserTypes } from './utils/types';
+import { UserType } from './utils/types';
 
 export const isDevelopment = process.env.NODE_ENV !== 'production';
 dotenv.config(isDevelopment ? {
@@ -18,7 +18,7 @@ const createDefaultAdmin = async () => {
     name: 'Yuval',
     email: 'ironyuval65@gmail.com',
     password: hashedPassword,
-    type: UserTypes.Admin,
+    type: UserType.Admin,
   };
 
   const options = { upsert: true, new: true, setDefaultsOnInsert: true };

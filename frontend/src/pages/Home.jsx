@@ -1,5 +1,7 @@
 import List from "../components/List";
 import SearchBar from "../components/SearchBar";
+import Logo from "../assets/logo.png";
+import Image from "react-bootstrap/Image";
 
 function Home({ products }) {
   return (
@@ -11,10 +13,12 @@ function Home({ products }) {
         justifyContent: "space-between",
         alignItems: "center",
         height: "100%",
-        border: "2px solid black",
+        border: "15px solid black",
       }}
     >
-      <div style={{ border: "1px solid red" }}>LOGO</div>
+      <div style={{ border: "1px solid red" }}>
+        <Image src={Logo} />
+      </div>
       <SearchBar />
       <List products={products} />
     </div>

@@ -15,7 +15,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { useSelector } from "react-redux";
 
-const getAllProducts = `${getBasename()}/api/product/`;
+const random = Math.floor(Math.random() * 5);
+
+const queryString = new URLSearchParams(`perPage=5&page=${random}`);
+
+const getAllProducts = `${getBasename()}/api/product?${queryString}`;
 
 function App() {
   const user = useSelector((state) => state.app.user);

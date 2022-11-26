@@ -1,4 +1,5 @@
-import { isLoggedIn, setIsLogoutModalShown, setUser } from "../redux/slice";
+import { setIsLogoutModalShown } from "../redux/slice";
+import { UserType } from "../utils/types";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -38,7 +39,7 @@ function Header() {
       )}
       {isLoggedIn && (
         <div>
-          {user.type === 1 ? (
+          {user.type === UserType.Admin ? (
             <div>
               <Link to="/admin">Admin</Link>
             </div>

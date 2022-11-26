@@ -1,5 +1,5 @@
 import mongoose, { model, Types } from 'mongoose';
-import { UserTypes } from '../utils/types';
+import { UserType } from '../utils/types';
 
 const UserSchema = new mongoose.Schema({
 
@@ -22,7 +22,7 @@ const UserSchema = new mongoose.Schema({
 
   type: {
     type: Number,
-    default: UserTypes.User,
+    default: UserType.User,
     required: [true, 'Please provide a type!'],
   },
 

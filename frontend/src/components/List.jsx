@@ -1,48 +1,63 @@
+import Card from "react-bootstrap/Card";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 
-export const defaultCardsAmount = 5;
-
 function List({ products }) {
+  console.log(products);
+
   const navigate = useNavigate();
 
+  const handleClick = (product) => {
+    navigate("/product", { state: { product } });
+  };
+
   return (
-    <div
+    <Row
       style={{
-        border: "1px solid green",
-        width: "100%",
+        border: "1px solid purple",
+        marginTop: 10,
         display: "flex",
-        flex: 0.5,
+        flex: 1,
+        height: "100%",
       }}
     >
-      {products.map((product) => (
-        <div
-          onClick={() => {
-            navigate("/product", { state: { product } });
-          }}
+      {products.map((product, idx) => (
+        <Col
           style={{
+            width: "18rem",
+            height: "50%",
             display: "flex",
-            flexDirection: "column",
-            margin: "0px 10px 0px 10px",
-            border: "1px solid blue",
-            height: "180px",
-            width: "90px",
+            justifyContent: "center",
           }}
           key={product._id}
         >
-          <div
-            style={{
-              flex: 1,
-              margin: "0px 10px 0px 10px",
-              border: "1px solid blue",
-              backgroundImage: `url(${product.images[0].url})`,
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "contain",
-            }}
-          />
-          <span style={{ textAlign: "center" }}>{product.name}</span>
-        </div>
+          <Card>
+            <Card.Img
+              style={{ width: 200, height: 250, alignSelf: "center" }}
+              variant="top"
+              src={product.images[0].url}
+            />
+            <Card.Body style={{ overflow: "hidden" }}>
+              <Card.Title>{product.name}</Card.Title>
+              {/* <Card.Text
+                style={{
+                  height: "10ch",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {product.description}
+              </Card.Text> */}
+              <Button onClick={() => handleClick(product)} variant="primary">
+                Edit
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
       ))}
-    </div>
+    </Row>
   );
 }
 

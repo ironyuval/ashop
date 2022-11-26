@@ -28,8 +28,9 @@ class Features {
     return this;
   }
 
-  pagination(resultPerPage) {
+  pagination() {
     const currentPage = Number(this.queryStr.page) || 1;
+    const resultPerPage = this.queryStr.perPage;
     const skip = resultPerPage * (currentPage - 1);
 
     this.query = this.query.limit(resultPerPage).skip(skip);

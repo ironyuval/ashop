@@ -1,35 +1,18 @@
 import { getBasename } from "../utils";
+import DeleteModal from "../components/DeleteModal";
+import { getStorageToken } from "../redux/slice";
+import { handleCreateProduct, handleUpdateProduct } from "../logic/logic";
+import { Category, Categoy, UserType } from "../utils/types";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useEffect } from "react";
-/* name;
-description;
-price;
-ratings;
-images;
-category;
-createdBy;
-createAt; */
+
 function Product(props) {
   const params = useLocation();
-  console.log(params);
 
   const product = params.state?.product;
   const isNew = !product;
-  /*   const productId = product._id;
-
-  useEffect(() => {
-    if (productId) {
-      setName(product.name);
-      setDescription(product.description);
-      setPrice(product.price);
-      setRatings(product.ratings);
-      setImages(product.images);
-      setCategory(product.category);
-    }
-  }, [productId]); */
 
   const [name, setName] = useState(product?.name || "");
   const [description, setDescription] = useState(product?.description || "");
@@ -44,6 +27,22 @@ function Product(props) {
   );
   const [category, setCategory] = useState(product?.category || "");
 
+  const [isDeleteModalShown, setIsDeleteModalShown] = useState(false);
+
+  const renderCategoryOptions = () => {
+    const options = [];
+
+    for (const key in Category) {
+      options.push(
+        <option key={key} value={Category[key]}>
+          {key}
+        </option>
+      );
+    }
+
+    return options;
+  };
+
   const handleSubmit = () => {
     const data = {
       name,
@@ -54,52 +53,15 @@ function Product(props) {
       category,
     };
 
-    const config = {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-    };
-
-    isNew
-      ? axios
-          .post(`${getBasename()}/api/product/new`, data, config)
-          .then((res) => {
-            toast.success("new product created 😎 ");
-          })
-          .catch((err) => {
-            toast.error("new product failed to created 😎 ");
-            console.log("something went wrong");
-            console.log(err);
-          })
-      : axios
-          .put(`${getBasename()}/api/product/${product._id}`, data, config)
-          .then((res) => {
-            toast.success("exist product updated 😎 ");
-          })
-          .catch((err) => {
-            toast.error("exist product failed to update 😎 ");
-            console.log("something went wrong");
-            console.log(err);
-          });
+    if (isNew) {
+      handleCreateProduct(data);
+    } else {
+      handleUpdateProduct(product._id, data);
+    }
   };
 
   const handleDelete = () => {
-    const config = {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-    };
-
-    /*     setIsLoading(true);
-     */ axios
-      .delete(`${getBasename()}/api/product/${product._id}`, config)
-      .then((res) => {
-        toast.success("product deleted 😎 ");
-        /*         setIsLoading(false);
-         */
-      })
-      .catch((err) => {
-        toast.error("new product failed to delete 😎 ");
-        console.log(err);
-        /*         setIsLoading(false);
-         */
-      });
+    setIsDeleteModalShown(true);
   };
 
   return (
@@ -113,6 +75,13 @@ function Product(props) {
         border: "2px solid black",
       }}
     >
+      {!isNew && (
+        <DeleteModal
+          productId={product._id}
+          isShown={isDeleteModalShown}
+          setIsShown={setIsDeleteModalShown}
+        />
+      )}
       <div>
         <div className="form-group">
           <label>Name</label>
@@ -181,23 +150,19 @@ function Product(props) {
           <select
             value={category}
             onChange={(event) => {
+              console.log(event.target.value);
               setCategory(event.target.value);
             }}
             className="form-control"
           >
             <option hidden>Choose Category</option>
-
-            <option>Action</option>
-            <option>Horror</option>
-            <option>Comedy</option>
-            <option>Sports</option>
-            <option>Sci-Fi</option>
+            {renderCategoryOptions()}
           </select>
         </div>
 
         <div style={{ display: "flex", flexDirection: "row" }}>
           <button onClick={handleSubmit} className="btn btn-primary">
-            Submit
+            {isNew ? `Create` : `Update`}
           </button>
           {!isNew && (
             <button

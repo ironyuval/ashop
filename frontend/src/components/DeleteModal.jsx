@@ -1,20 +1,38 @@
-import { setIsDeleteModalShown, setUser } from "../redux/slice";
-import React, { useState } from "react";
+import { getBasename } from "../utils";
+import { getStorageToken, getStorageUser } from "../redux/slice";
+import React from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
-const DeleteModal = () => {
-  const isShown = useSelector((state) => state.app.isDeleteModalShown);
+const DeleteModal = ({ isShown, setIsShown, productId }) => {
+  const handleClose = () => setIsShown(false);
 
-  const dispatch = useDispatch();
-
-  const handleClose = () => dispatch(setIsDeleteModalShown(false));
+  const navigate = useNavigate();
 
   const handleDelete = () => {
-    localStorage.removeItem("user");
-    dispatch(setUser({}));
+    const config = {
+      headers: { Authorization: `Bearer ${getStorageToken()}` },
+    };
+
+    /*     setIsLoading(true);
+     */ axios
+      .delete(`${getBasename()}/api/product/${productId}`, config)
+      .then((res) => {
+        toast.success("product deleted 😎 ");
+        /*         setIsLoading(false);
+         */
+      })
+      .catch((err) => {
+        toast.error("new product failed to delete 😎 ");
+        console.log(err);
+        /*         setIsLoading(false);
+         */
+      });
     handleClose();
+    navigate("/");
   };
 
   return (
