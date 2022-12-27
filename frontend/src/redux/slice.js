@@ -14,11 +14,12 @@ export const getStorageToken = () => {
 
 const user = getStorageUser();
 
-const initialState = {
+export const initialState = {
   //data
   user: {
     email: user.email,
     name: user.name,
+    favorites: user.favorites,
     token: user.token,
     type: user.type,
   },
@@ -39,6 +40,17 @@ export const appSlice = createSlice({
     },
     setIsLoading: (state, action) => {
       return { ...state, isLoading: action.payload };
+    },
+    toggleFavorite: (state, action) => {
+      const productId = action.payload;
+      const newFavorites = [...state.user.favorites];
+      if (state.user.favorites.includes(productId)) {
+        newFavorites = state.user.favorites.filter((id) => id !== productId);
+      } else {
+        newFavorites.push(productId);
+      }
+
+      return { ...state, user: { ...state.user, favorites: newFavorites } };
     },
   },
 });

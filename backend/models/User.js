@@ -26,9 +26,7 @@ const UserSchema = new mongoose.Schema({
     required: [true, 'Please provide a type!'],
   },
 
-  favorites: {
-    type: [Types.ObjectId],
-  },
+  favorites: { type: [String] },
 });
 
 export default model('User', UserSchema);

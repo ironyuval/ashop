@@ -3,9 +3,11 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const LogoutModal = () => {
   const isShown = useSelector((state) => state.app.isLogoutModalShown);
+  const user = useSelector((state) => state.app.user);
 
   const dispatch = useDispatch();
 
@@ -15,6 +17,7 @@ const LogoutModal = () => {
     localStorage.removeItem("user");
     dispatch(setUser({}));
     handleClose();
+    toast.error(`Good Bye, ${user.name}!`);
   };
 
   return (

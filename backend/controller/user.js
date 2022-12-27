@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 import User from '../models/User';
+import Features from '../utils/Features';
 
 export const register = async (request, response) => {
   try {
@@ -74,6 +76,7 @@ export const login = async (request, response) => {
       message: 'Login Successful',
       email: user.email,
       name: user.name,
+      favorites: user.favorites,
       type: user.type,
       token,
     });
@@ -83,4 +86,45 @@ export const login = async (request, response) => {
       message: 'Server Error',
     });
   }
+};
+
+export const getAllUsers = async (req, res) => {
+  const feature = new Features(User.find(), req.query)
+    .search()
+    .filter()
+    .pagination();
+  const users = await feature.query;
+
+  res.status(200).json({
+    success: true,
+    users,
+    usersCount: users.length,
+  });
+};
+
+export const toggleFavorite = async (req, res) => {
+  const self = req.user;
+  const user = await User.findById(self.userId);
+
+  if (user) {
+    const userFavorites = user.favorites;
+    const productId = req.params.id;
+
+    let newFavorites = [...userFavorites];
+
+    if (userFavorites.includes(productId)) {
+      newFavorites = userFavorites.filter((id) => id !== productId);
+    } else {
+      newFavorites.push(productId);
+    }
+
+    user.favorites = newFavorites;
+    await user.save();
+    return res.status(200).json({
+      success: true,
+    });
+  }
+  res.status(404).json({
+    success: false,
+  });
 };

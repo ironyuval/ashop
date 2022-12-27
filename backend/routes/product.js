@@ -2,7 +2,7 @@ import { Router } from 'express';
 import {
   getAllProducts, createProduct, updateProduct, deleteProduct, getSingleProduct,
 } from '../controller/product';
-import Auth from '../auth';
+import { getAuth } from '../auth';
 
 const router = Router();
 
@@ -10,8 +10,8 @@ const router = Router();
 router.route('/:id').get(getSingleProduct);
 router.route('/').get(getAllProducts);
 // Write - admin user
-router.route('/new').post(Auth, createProduct);
-router.route('/:id').put(Auth, updateProduct);
-router.route('/:id').delete(Auth, deleteProduct);
+router.route('/new').post(getAuth(true), createProduct);
+router.route('/:id').put(getAuth(true), updateProduct);
+router.route('/:id').delete(getAuth(true), deleteProduct);
 
 export default router;

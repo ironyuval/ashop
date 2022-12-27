@@ -9,6 +9,7 @@ import Product from "./pages/Product";
 import { getBasename } from "./utils";
 import Footer from "./components/Footer";
 import LogoutModal from "./components/LogoutModal";
+import { UserType } from "./utils/types";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -67,7 +68,7 @@ function App() {
             <Route path="/browse" element={<Browse products={products} />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<LoginPage />} />
-            {user.type === 1 ? (
+            {user.type === UserType.Admin ? (
               <>
                 <Route path="/admin" element={<Admin />} />
 

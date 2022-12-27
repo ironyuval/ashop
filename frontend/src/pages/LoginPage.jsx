@@ -54,6 +54,7 @@ const LoginPage = ({ setLocalStorage }) => {
             })
           );
           navigate("/");
+          toast.success(`Welcome, ${res.data.name}!`);
         })
         .catch((err) => {
           console.log("err from axios", err);
