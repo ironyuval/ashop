@@ -7,6 +7,10 @@
   pointer-events: none;
 }
 
+.font-captain {
+  font-family: "AmericanCaptain";
+ }
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -35,4 +39,33 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.color-dark-blue {
+  color: #162CA2
+}
+
+.bg {
+  background-color: #1849CA;
+}
+
+.nav-link {
+  color: white;
+  font-family:'AmericanCaptain';
+  font-size: 26px;
+  cursor: pointer;
+}
+
+.nav-link:hover,.navbar-nav .nav-link.active {
+
+  color: #C31D10;
+
+}
+
+.navbar {
+  padding:0px
+}
+
+.grad {
+    background-image: linear-gradient(#162CA2,#162CA2, #1849CA);
 }

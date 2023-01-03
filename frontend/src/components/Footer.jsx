@@ -1,18 +1,14 @@
 import { Link } from "react-router-dom";
 
 const Footer = () => (
-  <div
-    style={{
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "space-around",
-      border: "1px solid black",
-    }}
-  >
-    <div>
-      <div>Footer</div>
+  <footer className="bg-light text-center text-lg-start font-captain">
+    <div className="text-center p-3 bg text-white">
+      © 2020 Copyright:
+      <a className="text-white" href="https://mdbootstrap.com/">
+        MDBootstrap.com
+      </a>
     </div>
-  </div>
+  </footer>
 );
 
 export default Footer;

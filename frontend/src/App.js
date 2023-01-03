@@ -1,5 +1,5 @@
 import Home from "./pages/Home";
-import Header from "./components/Header";
+import Header from "./components/Header/Header";
 import Admin from "./pages/Admin";
 import Browse from "./pages/Browse";
 import Register from "./pages/Register";
@@ -10,11 +10,13 @@ import { getBasename } from "./utils";
 import Footer from "./components/Footer";
 import LogoutModal from "./components/LogoutModal";
 import { UserType } from "./utils/types";
+import { MobileMenu } from "./components/MobileMenu";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { useSelector } from "react-redux";
+import "./App.css";
 
 const random = Math.floor(Math.random() * 5);
 
@@ -48,9 +50,12 @@ function App() {
           flex: 1,
           flexDirection: "column",
           height: "100vh",
-          border: "2px solid green",
+          /*           border: "2px solid green",
+           */
         }}
       >
+        <MobileMenu />
+
         <Header />
         <LogoutModal />
         <div
@@ -59,7 +64,8 @@ function App() {
             flex: 1,
             flexDirection: "column",
             height: "100vh",
-            border: "2px solid green",
+            /*             border: "2px solid green",
+             */
           }}
         >
           <Routes>

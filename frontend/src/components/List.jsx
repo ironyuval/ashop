@@ -36,70 +36,68 @@ function List({ products }) {
   };
 
   return (
-    <Row
+    <div
       style={{
         border: "1px solid purple",
         marginTop: 10,
         display: "flex",
         flex: 1,
+        width: "100%",
         overflow: "hidden",
       }}
     >
       {products.length ? (
         products.map((product, idx) => (
-          <Col
-            style={{
-              width: "18rem",
-              display: "flex",
-              justifyContent: "center",
-            }}
-            key={product._id}
-          >
-            <Card>
-              <Card.Img
-                style={{ width: "100%", height: 240 }}
-                variant="top"
-                src={product.images[0].url}
-              />
-
-              <Card.Body>
-                <Card.Title>{product.name}</Card.Title>
-                {/* <Card.Text
-                style={{
-                  height: "10ch",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                }}
+          <div key={product._id} className="card" style={{ width: "18rem" }}>
+            <div
+              style={{
+                backgroundImage: `url(${product.images[0].url})`,
+                width: "200px",
+                backgroundSize: "contain",
+              }}
+              src={product.images[0].url}
+              className="card-img-top"
+              alt="..."
+            />
+            <div className="card-body">
+              <h5 className="card-title">{product.name}</h5>
+              <p className="card-text">{product.description}</p>
+            </div>
+            <ul className="list-group list-group-flush">
+              <li className="list-group-item">{product.category}</li>
+              <li className="list-group-item">{product.rating}</li>
+            </ul>
+            <div className="card-body">
+              <a
+                onClick={() => toggleFavorite(product._id)}
+                disabled={!user.type}
+                href="#"
+                className="card-link"
               >
-                {product.description}
-              </Card.Text> */}
-                <Button
-                  disabled={user.type !== UserType.Admin}
-                  onClick={() => handleClick(product)}
-                >
-                  Edit
-                </Button>
-                <Button
-                  onClick={() => toggleFavorite(product._id)}
-                  disabled={!user.type}
-                  style={{}}
-                >
-                  <i
-                    style={{
-                      fontSize: 20,
-                      color: "yellow",
-                    }}
-                    className="bi bi-star"
-                  ></i>
-                </Button>
-              </Card.Body>
-            </Card>
-          </Col>
+                <i
+                  style={{
+                    fontSize: 20,
+                    color: "yellow",
+                  }}
+                  className="bi bi-star"
+                ></i>
+                Add to Favorites
+              </a>
+              <a
+                disabled={user.type !== UserType.Admin}
+                onClick={() => handleClick(product)}
+                href=""
+                className="card-link"
+              >
+                Edit
+              </a>
+            </div>
+          </div>
         ))
       ) : (
         <div>No Results</div>
       )}
-    </Row>
+    </div>
   );
 }
 
