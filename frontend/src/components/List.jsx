@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
+const MAX_LETTERS = 28;
+
 function List({ products }) {
   console.log(products);
 
@@ -38,41 +40,55 @@ function List({ products }) {
   return (
     <div
       style={{
-        border: "1px solid purple",
-        marginTop: 10,
-        display: "flex",
-        flex: 1,
+        /*         border: "1px solid purple",
+         */ display: "flex",
         width: "100%",
-        overflow: "hidden",
+        justifyContent: "center",
       }}
     >
       {products.length ? (
         products.map((product, idx) => (
-          <div key={product._id} className="card" style={{ width: "18rem" }}>
+          <div
+            key={product._id}
+            className="card ms-5"
+            style={{
+              width: "180px",
+            }}
+          >
+            <div className="m-auto">
+              <h5>
+                {product.name
+                  .concat("fegagag dagaergeg aeg erasga")
+                  .substring(0, MAX_LETTERS)
+                  .trim()}
+                {product.name.concat("fegagag dagaergeg aeg erasga").length >
+                MAX_LETTERS
+                  ? "..."
+                  : null}
+              </h5>
+            </div>
+
             <div
               style={{
                 backgroundImage: `url(${product.images[0].url})`,
-                width: "200px",
-                backgroundSize: "contain",
+                backgroundRepeat: "no-repeat",
+                height: "200px",
+                backgroundSize: "100%",
               }}
               src={product.images[0].url}
               className="card-img-top"
               alt="..."
             />
-            <div className="card-body">
-              <h5 className="card-title">{product.name}</h5>
-              <p className="card-text">{product.description}</p>
+
+            <div>
+              <span>{product.category}</span>
+              <span>{product.ratings}</span>
             </div>
-            <ul className="list-group list-group-flush">
-              <li className="list-group-item">{product.category}</li>
-              <li className="list-group-item">{product.rating}</li>
-            </ul>
-            <div className="card-body">
+            <div>
               <a
                 onClick={() => toggleFavorite(product._id)}
                 disabled={!user.type}
                 href="#"
-                className="card-link"
               >
                 <i
                   style={{
@@ -87,7 +103,6 @@ function List({ products }) {
                 disabled={user.type !== UserType.Admin}
                 onClick={() => handleClick(product)}
                 href=""
-                className="card-link"
               >
                 Edit
               </a>

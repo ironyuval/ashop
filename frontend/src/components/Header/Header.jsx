@@ -15,10 +15,10 @@ function Header() {
 
   const isLoggedIn = Boolean(user?.token);
   return (
-    <nav className="navbar navbar-light grad navbar-expand-sm bg ">
+    <nav className="navbar navbar-light grad navbar-expand-md bg ">
       <div className="container-fluid ">
         <button
-          className="navbar-toggler border-white"
+          className="navbar-toggler border-white mt-2"
           type="button"
           data-bs-toggle="offcanvas"
           data-bs-target="#offcanvasExample"
