@@ -1,25 +1,32 @@
 import { UserType } from "../utils/types";
-import { getStorageToken } from "../redux/slice";
+import {
+  getStorageToken,
+  toggleFavorite as toggleFavoriteProduct,
+} from "../redux/slice";
 import { getBasename } from "../utils";
-import Card from "react-bootstrap/Card";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
 const MAX_LETTERS = 28;
 
 function List({ products }) {
-  console.log(products);
-
   const user = useSelector((state) => state.app.user);
+
+  const favorites = user && user.favorites;
+
+  console.log("favorites: ", favorites);
+
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
   const handleClick = (product) => {
     navigate("/product", { state: { product } });
+  };
+
+  const isProductFavorite = (productId) => {
+    return favorites && favorites.includes(productId);
   };
 
   const toggleFavorite = async (productId) => {
@@ -32,6 +39,7 @@ function List({ products }) {
         null,
         config
       );
+      dispatch(toggleFavoriteProduct(productId));
     } catch (e) {
       console.log(e);
     }
@@ -85,27 +93,31 @@ function List({ products }) {
               <span>{product.ratings}</span>
             </div>
             <div>
-              <a
-                onClick={() => toggleFavorite(product._id)}
-                disabled={!user.type}
-                href="#"
+              <div
+                onClick={() => {
+                  if (user) toggleFavorite(product._id);
+                }}
+                disabled={!user}
+                href=""
               >
                 <i
                   style={{
                     fontSize: 20,
                     color: "yellow",
                   }}
-                  className="bi bi-star"
+                  className={`bi bi-star${
+                    isProductFavorite(product._id) ? "-fill" : ""
+                  }`}
                 ></i>
                 Add to Favorites
-              </a>
-              <a
-                disabled={user.type !== UserType.Admin}
+              </div>
+              <div
+                disabled={!user || user.type !== UserType.Admin}
                 onClick={() => handleClick(product)}
                 href=""
               >
                 Edit
-              </a>
+              </div>
             </div>
           </div>
         ))

@@ -1,4 +1,4 @@
-import { setIsLogoutModalShown, setUser } from "../redux/slice";
+import { removeUser, setIsLogoutModalShown, setUser } from "../redux/slice";
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -15,7 +15,7 @@ const LogoutModal = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("user");
-    dispatch(setUser({}));
+    dispatch(removeUser());
     handleClose();
     toast.error(`Good Bye, ${user.name}!`);
   };

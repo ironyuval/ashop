@@ -2,9 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const getStorageUser = () => {
   const storagedUser = localStorage.getItem("user");
-  const user = (storagedUser && JSON.parse(localStorage.getItem("user"))) || {};
 
-  return user;
+  if (storagedUser) {
+    const parsed = JSON.parse(storagedUser);
+    return parsed;
+  }
 };
 
 export const getStorageToken = () => {
@@ -16,15 +18,18 @@ const user = getStorageUser();
 
 export const initialState = {
   //data
-  user: {
-    email: user.email,
-    name: user.name,
-    favorites: user.favorites,
-    token: user.token,
-    type: user.type,
-  },
+  user: user
+    ? {
+        email: user.email,
+        name: user.name,
+        favorites: user.favorites,
+        token: user.token,
+        type: user.type,
+      }
+    : null,
   //modals
   isLogoutModalShown: false,
+  isProfileModalShown: false,
   isLoading: false,
 };
 
@@ -33,17 +38,23 @@ export const appSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      return { ...state, user: action.payload };
+      return { ...state, user: { ...user, ...action.payload } };
+    },
+    removeUser: (state) => {
+      return { ...state, user: null };
     },
     setIsLogoutModalShown: (state, action) => {
       return { ...state, isLogoutModalShown: action.payload };
+    },
+    setIsProfileModalShown: (state, action) => {
+      return { ...state, isProfileModalShown: action.payload };
     },
     setIsLoading: (state, action) => {
       return { ...state, isLoading: action.payload };
     },
     toggleFavorite: (state, action) => {
       const productId = action.payload;
-      const newFavorites = [...state.user.favorites];
+      let newFavorites = [...state.user.favorites];
       if (state.user.favorites.includes(productId)) {
         newFavorites = state.user.favorites.filter((id) => id !== productId);
       } else {
@@ -56,7 +67,13 @@ export const appSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setUser, setIsLogoutModalShown, setIsLoading } =
-  appSlice.actions;
+export const {
+  setUser,
+  removeUser,
+  setIsLogoutModalShown,
+  setIsLoading,
+  toggleFavorite,
+  setIsProfileModalShown,
+} = appSlice.actions;
 
 export default appSlice.reducer;

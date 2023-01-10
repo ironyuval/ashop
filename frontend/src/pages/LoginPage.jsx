@@ -44,16 +44,15 @@ const LoginPage = ({ setLocalStorage }) => {
           password: password,
         })
         .then((res) => {
-          localStorage.setItem("user", JSON.stringify(res.data));
+          const token = res.data.token;
+          localStorage.setItem("userToken", token);
           dispatch(
             setUser({
-              name: res.data.name,
-              email: res.data.email,
-              type: res.data.type,
-              token: res.data.token,
+              token,
             })
           );
           navigate("/");
+          console.log(res.data);
           toast.success(`Welcome, ${res.data.name}!`);
         })
         .catch((err) => {

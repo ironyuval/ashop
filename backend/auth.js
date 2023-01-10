@@ -4,6 +4,7 @@ import { UserType } from './utils/types';
 
 export const getAuth = (requireAdmin) => async (req, res, next) => {
   try {
+    console.log(req.headers);
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.SECRET);
     const user = decodedToken;

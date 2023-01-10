@@ -1,3 +1,4 @@
+import { getStorageToken, setUser } from "./redux/slice";
 import Home from "./pages/Home";
 import Header from "./components/Header/Header";
 import Admin from "./pages/Admin";
@@ -9,23 +10,28 @@ import Product from "./pages/Product";
 import { getBasename } from "./utils";
 import Footer from "./components/Footer";
 import LogoutModal from "./components/LogoutModal";
+import ProfileModal from "./components/ProfileModal";
 import { UserType } from "./utils/types";
 import { MobileMenu } from "./components/MobileMenu";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
 
 const random = Math.floor(Math.random() * 5);
 
-const queryString = new URLSearchParams(`perPage=5&page=${random}`);
+const queryString = new URLSearchParams(`perPage=5`);
 
 const getAllProducts = `${getBasename()}/api/product?${queryString}`;
 
+const getUserDataURL = `${getBasename()}/api/user/data`;
+
 function App() {
   const user = useSelector((state) => state.app.user);
+
+  const dispatch = useDispatch();
 
   const [products, setProducts] = useState([]);
 
@@ -38,8 +44,25 @@ function App() {
     }
   };
 
+  const getUserData = async () => {
+    const config = {
+      headers: { Authorization: `Bearer ${getStorageToken()}` },
+    };
+
+    try {
+      const { data } = await axios.get(getUserDataURL, config);
+      dispatch(setUser(data));
+      console.log("user data received: ", data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     getFirstFiveProducts();
+    if (user) {
+      getUserData();
+    }
   }, []);
 
   return (
@@ -58,6 +81,8 @@ function App() {
 
         <Header />
         <LogoutModal />
+        <ProfileModal />
+
         <div
           style={{
             display: "flex",
@@ -74,7 +99,7 @@ function App() {
             <Route path="/browse" element={<Browse products={products} />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<LoginPage />} />
-            {user.type === UserType.Admin ? (
+            {user && user.type === UserType.Admin ? (
               <>
                 <Route path="/admin" element={<Admin />} />
 

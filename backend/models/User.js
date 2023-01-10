@@ -26,6 +26,10 @@ const UserSchema = new mongoose.Schema({
     required: [true, 'Please provide a type!'],
   },
 
+  image: {
+    type: String,
+  },
+
   favorites: { type: [String] },
 });
 

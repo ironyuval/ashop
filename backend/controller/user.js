@@ -1,6 +1,5 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import mongoose from 'mongoose';
 import User from '../models/User';
 import Features from '../utils/Features';
 
@@ -13,8 +12,7 @@ export const register = async (request, response) => {
       });
     }
 
-    const hashedPassword = await bcrypt
-      .hash(request.body.password, 10);
+    const hashedPassword = await bcrypt.hash(request.body.password, 10);
 
     const user = new User({
       name: request.body.name,
@@ -55,7 +53,10 @@ export const login = async (request, response) => {
       return response.status(404).send({ message: 'Email not found' });
     }
 
-    const passwordCheck = await bcrypt.compare(request.body.password, user.password);
+    const passwordCheck = await bcrypt.compare(
+      request.body.password,
+      user.password,
+    );
 
     if (!passwordCheck) {
       return response.status(400).send({
@@ -78,7 +79,30 @@ export const login = async (request, response) => {
       name: user.name,
       favorites: user.favorites,
       type: user.type,
+      image: user.image,
       token,
+    });
+  } catch (e) {
+    console.log(e);
+    return response.status(400).send({
+      message: 'Server Error',
+    });
+  }
+};
+
+export const getUserData = async (request, response) => {
+  try {
+    const { user } = request;
+
+    const userFound = await User.findById(user.userId);
+
+    return response.status(200).send({
+      message: 'Login Successful',
+      email: userFound.email,
+      name: userFound.name,
+      favorites: userFound.favorites,
+      type: userFound.type,
+      image: userFound.image,
     });
   } catch (e) {
     console.log(e);
@@ -126,5 +150,44 @@ export const toggleFavorite = async (req, res) => {
   }
   res.status(404).json({
     success: false,
+  });
+};
+
+export const updateUser = async (req, res) => {
+  const { user } = req;
+  const { body } = req;
+
+  const userFound = await User.findById(user.userId);
+
+  if (body.newPassword) {
+    if (!userFound) {
+      return res.status(404).send({ message: 'Email not found' });
+    }
+
+    const passwordCheck = await bcrypt.compare(
+      req.body.oldPassword,
+      userFound.password,
+    );
+
+    if (!passwordCheck) {
+      return res.status(400).send({
+        message: 'Old password does not match',
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(body.newPassword, 10);
+
+    userFound.password = hashedPassword;
+  }
+
+  console.log(body);
+
+  userFound.name = body.name;
+  userFound.image = body.image;
+
+  userFound.save();
+
+  res.status(200).json({
+    success: true,
   });
 };

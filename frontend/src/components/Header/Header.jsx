@@ -1,5 +1,8 @@
 import { MobileMenu } from "../MobileMenu";
-import { setIsLogoutModalShown } from "../../redux/slice";
+import {
+  setIsLogoutModalShown,
+  setIsProfileModalShown,
+} from "../../redux/slice";
 import { UserType } from "../../utils/types";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -59,19 +62,52 @@ function Header() {
                 Browse
               </a>
             </li>
+            <li className="nav-item">
+              <a
+                className={`nav-link ${
+                  location.pathname === "/favorites" ? "active" : ""
+                }`}
+                onClick={() => navigate("/favorites")}
+              >
+                Favorites
+              </a>
+            </li>
+            <li className="nav-item">
+              <a
+                className={`nav-link ${
+                  location.pathname === "/browse" ? "active" : ""
+                }`}
+                onClick={() => navigate("/browse")}
+              >
+                {user && user.name}
+              </a>
+            </li>
           </ul>
+
           <ul className="navbar-nav">
             {!isLoggedIn ? (
-              <li className="nav-item">
-                <a
-                  className={`nav-link ${
-                    location.pathname === "/login" ? "active" : ""
-                  }`}
-                  onClick={() => navigate("/login")}
-                >
-                  Login
-                </a>
-              </li>
+              <>
+                <li className="nav-item">
+                  <a
+                    className={`nav-link ${
+                      location.pathname === "/login" ? "active" : ""
+                    }`}
+                    onClick={() => navigate("/login")}
+                  >
+                    Login
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className={`nav-link ${
+                      location.pathname === "/register" ? "active" : ""
+                    }`}
+                    onClick={() => navigate("/register")}
+                  >
+                    Register
+                  </a>
+                </li>
+              </>
             ) : (
               <>
                 {user.type === UserType.Admin ? (
@@ -86,6 +122,19 @@ function Header() {
                     </a>
                   </li>
                 ) : undefined}
+                <li className="nav-item">
+                  <a
+                    className={`nav-link ${
+                      location.pathname === "/profile" ? "active" : ""
+                    }`}
+                    onClick={() => {
+                      dispatch(setIsProfileModalShown(true));
+                    }}
+                  >
+                    <i className="bi bi-person-circle me-1"></i>
+                    Profile
+                  </a>
+                </li>
                 <li className="nav-item">
                   <a
                     className="nav-link"
