@@ -30,6 +30,7 @@ export const initialState = {
   //modals
   isLogoutModalShown: false,
   isProfileModalShown: false,
+  isLoginModalShown: false,
   isLoading: false,
 };
 
@@ -45,6 +46,9 @@ export const appSlice = createSlice({
     },
     setIsLogoutModalShown: (state, action) => {
       return { ...state, isLogoutModalShown: action.payload };
+    },
+    setIsLoginModalShown: (state, action) => {
+      return { ...state, isLoginModalShown: action.payload };
     },
     setIsProfileModalShown: (state, action) => {
       return { ...state, isProfileModalShown: action.payload };
@@ -74,6 +78,7 @@ export const {
   setIsLoading,
   toggleFavorite,
   setIsProfileModalShown,
+  setIsLoginModalShown,
 } = appSlice.actions;
 
 export default appSlice.reducer;

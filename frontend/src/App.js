@@ -13,6 +13,7 @@ import LogoutModal from "./components/LogoutModal";
 import ProfileModal from "./components/ProfileModal";
 import { UserType } from "./utils/types";
 import { MobileMenu } from "./components/MobileMenu";
+import LoginModal from "./components/LoginModal";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
@@ -82,6 +83,7 @@ function App() {
         <Header />
         <LogoutModal />
         <ProfileModal />
+        <LoginModal />
 
         <div
           style={{

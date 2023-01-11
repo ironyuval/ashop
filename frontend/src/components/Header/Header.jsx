@@ -1,5 +1,6 @@
 import { MobileMenu } from "../MobileMenu";
 import {
+  setIsLoginModalShown,
   setIsLogoutModalShown,
   setIsProfileModalShown,
 } from "../../redux/slice";
@@ -92,7 +93,7 @@ function Header() {
                     className={`nav-link ${
                       location.pathname === "/login" ? "active" : ""
                     }`}
-                    onClick={() => navigate("/login")}
+                    onClick={() => dispatch(setIsLoginModalShown(true))}
                   >
                     Login
                   </a>
