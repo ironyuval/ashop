@@ -69,6 +69,7 @@ function Browse() {
     setPrice(100);
     setRating(0);
     searchRef.current.value = "";
+    getProducts(`perPage=15`);
   };
 
   const handleSubmit = () => {
