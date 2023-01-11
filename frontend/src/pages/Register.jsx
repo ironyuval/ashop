@@ -85,6 +85,13 @@ const Register = () => {
     }
   };
 
+  const validateMinLength = (text, num) => text.length > num;
+  /*   const validateMail = (mail) => Regex.match(mail);
+   */
+  const nameValid = !name.length || validateMinLength(name, 2);
+
+  /*   const mailValid = validateMail(mail);
+   */
   return (
     <form onSubmit={handleSubmit}>
       <h1>Please Fill The Following To Register:</h1>
@@ -94,12 +101,15 @@ const Register = () => {
         </label>
         <input
           type="text"
-          className="form-control"
+          className={`form-control ${nameValid ? "" : "is-invalid"}`}
           id="exampleInputName1"
           aria-describedby="emailHelp"
           value={name}
           onChange={handleNameChange}
         />
+        <div className="invalid-feedback">
+          Please enter a message in the textarea.
+        </div>
       </div>
       <div className="mb-3">
         <label htmlFor="exampleInputEmail1" className="form-label">
@@ -107,7 +117,7 @@ const Register = () => {
         </label>
         <input
           type="email"
-          className="form-control"
+          className={`form-control ${true ? "" : "is-invalid"}`}
           id="exampleInputEmail1"
           aria-describedby="emailHelp"
           value={email}
