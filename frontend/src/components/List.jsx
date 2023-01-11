@@ -51,7 +51,6 @@ function List({ products }) {
         border: "1px solid purple",
         display: "flex",
         justifyContent: "center",
-        overflow: "scroll",
         flexWrap: "wrap",
       }}
     >

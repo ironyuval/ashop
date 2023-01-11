@@ -16,12 +16,17 @@ import { MobileMenu } from "./components/MobileMenu";
 import LoginModal from "./components/LoginModal";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
-
-const random = Math.floor(Math.random() * 5);
 
 const queryString = new URLSearchParams(`perPage=5`);
 
@@ -31,7 +36,8 @@ const getUserDataURL = `${getBasename()}/api/user/data`;
 
 function App() {
   const user = useSelector((state) => state.app.user);
-
+  const location = useLocation();
+  const background = location.state && location.state.background;
   const dispatch = useDispatch();
 
   const [products, setProducts] = useState([]);
@@ -67,54 +73,49 @@ function App() {
   }, []);
 
   return (
-    <Router basename="/">
+    <div
+      style={{
+        display: "flex",
+        flex: 1,
+        flexDirection: "column",
+        height: "100vh",
+        /*           border: "2px solid green",
+         */
+      }}
+    >
+      <MobileMenu />
+
+      <Header />
+      <LogoutModal />
+      <LoginModal />
+      <ProfileModal />
+
       <div
         style={{
           display: "flex",
           flex: 1,
           flexDirection: "column",
-          height: "100vh",
+          overflow: "scroll",
           /*           border: "2px solid green",
            */
         }}
       >
-        <MobileMenu />
-
-        <Header />
-        <LogoutModal />
-        <ProfileModal />
-        <LoginModal />
-
-        <div
-          style={{
-            display: "flex",
-            flex: 1,
-            flexDirection: "column",
-            height: "100vh",
-            /*             border: "2px solid green",
-             */
-          }}
-        >
-          <Routes>
-            <Route path="/" element={<Home products={products} />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/browse" element={<Browse products={products} />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<LoginPage />} />
-            {user && user.type === UserType.Admin ? (
-              <>
-                <Route path="/admin" element={<Admin />} />
-
-                <Route path="/product" element={<Product />} />
-              </>
-            ) : undefined}
-          </Routes>
-        </div>
-        <ToastContainer position="bottom-right" />
-
-        <Footer />
+        <Routes>
+          <Route path="/" element={<Home products={products} />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/browse" element={<Browse />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/product" element={<Product />} />
+          <Route path="/404" element={<div>404</div>} />
+          <Route path="*" element={<Navigate to="/404" />} />
+        </Routes>
       </div>
-    </Router>
+      <ToastContainer position="bottom-right" />
+
+      <Footer />
+    </div>
   );
 }
 
