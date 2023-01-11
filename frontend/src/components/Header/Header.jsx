@@ -93,7 +93,7 @@ function Header() {
                     className={`nav-link ${
                       location.pathname === "/login" ? "active" : ""
                     }`}
-                    onClick={() => dispatch(setIsLoginModalShown(true))}
+                    onClick={() => navigate("/login")}
                   >
                     Login
                   </a>

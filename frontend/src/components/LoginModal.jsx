@@ -7,10 +7,15 @@ import { toast } from "react-toastify";
 
 const LoginModal = () => {
   const isShown = useSelector((state) => state.app.isLoginModalShown);
+
   const user = useSelector((state) => state.app.user);
+
   const [email, setEmail] = useState("ironyuval65@gmail.com");
+
   const [password, setPassword] = useState("123456");
+
   const dispatch = useDispatch();
+
   const handleEmailChange = (ev) => {
     setEmail(ev.target.value);
   };

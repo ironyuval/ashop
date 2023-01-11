@@ -48,31 +48,26 @@ function List({ products }) {
   return (
     <div
       style={{
-        /*         border: "1px solid purple",
-         */ display: "flex",
-        width: "100%",
+        border: "1px solid purple",
+        display: "flex",
         justifyContent: "center",
+        overflow: "scroll",
+        flexWrap: "wrap",
       }}
     >
       {products.length ? (
         products.map((product, idx) => (
           <div
             key={product._id}
-            className="card ms-5"
+            className="card col-4 ms-5 mt-5"
             style={{
               width: "180px",
             }}
           >
             <div className="m-auto">
               <h5>
-                {product.name
-                  .concat("fegagag dagaergeg aeg erasga")
-                  .substring(0, MAX_LETTERS)
-                  .trim()}
-                {product.name.concat("fegagag dagaergeg aeg erasga").length >
-                MAX_LETTERS
-                  ? "..."
-                  : null}
+                {product.name.substring(0, MAX_LETTERS).trim()}
+                {product.name.length > MAX_LETTERS ? "..." : null}
               </h5>
             </div>
 
@@ -87,10 +82,14 @@ function List({ products }) {
               className="card-img-top"
               alt="..."
             />
-
             <div>
-              <span>{product.category}</span>
-              <span>{product.ratings}</span>
+              <span>Price: {product.price}</span>
+            </div>
+            <div>
+              <span>Category: {product.category}</span>
+            </div>
+            <div>
+              <span>Rating: {product.ratings}</span>
             </div>
             <div>
               <div
@@ -98,7 +97,6 @@ function List({ products }) {
                   if (user) toggleFavorite(product._id);
                 }}
                 disabled={!user}
-                href=""
               >
                 <i
                   style={{
@@ -114,7 +112,6 @@ function List({ products }) {
               <div
                 disabled={!user || user.type !== UserType.Admin}
                 onClick={() => handleClick(product)}
-                href=""
               >
                 Edit
               </div>
