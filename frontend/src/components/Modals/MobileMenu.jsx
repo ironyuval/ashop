@@ -1,4 +1,4 @@
-export const MobileMenu = () => {
+const MobileMenu = () => {
   return (
     <div
       className="offcanvas offcanvas-start"
@@ -52,3 +52,5 @@ export const MobileMenu = () => {
     </div>
   );
 };
+
+export default MobileMenu;

@@ -1,38 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const getStorageUser = () => {
-  const storagedUser = localStorage.getItem("user");
-
-  if (storagedUser) {
-    const parsed = JSON.parse(storagedUser);
-    return parsed;
-  }
-};
-
 export const getStorageToken = () => {
   const user = getStorageUser();
   return user.token;
 };
 
-const user = getStorageUser();
-
-export const initialState = {
-  //data
-  user: user
-    ? {
-        email: user.email,
-        name: user.name,
-        favorites: user.favorites,
-        token: user.token,
-        type: user.type,
-      }
-    : null,
-  //modals
-  isLogoutModalShown: false,
-  isProfileModalShown: false,
-  isLoginModalShown: false,
-  isLoading: false,
-};
+export const initialState = {};
 
 export const appSlice = createSlice({
   name: "app",

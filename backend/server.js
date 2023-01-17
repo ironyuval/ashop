@@ -6,8 +6,9 @@ import User from './models/User';
 import { UserType } from './utils/types';
 
 export const isDevelopment = process.env.NODE_ENV !== 'production';
+
 dotenv.config(isDevelopment ? {
-  path: '.env',
+  path: './env',
 } : undefined);
 
 const createDefaultAdmin = async () => {

@@ -3,8 +3,12 @@ import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
+// eslint-disable-next-line import/no-relative-packages
+import testFn from '../frontend/src/server-shared/test';
 import productRoutes from './routes/product';
 import userRoutes from './routes/user';
+
+testFn();
 
 const app = express();
 

@@ -1,12 +1,8 @@
-import { getBasename } from "../utils";
-import DeleteModal from "../components/DeleteModal";
-import { getStorageToken } from "../redux/slice";
-import { handleCreateProduct, handleUpdateProduct } from "../logic/logic";
-import { Category, Categoy, UserType } from "../utils/types";
+import DeleteModal from "../components/Modals/DeleteModal";
+import { Category } from "../utils/types";
+import { API } from "../api";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
-import { toast } from "react-toastify";
-import axios from "axios";
 
 function Product(props) {
   const params = useLocation();
@@ -54,9 +50,9 @@ function Product(props) {
     };
 
     if (isNew) {
-      handleCreateProduct(data);
+      API.Product.createProduct(data);
     } else {
-      handleUpdateProduct(product._id, data);
+      API.Product.updateProduct(product._id, data);
     }
   };
 
