@@ -1,23 +1,17 @@
-import {
-  getStorageToken,
-  removeUser,
-  setIsProfileModalShown,
-  setUser,
-} from "../redux/slice";
-import { getBasename } from "../utils";
+import { setIsProfileModalShown, setUser } from "../../redux/slice";
+import api from "../../api";
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useSelector, useDispatch } from "react-redux";
-import { toast } from "react-toastify";
 import { useRef } from "react";
 import axios from "axios";
-
-const updateUserDataURL = `${getBasename()}/api/user/`;
 
 const ProfileModal = () => {
   const isShown = useSelector((state) => state.app.isProfileModalShown);
   const user = useSelector((state) => state.app.user);
+
+  console.log(user);
 
   const [name, setName] = useState(user ? user.name : "");
   const [image, setImage] = useState(user ? user.image || "" : "");
@@ -49,12 +43,8 @@ const ProfileModal = () => {
       newPassword: newPasswordRef.current.value,
     };
 
-    const config = {
-      headers: { Authorization: `Bearer ${getStorageToken()}` },
-    };
-
     try {
-      await axios.put(updateUserDataURL, data, config);
+      await api.User.updateUser(user._id, data);
       dispatch(setUser({ name, image }));
     } catch (e) {
       console.log(e.message);

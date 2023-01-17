@@ -1,8 +1,7 @@
 import List from "../components/List";
-import { getBasename } from "../utils";
+import api from "../api";
 import { useState } from "react";
 import { useEffect } from "react";
-import axios from "axios";
 import { useRef } from "react";
 
 function Browse() {
@@ -22,9 +21,7 @@ function Browse() {
 
   const getProducts = async (queryString) => {
     try {
-      const { data } = await axios.get(
-        `${getBasename()}/api/product?${queryString}`
-      );
+      const { data } = await api.Product.getProducts(queryString);
       setProducts(data.products);
     } catch (e) {
       console.log(e);

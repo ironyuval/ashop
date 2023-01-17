@@ -1,11 +1,9 @@
-import { MobileMenu } from "../MobileMenu";
 import {
-  setIsLoginModalShown,
   setIsLogoutModalShown,
   setIsProfileModalShown,
-} from "../../redux/slice";
-import { UserType } from "../../utils/types";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+} from "../../../redux/slice";
+import { UserType } from "../../../utils/types";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 function Header() {
@@ -14,8 +12,6 @@ function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
-
-  console.log(location.pathname);
 
   const isLoggedIn = Boolean(user?.token);
   return (

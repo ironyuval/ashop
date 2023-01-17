@@ -1,10 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const getStorageToken = () => {
-  const user = getStorageUser();
-  return user.token;
-};
-
 export const initialState = {};
 
 export const appSlice = createSlice({
@@ -12,22 +7,22 @@ export const appSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      return { ...state, user: { ...user, ...action.payload } };
+      state.user = action.payload;
     },
     removeUser: (state) => {
-      return { ...state, user: null };
+      delete state.user;
     },
     setIsLogoutModalShown: (state, action) => {
-      return { ...state, isLogoutModalShown: action.payload };
+      state.isLogoutModalShown = action.payload;
     },
     setIsLoginModalShown: (state, action) => {
-      return { ...state, isLoginModalShown: action.payload };
+      state.isLoginModalShown = action.payload;
     },
     setIsProfileModalShown: (state, action) => {
-      return { ...state, isProfileModalShown: action.payload };
+      state.isProfileModalShown = action.payload;
     },
     setIsLoading: (state, action) => {
-      return { ...state, isLoading: action.payload };
+      state.isLoading = action.payload;
     },
     toggleFavorite: (state, action) => {
       const productId = action.payload;
@@ -38,7 +33,7 @@ export const appSlice = createSlice({
         newFavorites.push(productId);
       }
 
-      return { ...state, user: { ...state.user, favorites: newFavorites } };
+      state.user.favorites = newFavorites;
     },
   },
 });

@@ -1,12 +1,8 @@
 import { UserType } from "../utils/types";
-import {
-  getStorageToken,
-  toggleFavorite as toggleFavoriteProduct,
-} from "../redux/slice";
-import { getBasename } from "../utils";
+import { toggleFavorite as toggleFavoriteProduct } from "../redux/slice";
+import api from "../api";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 
 const MAX_LETTERS = 28;
 
@@ -14,8 +10,6 @@ function List({ products }) {
   const user = useSelector((state) => state.app.user);
 
   const favorites = user && user.favorites;
-
-  console.log("favorites: ", favorites);
 
   const dispatch = useDispatch();
 
@@ -34,11 +28,7 @@ function List({ products }) {
       const config = {
         headers: { Authorization: `Bearer ${getStorageToken()}` },
       };
-      await axios.post(
-        `${getBasename()}/api/user/favorite/${productId}`,
-        null,
-        config
-      );
+      await api.User.toggleFavorite(productId);
       dispatch(toggleFavoriteProduct(productId));
     } catch (e) {
       console.log(e);

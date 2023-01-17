@@ -1,10 +1,9 @@
 import loginSchema from "../validation/login.validation";
 import { setUser } from "../redux/slice";
-import { getBasename } from "../utils";
+import api from "../api";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 
 const LoginPage = ({ setLocalStorage }) => {
@@ -38,19 +37,11 @@ const LoginPage = ({ setLocalStorage }) => {
         toast.error(item.message.replaceAll('"', ""));
       }
     } else {
-      axios
-        .post(`${getBasename()}/api/user/login`, {
-          email: email,
-          password: password,
-        })
+      api.Auth.login(email, password)
         .then((res) => {
           const token = res.data.token;
           localStorage.setItem("userToken", token);
-          dispatch(
-            setUser({
-              token,
-            })
-          );
+          dispatch(setUser(res.data));
           navigate("/");
           console.log(res.data);
           toast.success(`Welcome, ${res.data.name}!`);

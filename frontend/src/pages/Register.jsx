@@ -1,11 +1,9 @@
 import registerSchema from "../validation/register.validation";
-import { getBasename } from "../utils";
 import { setUser } from "../redux/slice";
+import api from "../api";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
 import { useDispatch } from "react-redux";
 
@@ -54,12 +52,7 @@ const Register = () => {
       }
     } else {
       if (password === confirmPassword) {
-        axios
-          .post(`${getBasename()}/api/user/register`, {
-            name: name,
-            email: email,
-            password: password,
-          })
+        api.Auth.register(email, password)
           .then((res) => {
             const user = res.data.result;
             const { name, email, type, token } = user;

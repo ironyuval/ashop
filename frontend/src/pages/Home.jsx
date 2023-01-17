@@ -4,8 +4,21 @@ import SearchBar from "../components/SearchBar";
 import Logo from "../assets/logo.png";
 import CaptainVideo from "../assets/captain.mp4";
 import StanLeeVideo from "../assets/stanlee.mp4";
+import api from "../api";
+import { useState } from "react";
 
-function Home({ products }) {
+function Home() {
+  const [products, setProducts] = useState([]);
+
+  const getProducts = async (params = {}) => {
+    try {
+      const { data } = await api.Product.getProducts(params);
+      setProducts(data.products);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <div
       style={{

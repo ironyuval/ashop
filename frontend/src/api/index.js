@@ -1,12 +1,9 @@
 import product from "./product";
 import user from "./user";
+import auth from "./auth";
 
-const getConfig = () => ({
-  headers: { Authorization: `Bearer ${getStorageToken()}` },
-});
-
-export const API = {
-  getConfig,
+export default {
   Product: product,
   User: user,
+  Auth: auth,
 };

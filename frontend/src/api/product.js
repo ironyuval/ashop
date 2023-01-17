@@ -1,21 +1,16 @@
-import { API } from ".";
-import { getBasename } from "../utils";
-import axios from "axios";
+import { methods } from "./methods";
 
 const Endpoints = {
-  getProducts: (queryString) => `${getBasename()}/api/product?${queryString}`,
-  createProduct: () => `${getBasename()}/api/product/new`,
-  updateProduct: (productId) => `${getBasename()}/api/product/${productId}`,
+  allProducts: (queryString = "") => `api/product${queryString}`,
+  singleProductById: (productId) => `api/product/${productId}`,
 };
 
 export default {
   getProducts: (params) =>
-    axios.get(
-      getProducts(new URLSearchParams(params).toString()),
-      API.getConfig()
-    ),
-  createProduct: (data) =>
-    axios.post(Endpoints.createProduct(), data, API.getConfig()),
+    methods.get(allProducts(new URLSearchParams(params).toString())),
+  createProduct: (data) => methods.post(Endpoints.allProducts(), data),
   updateProduct: (productId, data) =>
-    axios.put(Endpoints.updateProduct(productId), data, API.getConfig()),
+    methods.put(Endpoints.singleProductById(productId), data),
+  deleteProduct: (productId) =>
+    methods.delete(Endpoints.singleProductById(productId)),
 };

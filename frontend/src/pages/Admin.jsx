@@ -1,6 +1,4 @@
-import { getBasename } from "../utils";
-import { getStorageToken } from "../redux/slice";
-import axios from "axios";
+import api from "../api";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -19,10 +17,7 @@ function Admin(props) {
 
   const getAllUsers = async () => {
     try {
-      const config = {
-        headers: { Authorization: `Bearer ${getStorageToken()}` },
-      };
-      const { data } = await axios.get(`${getBasename()}/api/user`, config);
+      const { data } = await api.User.g;
       setUsers(data.users);
     } catch (e) {
       console.log(e);

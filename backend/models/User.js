@@ -30,7 +30,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
   },
 
-  favorites: { type: [String] },
+  favorites: [{ type: Types.ObjectId, ref: 'Product' }],
 });
 
 export default model('User', UserSchema);

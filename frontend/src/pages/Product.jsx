@@ -1,6 +1,6 @@
 import DeleteModal from "../components/Modals/DeleteModal";
 import { Category } from "../utils/types";
-import { API } from "../api";
+import api from "../api";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 
@@ -50,9 +50,9 @@ function Product(props) {
     };
 
     if (isNew) {
-      API.Product.createProduct(data);
+      api.Product.createProduct(data);
     } else {
-      API.Product.updateProduct(product._id, data);
+      api.Product.updateProduct(product._id, data);
     }
   };
 

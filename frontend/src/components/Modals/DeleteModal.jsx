@@ -1,9 +1,7 @@
-import { getBasename } from "../../utils";
-import { getStorageToken, getStorageUser } from "../../redux/slice";
+import api from "../../api";
 import React from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -13,13 +11,8 @@ const DeleteModal = ({ isShown, setIsShown, productId }) => {
   const navigate = useNavigate();
 
   const handleDelete = () => {
-    const config = {
-      headers: { Authorization: `Bearer ${getStorageToken()}` },
-    };
-
     /*     setIsLoading(true);
-     */ axios
-      .delete(`${getBasename()}/api/product/${productId}`, config)
+     */ api.Product.deleteProduct(productId)
       .then((res) => {
         toast.success("product deleted 😎 ");
         /*         setIsLoading(false);

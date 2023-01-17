@@ -1,12 +1,16 @@
-import { API } from ".";
-import { getBasename } from "../utils";
-import axios from "axios";
+import { methods } from "./methods";
 
 const Endpoints = {
-  getUser: (userId) => `${getBasename()}/api/user/${userId}`,
+  toggleFavoriteById: (productId) => `api/user/favorite/${productId}`,
+  getUserData: () => `api/user/data`,
+  singleById: (userId) => `api/user/${userId}`,
+  all: () => `api/user`,
 };
 
 export default {
-  getUser: (userId) => axios.get(Endpoints.getUser(userId), API.getConfig()),
-  updateUser: (userId) => axios.put(Endpoints.getUser(userId), API.getConfig()),
+  toggleFavorite: (productId) =>
+    methods.post(Endpoints.toggleFavoriteById(productId)),
+  getAllUsers: () => methods.get(Endpoints.all),
+  getUser: (userId = "") => methods.get(Endpoints.singleById(userId)),
+  updateUser: (userId, data) => methods.put(Endpoints.singleById(userId), data),
 };
