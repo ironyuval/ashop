@@ -7,6 +7,7 @@ import cors from 'cors';
 import testFn from '../frontend/src/server-shared/test';
 import productRoutes from './routes/product';
 import userRoutes from './routes/user';
+import authRoutes from './routes/auth';
 
 testFn();
 
@@ -19,6 +20,7 @@ app.use(json());
 
 app.use('/api/product', productRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/auth', authRoutes);
 
 const __filename = fileURLToPath(import.meta.url);
 

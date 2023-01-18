@@ -2,7 +2,8 @@ import { Router } from 'express';
 import {
   getAllProducts, createProduct, updateProduct, deleteProduct, getSingleProduct,
 } from '../controller/product';
-import { getAuth } from '../auth';
+import { Permissions } from '../../frontend/src/server-shared/types';
+import handlePermissions from '../auth';
 
 const router = Router();
 
@@ -10,8 +11,8 @@ const router = Router();
 router.route('/:id').get(getSingleProduct);
 router.route('/').get(getAllProducts);
 // Write - admin user
-router.route('/new').post(getAuth(true), createProduct);
-router.route('/:id').put(getAuth(true), updateProduct);
-router.route('/:id').delete(getAuth(true), deleteProduct);
+router.route('/new').post(handlePermissions([Permissions.Admin]), createProduct);
+router.route('/:id').put(handlePermissions([Permissions.Admin]), updateProduct);
+router.route('/:id').delete(handlePermissions([Permissions.Admin]), deleteProduct);
 
 export default router;

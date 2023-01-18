@@ -21,5 +21,6 @@ module.exports = {
     'react/jsx-filename-extension': 'off',
     'no-underscore-dangle': 'off',
     'consistent-return': 'off',
+    'import/no-relative-packages': 'off',
   },
 };

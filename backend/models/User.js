@@ -1,5 +1,5 @@
 import mongoose, { model, Types } from 'mongoose';
-import { UserType } from '../utils/types';
+import { Permissions } from '../../frontend/src/server-shared/types';
 
 const UserSchema = new mongoose.Schema({
 
@@ -20,9 +20,9 @@ const UserSchema = new mongoose.Schema({
     unique: false,
   },
 
-  type: {
-    type: Number,
-    default: UserType.User,
+  permission: {
+    type: String,
+    default: Permissions.User,
     required: [true, 'Please provide a type!'],
   },
 

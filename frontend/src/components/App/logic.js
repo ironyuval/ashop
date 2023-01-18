@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 export const tryInitApp = () => async (dispatch) => {
   try {
     console.log("initing app...");
-    const { data } = await api.User.getUser();
+    const { data } = await api.User.getData();
     dispatch(setUser(data));
     console.log("app inited...");
   } catch (e) {

@@ -1,17 +1,16 @@
 import { Router } from 'express';
 import {
-  getAllUsers, login, register, toggleFavorite, getUserData, updateUser,
+  getAllUsers, toggleFavorite, getUserData, updateUser,
 } from '../controller/user';
-import { getAuth } from '../auth';
+import handlePermissions from '../auth';
+import { Permissions } from '../../frontend/src/server-shared/types';
 
 const router = Router();
 
-router.route('/register').post(register);
-router.route('/login').post(login);
-router.route('/data').get(getAuth(false), getUserData);
-router.route('/').get(getAuth(true), getAllUsers);
-router.route('/').put(getAuth(false), updateUser);
-router.route('/favorite/:id').post(getAuth(false), toggleFavorite);
+router.route('/data').get(handlePermissions([Permissions.User]), getUserData);
+router.route('/').get(handlePermissions([Permissions.Admin]), getAllUsers);
+router.route('/').put(handlePermissions([Permissions.User]), updateUser);
+router.route('/favorite/:id').post(handlePermissions([Permissions.User]), toggleFavorite);
 
 // forgot password
 // reset password -> update password

@@ -1,25 +1,29 @@
 import jwt from 'jsonwebtoken';
+import { Permissions } from '../frontend/src/server-shared/types';
 import User from './models/User';
-import { UserType } from './utils/types';
 
-export const getAuth = (requireAdmin) => async (req, res, next) => {
+const handlePermissions = (permissions = []) => async (req, res, next) => {
   try {
-    console.log(req.headers);
-    const token = req.headers.authorization.split(' ')[1];
+    const { authorization } = req.headers;
+    const token = authorization && authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.SECRET);
-    const user = decodedToken;
+    const { userId } = decodedToken;
 
-    const { userId } = user;
-    req.user = user;
-    if (userId) {
+    if (!userId) { throw (Error('Missing token')); }
+
+    if (permissions.length) {
       const userFound = await User.findById(userId);
-      if ((requireAdmin && userFound && userFound.type === UserType.Admin)
-       || (!requireAdmin && userFound)) {
-        next();
-      } else {
+      // admin excluded
+      if (!userFound
+        || (userFound.permission !== Permissions.Admin
+         && !permissions.includes(userFound.permission))) {
         throw (Error('Unauthorized user type!'));
       }
     }
+
+    req.userId = userId;
+
+    next();
   } catch (error) {
     console.log(error);
     return res.status(401).json({
@@ -28,4 +32,4 @@ export const getAuth = (requireAdmin) => async (req, res, next) => {
   }
 };
 
-export default getAuth;
+export default handlePermissions;

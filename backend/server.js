@@ -3,7 +3,8 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import app from './app';
 import User from './models/User';
-import { UserType } from './utils/types';
+import { UserType } from '../frontend/src/server-shared/types';
+
 
 export const isDevelopment = process.env.NODE_ENV !== 'production';
 
