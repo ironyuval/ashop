@@ -4,9 +4,11 @@ import Features from '../utils/Features';
 
 export const getUserData = async (request, response) => {
   try {
-    const { user } = request;
+    const { userId } = request;
 
-    const userFound = await User.findById(user.userId);
+    console.log(userId);
+
+    const userFound = await User.findById(userId);
 
     return response.status(200).send({
       message: 'Login Successful',

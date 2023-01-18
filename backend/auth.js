@@ -8,6 +8,7 @@ const handlePermissions = (permissions = []) => async (req, res, next) => {
     const token = authorization && authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.SECRET);
     const { userId } = decodedToken;
+    console.log(userId);
 
     if (!userId) { throw (Error('Missing token')); }
 
@@ -25,7 +26,7 @@ const handlePermissions = (permissions = []) => async (req, res, next) => {
 
     next();
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(401).json({
       message: error.message,
     });

@@ -6,9 +6,9 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 
-const LoginPage = ({ setLocalStorage }) => {
-  const [email, setEmail] = useState("ironyuval65@gmail.com");
-  const [password, setPassword] = useState("123456");
+const LoginPage = () => {
+  const [email, setEmail] = useState("galbenyosef@gmail.com");
+  const [password, setPassword] = useState("12345678AAaa-");
   const [showPasswordErrorMsg, setShowPasswordErrorMsg] = useState(false);
 
   const dispatch = useDispatch();
@@ -40,10 +40,9 @@ const LoginPage = ({ setLocalStorage }) => {
       api.Auth.login(email, password)
         .then((res) => {
           const token = res.data.token;
-          localStorage.setItem("userToken", token);
+          localStorage.setItem("token", token);
           dispatch(setUser(res.data));
           navigate("/");
-          console.log(res.data);
           toast.success(`Welcome, ${res.data.name}!`);
         })
         .catch((err) => {

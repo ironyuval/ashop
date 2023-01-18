@@ -19,8 +19,6 @@ export const register = async (req, res) => {
       password: hashedPassword,
     });
 
-    console.log(req.body);
-
     await user.save();
 
     const token = jwt.sign(
@@ -42,21 +40,21 @@ export const register = async (req, res) => {
   }
 };
 
-export const login = async (request, response) => {
+export const login = async (req, res) => {
   try {
-    const user = await User.findOne({ email: request.body.email });
+    const user = await User.findOne({ email: req.body.email });
 
     if (!user) {
-      return response.status(404).send({ message: 'Email not found' });
+      return res.status(404).send({ message: 'Email not found' });
     }
 
     const passwordCheck = await bcrypt.compare(
-      request.body.password,
+      req.body.password,
       user.password,
     );
 
     if (!passwordCheck) {
-      return response.status(400).send({
+      return res.status(400).send({
         message: 'Passwords does not match',
       });
     }
@@ -67,7 +65,7 @@ export const login = async (request, response) => {
       { expiresIn: '24h' },
     );
 
-    return response.status(200).send({
+    return res.status(200).send({
       message: 'Login Successful',
       email: user.email,
       name: user.name,
@@ -78,7 +76,7 @@ export const login = async (request, response) => {
     });
   } catch (e) {
     console.log(e);
-    return response.status(400).send({
+    return res.status(400).send({
       message: 'Server Error',
     });
   }

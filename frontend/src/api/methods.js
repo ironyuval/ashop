@@ -2,7 +2,7 @@ import { isDevelopment } from "../utils";
 import axios from "axios";
 
 const getStorageToken = () => {
-  return localStorage.getItem("userToken");
+  return localStorage.getItem("token");
 };
 const getConfig = () => ({
   headers: { Authorization: `Bearer ${getStorageToken()}` },

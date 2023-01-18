@@ -1,20 +1,16 @@
 import registerSchema from "../validation/register.validation";
-import { setUser } from "../redux/slice";
 import api from "../api";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
-
 const Register = () => {
-  const [name, setName] = useState("Yuval");
-  const [email, setEmail] = useState("ironyuval65@gmail.com");
-  const [password, setPassword] = useState("12345678");
-  const [confirmPassword, setConfirmPassword] = useState("12345678");
+  const [name, setName] = useState("Gal Ben yosef");
+  const [email, setEmail] = useState("galbenyosef@gmail.com");
+  const [password, setPassword] = useState("12345678AAaa-");
+  const [confirmPassword, setConfirmPassword] = useState("12345678AAaa-");
   const [showPasswordErrorMsg, setShowPasswordErrorMsg] = useState(false);
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleNameChange = (ev) => {
@@ -52,19 +48,11 @@ const Register = () => {
       }
     } else {
       if (password === confirmPassword) {
-        api.Auth.register(email, password)
+        api.Auth.register(name, email, password)
           .then((res) => {
             const user = res.data.result;
-            const { name, email, type, token } = user;
-            localStorage.setItem("user", JSON.stringify(user));
-            dispatch(
-              setUser({
-                name,
-                email,
-                type,
-                token,
-              })
-            );
+            const { token } = user;
+            localStorage.setItem("token", token);
             navigate("/");
             toast.success("User registered succesfully");
           })

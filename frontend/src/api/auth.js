@@ -8,6 +8,6 @@ const Endpoints = {
 export default {
   login: (email, password) =>
     methods.post(Endpoints.login(), { email, password }),
-  register: (email, password) =>
-    methods.post(Endpoints.register(), { email, password }),
+  register: (name, email, password) =>
+    methods.post(Endpoints.register(), { name, email, password }),
 };

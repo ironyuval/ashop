@@ -13,7 +13,9 @@ function Header() {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const isLoggedIn = Boolean(user?.token);
+  const isLoggedIn = Boolean(user);
+
+  console.log(user);
   return (
     <nav className="navbar navbar-light grad navbar-expand-md bg ">
       <div className="container-fluid ">
@@ -70,14 +72,7 @@ function Header() {
               </a>
             </li>
             <li className="nav-item">
-              <a
-                className={`nav-link ${
-                  location.pathname === "/browse" ? "active" : ""
-                }`}
-                onClick={() => navigate("/browse")}
-              >
-                {user && user.name}
-              </a>
+              <a className={`nav-link`}>{user && user.name}</a>
             </li>
           </ul>
 
