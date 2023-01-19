@@ -5,11 +5,13 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useSelector, useDispatch } from "react-redux";
 import { useRef } from "react";
-import axios from "axios";
 
 const ProfileModal = () => {
   const isShown = useSelector((state) => state.app.isProfileModalShown);
+
   const user = useSelector((state) => state.app.user);
+
+  const dispatch = useDispatch();
 
   const [name, setName] = useState(user ? user.name : "");
   const [image, setImage] = useState(user ? user.image || "" : "");
@@ -25,8 +27,6 @@ const ProfileModal = () => {
   const handleImageChange = (e) => {
     setImage(e.target.value);
   };
-
-  const dispatch = useDispatch();
 
   const handleClose = () => {
     setName(user.name);

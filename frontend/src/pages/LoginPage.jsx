@@ -1,17 +1,18 @@
 import loginSchema from "../validation/login.validation";
 import { setUser } from "../redux/slice";
 import api from "../api";
-import { useLocalStorage } from "../utils/useLocalStorage";
+import { usePersistedString } from "../utils/usePersistedString";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("galbenyosef@gmail.com");
   const [password, setPassword] = useState("12345678AAaa-");
   const [showPasswordErrorMsg, setShowPasswordErrorMsg] = useState(false);
-  const [token, setToken] = useLocalStorage("token");
+  const [token, setToken, removeToken] = usePersistedString("token");
 
   const dispatch = useDispatch();
 
@@ -25,7 +26,11 @@ const LoginPage = () => {
     setPassword(ev.target.value);
   };
 
-  const handleSubmit = (ev) => {
+  useEffect(() => {
+    if (token) navigate("/");
+  }, [token]);
+
+  const handleSubmit = async (ev) => {
     ev.preventDefault();
 
     const validatedValue = loginSchema.validate({
@@ -39,17 +44,10 @@ const LoginPage = () => {
         toast.error(item.message.replaceAll('"', ""));
       }
     } else {
-      api.Auth.login(email, password)
-        .then((res) => {
-          const token = res.data.token;
-          setToken(token);
-          dispatch(setUser(res.data));
-          navigate("/");
-          toast.success(`Welcome, ${res.data.name}!`);
-        })
-        .catch((err) => {
-          console.log("err from axios", err);
-        });
+      const response = await api.Auth.login(email, password);
+      const token = response.data.token;
+      setToken(token);
+      toast.success(`Welcome, ${email}!`);
     }
   };
 

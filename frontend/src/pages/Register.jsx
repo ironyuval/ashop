@@ -1,5 +1,6 @@
 import registerSchema from "../validation/register.validation";
 import api from "../api";
+import { usePersistedString } from "../utils/usePersistedString";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +11,7 @@ const Register = () => {
   const [password, setPassword] = useState("12345678AAaa-");
   const [confirmPassword, setConfirmPassword] = useState("12345678AAaa-");
   const [showPasswordErrorMsg, setShowPasswordErrorMsg] = useState(false);
-  const [token, setToken] = useLocalStorage("token");
+  const [token, setToken] = usePersistedString("token");
 
   const navigate = useNavigate();
 

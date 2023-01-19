@@ -4,19 +4,41 @@ import { AppRoutes } from "./components/App/Routes";
 import Layout from "./components/App/Layout";
 import Modals from "./components/Modals";
 import { tryInitApp } from "./components/App/logic";
-import { useLocalStorage } from "./utils/useLocalStorage";
+import { usePersistedString } from "./utils/usePersistedString";
 import { LoadingModal } from "./components/Modals/LoadingModal";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 testFn();
 
-function App() {
+const useToken = () => {
   const dispatch = useDispatch();
-  const [token] = useLocalStorage("token");
+  const [storageToken, setStorageToken, removeStorageToken] =
+    usePersistedString("token");
+  const [token, setToken] = useState(storageToken);
 
   useEffect(() => {
-    if (token) dispatch(tryInitApp());
+    if (token) {
+      setStorageToken(token);
+      dispatch(setToken(token));
+    }
+  }, [token]);
+
+  const removeToken = () => {};
+
+  return [token, setToken, removeToken];
+};
+
+function App() {
+  const dispatch = useDispatch();
+  const [token] = usePersistedString("token");
+
+  useEffect(() => {
+    if (token) {
+      console.log("token detected");
+
+      dispatch(tryInitApp());
+    }
   }, [token]);
 
   return (
