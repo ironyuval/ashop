@@ -10,6 +10,7 @@ export const appSlice = createSlice({
       state.user = action.payload;
     },
     removeUser: (state) => {
+      localStorage.removeItem("token");
       delete state.user;
     },
     setIsLogoutModalShown: (state, action) => {

@@ -1,7 +1,7 @@
 import loginSchema from "../validation/login.validation";
 import { setUser } from "../redux/slice";
 import api from "../api";
-import { usePersistedString } from "../utils/usePersistedString";
+import { onTokenReceived } from "../components/App/logic";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -12,7 +12,6 @@ const LoginPage = () => {
   const [email, setEmail] = useState("galbenyosef@gmail.com");
   const [password, setPassword] = useState("12345678AAaa-");
   const [showPasswordErrorMsg, setShowPasswordErrorMsg] = useState(false);
-  const [token, setToken, removeToken] = usePersistedString("token");
 
   const dispatch = useDispatch();
 
@@ -25,10 +24,6 @@ const LoginPage = () => {
   const handlePasswordChange = (ev) => {
     setPassword(ev.target.value);
   };
-
-  useEffect(() => {
-    if (token) navigate("/");
-  }, [token]);
 
   const handleSubmit = async (ev) => {
     ev.preventDefault();
@@ -46,7 +41,8 @@ const LoginPage = () => {
     } else {
       const response = await api.Auth.login(email, password);
       const token = response.data.token;
-      setToken(token);
+      dispatch(onTokenReceived(token));
+      navigate("/");
       toast.success(`Welcome, ${email}!`);
     }
   };

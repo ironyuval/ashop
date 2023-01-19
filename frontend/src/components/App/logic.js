@@ -1,8 +1,16 @@
 import api from "../../api";
 import { setIsLoading, setUser } from "../../redux/slice";
-import { useDispatch } from "react-redux";
+import axios from "axios";
 
-export const tryInitApp = () => async (dispatch) => {
+export const onTokenReceived = (token) => async (dispatch) => {
+  localStorage.setItem("token", token);
+  if (token) {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  } else delete axios.defaults.headers.common["Authorization"];
+  dispatch(getUserData());
+};
+
+export const getUserData = () => async (dispatch) => {
   try {
     dispatch(setIsLoading(true));
 

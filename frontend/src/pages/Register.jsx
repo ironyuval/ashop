@@ -1,9 +1,10 @@
 import registerSchema from "../validation/register.validation";
 import api from "../api";
-import { usePersistedString } from "../utils/usePersistedString";
+import { onTokenReceived } from "../components/App/logic";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const Register = () => {
   const [name, setName] = useState("Gal Ben yosef");
@@ -11,7 +12,7 @@ const Register = () => {
   const [password, setPassword] = useState("12345678AAaa-");
   const [confirmPassword, setConfirmPassword] = useState("12345678AAaa-");
   const [showPasswordErrorMsg, setShowPasswordErrorMsg] = useState(false);
-  const [token, setToken] = usePersistedString("token");
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -54,7 +55,7 @@ const Register = () => {
           .then((res) => {
             const user = res.data.result;
             const { token } = user;
-            setToken(token);
+            dispatch(onTokenReceived(token));
             navigate("/");
             toast.success("User registered succesfully");
           })
