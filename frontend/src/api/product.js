@@ -1,13 +1,13 @@
 import { methods } from "./methods";
 
 const Endpoints = {
-  all: (queryString = "") => `api/product/${queryString}`,
+  all: (queryString = "") => `api/product/?${queryString}`,
   singleById: (productId) => `api/product/${productId}`,
 };
 
 export default {
   getProducts: (params) =>
-    methods.get(all(new URLSearchParams(params).toString())),
+    methods.get(Endpoints.all(new URLSearchParams(params).toString())),
   createProduct: (data) => methods.post(Endpoints.all(), data),
   updateProduct: (productId, data) =>
     methods.put(Endpoints.singleById(productId), data),

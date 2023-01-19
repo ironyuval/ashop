@@ -6,16 +6,13 @@ export const getUserData = async (request, response) => {
   try {
     const { userId } = request;
 
-    console.log(userId);
-
     const userFound = await User.findById(userId);
 
     return response.status(200).send({
-      message: 'Login Successful',
       email: userFound.email,
       name: userFound.name,
       favorites: userFound.favorites,
-      type: userFound.type,
+      permission: userFound.permission,
       image: userFound.image,
     });
   } catch (e) {
@@ -93,8 +90,6 @@ export const updateUser = async (req, res) => {
 
     userFound.password = hashedPassword;
   }
-
-  console.log(body);
 
   userFound.name = body.name;
   userFound.image = body.image;

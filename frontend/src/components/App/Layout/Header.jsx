@@ -2,7 +2,7 @@ import {
   setIsLogoutModalShown,
   setIsProfileModalShown,
 } from "../../../redux/slice";
-import { UserType } from "../../../utils/types";
+import { Permissions } from "../../../server-shared/types";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -15,7 +15,6 @@ function Header() {
 
   const isLoggedIn = Boolean(user);
 
-  console.log(user);
   return (
     <nav className="navbar navbar-light grad navbar-expand-md bg ">
       <div className="container-fluid ">
@@ -102,7 +101,7 @@ function Header() {
               </>
             ) : (
               <>
-                {user.type === UserType.Admin ? (
+                {user.permission === Permissions.Admin ? (
                   <li className="nav-item">
                     <a
                       className={`nav-link ${

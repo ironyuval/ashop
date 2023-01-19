@@ -16,7 +16,7 @@ function Browse() {
   const searchRef = useRef();
 
   useEffect(() => {
-    getProducts(`perPage=15`);
+    api.Product.getProducts(`perPage=15`);
   }, []);
 
   const getProducts = async (queryString) => {

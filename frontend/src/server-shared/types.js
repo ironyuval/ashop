@@ -1,8 +1,3 @@
-export const UserType = {
-  Admin: 1,
-  User: 2,
-};
-
 export const Category = {
   Action: 1,
   Horror: 2,

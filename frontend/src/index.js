@@ -9,7 +9,13 @@ import { store } from "./redux/store";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
-import { BrowserRouter, Router } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
+
+if (process.env.NODE_ENV === "production") {
+  console.log = () => {};
+  console.error = () => {};
+  console.debug = () => {};
+}
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

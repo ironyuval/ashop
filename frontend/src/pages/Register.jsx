@@ -10,6 +10,7 @@ const Register = () => {
   const [password, setPassword] = useState("12345678AAaa-");
   const [confirmPassword, setConfirmPassword] = useState("12345678AAaa-");
   const [showPasswordErrorMsg, setShowPasswordErrorMsg] = useState(false);
+  const [token, setToken] = useLocalStorage("token");
 
   const navigate = useNavigate();
 
@@ -52,7 +53,7 @@ const Register = () => {
           .then((res) => {
             const user = res.data.result;
             const { token } = user;
-            localStorage.setItem("token", token);
+            setToken(token);
             navigate("/");
             toast.success("User registered succesfully");
           })

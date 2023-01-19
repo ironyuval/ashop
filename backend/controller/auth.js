@@ -66,12 +66,6 @@ export const login = async (req, res) => {
     );
 
     return res.status(200).send({
-      message: 'Login Successful',
-      email: user.email,
-      name: user.name,
-      favorites: user.favorites,
-      type: user.type,
-      image: user.image,
       token,
     });
   } catch (e) {

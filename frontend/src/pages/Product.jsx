@@ -1,5 +1,4 @@
 import DeleteModal from "../components/Modals/DeleteModal";
-import { Category } from "../utils/types";
 import api from "../api";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";

@@ -2,6 +2,7 @@ import LoginModal from "./LoginModal";
 import LogoutModal from "./LogoutModal";
 import MobileMenu from "./MobileMenu";
 import ProfileModal from "./ProfileModal";
+import { LoadingModal } from "./LoadingModal";
 import { ToastContainer } from "react-toastify";
 
 const Modals = () => (

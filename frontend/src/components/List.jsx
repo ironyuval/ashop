@@ -1,6 +1,6 @@
-import { UserType } from "../utils/types";
 import { toggleFavorite as toggleFavoriteProduct } from "../redux/slice";
 import api from "../api";
+import { Permissions } from "../server-shared/types";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -99,7 +99,7 @@ function List({ products }) {
                 Add to Favorites
               </div>
               <div
-                disabled={!user || user.type !== UserType.Admin}
+                disabled={!user || user.permission !== Permissions.Admin}
                 onClick={() => handleClick(product)}
               >
                 Edit

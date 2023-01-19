@@ -3,8 +3,7 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import app from './app';
 import User from './models/User';
-import { UserType } from '../frontend/src/server-shared/types';
-
+import { Permissions } from '../frontend/src/server-shared/types';
 
 export const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -20,7 +19,7 @@ const createDefaultAdmin = async () => {
     name: 'Yuval',
     email: 'ironyuval65@gmail.com',
     password: hashedPassword,
-    type: UserType.Admin,
+    permission: Permissions.Admin,
   };
 
   const options = { upsert: true, new: true, setDefaultsOnInsert: true };

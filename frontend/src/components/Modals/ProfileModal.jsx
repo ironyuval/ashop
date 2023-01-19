@@ -11,8 +11,6 @@ const ProfileModal = () => {
   const isShown = useSelector((state) => state.app.isProfileModalShown);
   const user = useSelector((state) => state.app.user);
 
-  console.log(user);
-
   const [name, setName] = useState(user ? user.name : "");
   const [image, setImage] = useState(user ? user.image || "" : "");
 
