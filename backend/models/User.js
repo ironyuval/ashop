@@ -3,6 +3,11 @@ import { Permissions } from '../../frontend/src/server-shared/types';
 
 const UserSchema = new mongoose.Schema({
 
+  username: {
+    type: String,
+    required: [true, 'Please provide a username!'],
+  },
+
   name: {
     type: String,
     required: [true, 'Please provide a name!'],
@@ -17,20 +22,20 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, 'Please provide a password!'],
-    unique: false,
   },
 
   permission: {
     type: String,
     default: Permissions.User,
-    required: [true, 'Please provide a type!'],
+    required: [true, 'Please provide a permission!'],
   },
 
   image: {
     type: String,
   },
 
-  favorites: [{ type: Types.ObjectId, ref: 'Product' }],
+  wishlist: [{ type: Types.ObjectId, ref: 'Product' }],
+  cart: [{ type: Types.ObjectId, ref: 'Product' }],
 });
 
 export default model('User', UserSchema);

@@ -81,6 +81,13 @@ function List({ products }) {
               <span>Rating: {product.ratings}</span>
             </div>
             <div>
+              <span>
+                {`Created at: ${new Date(product.createAt).toLocaleDateString(
+                  "he-IL"
+                )}`}
+              </span>
+            </div>
+            <div>
               <div
                 onClick={() => {
                   if (user) toggleFavorite(product._id);

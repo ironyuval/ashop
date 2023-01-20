@@ -6,6 +6,31 @@ import { Permissions } from "../../../server-shared/types";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
+const HeaderItems = {
+  Start: [
+    {
+      path: "/",
+      title: "Home",
+    },
+    {
+      path: "/about",
+      title: "About",
+    },
+    {
+      path: "/browse",
+      title: "Browse",
+      icon: "bi bi-search",
+    },
+    {
+      path: "/wishlist",
+      title: "Wishlist",
+      icon: "bi bi-heart",
+      permission: [Permissions.User],
+    },
+  ],
+  End: [],
+};
+
 function Header() {
   const user = useSelector((state) => state.app.user);
 
@@ -29,50 +54,29 @@ function Header() {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-sm-0">
-            <li className="nav-item">
-              <a
-                className={`nav-link ${
-                  location.pathname === "/" ? "active" : ""
-                }`}
-                aria-current="page"
-                onClick={() => navigate("/")}
-              >
-                Home
-              </a>
-            </li>
-            <li className="nav-item">
-              <a
-                className={`nav-link ${
-                  location.pathname === "/about" ? "active" : ""
-                }`}
-                onClick={() => navigate("/about")}
-              >
-                About
-              </a>
-            </li>
-            <li className="nav-item">
-              <a
-                className={`nav-link ${
-                  location.pathname === "/browse" ? "active" : ""
-                }`}
-                onClick={() => navigate("/browse")}
-              >
-                Browse
-              </a>
-            </li>
-            <li className="nav-item">
-              <a
-                className={`nav-link ${
-                  location.pathname === "/favorites" ? "active" : ""
-                }`}
-                onClick={() => navigate("/favorites")}
-              >
-                Favorites
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className={`nav-link`}>{user && user.name}</a>
-            </li>
+            {HeaderItems.Start.map((item, index) => {
+              if (
+                (!user && item.permission) ||
+                (item.permission &&
+                  user.permission !== Permissions.Admin &&
+                  !item.permission.includes(user.permission))
+              )
+                return null;
+              return (
+                <li key={index} className="nav-item">
+                  <a
+                    className={`nav-link ${
+                      location.pathname === item.path ? "active" : ""
+                    }`}
+                    aria-current="page"
+                    onClick={() => navigate(item.path)}
+                  >
+                    {item.icon && <i className={`${item.icon} me-1`}></i>}
+                    {item.title}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
 
           <ul className="navbar-nav">
@@ -116,6 +120,19 @@ function Header() {
                 <li className="nav-item">
                   <a
                     className={`nav-link ${
+                      location.pathname === "/cart" ? "active" : ""
+                    }`}
+                    onClick={() => {
+                      dispatch(setIsProfileModalShown(true));
+                    }}
+                  >
+                    <i className="bi bi-cart3 me-1"></i>
+                    Cart
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className={`nav-link ${
                       location.pathname === "/profile" ? "active" : ""
                     }`}
                     onClick={() => {
@@ -133,6 +150,7 @@ function Header() {
                       dispatch(setIsLogoutModalShown(true));
                     }}
                   >
+                    <i className="bi bi-box-arrow-left me-1"></i>
                     Logout
                   </a>
                 </li>

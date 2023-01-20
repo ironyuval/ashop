@@ -22,10 +22,16 @@ class Features {
 
   filter() {
     const queryCopy = { ...this.queryStr };
-    const removeFields = ['keyword', 'page', 'limit', 'perPage'];
+    const removeFields = ['keyword', 'page', 'limit', 'perPage', 'sort'];
 
     removeFields.forEach((key) => delete queryCopy[key]);
     this.query = this.query.find(queryCopy);
+    return this;
+  }
+
+  sort() {
+    const { sort } = this.queryStr;
+    this.query.sort({ [sort]: -1 });
     return this;
   }
 

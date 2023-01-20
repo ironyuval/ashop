@@ -12,13 +12,14 @@ testFn();
 
 function App() {
   const dispatch = useDispatch();
-  const [token, setToken] = useState(localStorage.getItem("token") || null);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+
     if (token) {
       dispatch(onTokenReceived(token));
     }
-  }, [token]);
+  }, []);
 
   return (
     <>

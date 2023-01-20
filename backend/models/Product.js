@@ -1,25 +1,29 @@
 import { Schema, model } from 'mongoose';
 
 const productSchema = new Schema({
-  name: {
+  title: {
     type: String,
-    required: [true, 'Please enter a name of a product'],
+    required: [true, 'Please enter a title of a product'],
     trim: true,
-    maxLength: [20, 'Product name not exceed than 20 characters'],
+    maxLength: [20, 'Product title not exceed than 20 characters'],
   },
   description: {
     type: String,
     required: [true, 'Please add a description of your product'],
-    maxlength: [4000, 'Description is can not exceed than 4000 characters'],
+    trim: true,
+    maxlength: [100, 'Description exceeded characters'],
   },
   price: {
     type: Number,
     required: [true, 'Please add a price for your product'],
-    maxLength: [8, 'Price can not exceed than 8 characters'],
+    min: 0,
+    max: 100,
   },
   ratings: {
     type: Number,
     default: 0,
+    min: 0,
+    max: 5,
   },
   images: [
     {
@@ -30,7 +34,7 @@ const productSchema = new Schema({
     },
   ],
   category: {
-    type: Number,
+    type: String,
     required: [true, 'Please add a category of your product'],
   },
   createdBy: {

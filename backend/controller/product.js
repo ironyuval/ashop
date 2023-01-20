@@ -13,6 +13,7 @@ export const getAllProducts = async (req, res) => {
   const feature = new Features(Product.find(), req.query)
     .search()
     .filter()
+    .sort()
     .pagination();
   const products = await feature.query;
   res.status(200).json({

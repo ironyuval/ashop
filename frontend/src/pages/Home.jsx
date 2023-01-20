@@ -6,18 +6,43 @@ import CaptainVideo from "../assets/captain.mp4";
 import StanLeeVideo from "../assets/stanlee.mp4";
 import api from "../api";
 import { useState } from "react";
+import { useEffect } from "react";
 
 function Home() {
-  const [products, setProducts] = useState([]);
+  const [topRated, setTopRated] = useState([]);
+  const [latest, setLatest] = useState([]);
 
-  const getProducts = async (params = {}) => {
+  const getData = async () => {
     try {
-      const { data } = await api.Product.getProducts(params);
-      setProducts(data.products);
+      const topRatedQueryParams = {
+        page: 1,
+        perPage: 5,
+        sort: "ratings",
+      };
+
+      const latestQueryParams = {
+        page: 1,
+        perPage: 5,
+        sort: "createdAt",
+      };
+      const { data: topRated } = await api.Product.getProducts(
+        topRatedQueryParams
+      );
+      const { data: latest } = await api.Product.getProducts(latestQueryParams);
+
+      setTopRated(topRated.products);
+      setLatest(latest.products);
+
+      console.log(topRated);
+      console.log(latest);
     } catch (e) {
       console.log(e);
     }
   };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <div
@@ -72,9 +97,9 @@ function Home() {
         </div>
       </div>
       <p className="ms-5">Top rated</p>
-      <List products={products} />
+      <List products={topRated} />
       <p className="ms-5">Latest</p>
-      <List products={products} />
+      <List products={latest} />
     </div>
   );
 }
