@@ -44,6 +44,10 @@ function Home() {
   return (
     <div
       style={{
+        display: "flex",
+        flexDirection: "column",
+        flex: 1,
+        overflowY: "hidden",
         backgroundColor: "#f5f5f5",
       }}
     >
@@ -72,25 +76,34 @@ function Home() {
           </button>
         </div>
       </div>
-      <div className="mt-2 mb-2 w-100">
-        <p className="ms-5">
-          Book Depository: Free delivery worldwide on over 20 million books
-        </p>
-        <div className="d-flex justify-content-center">
-          <video height="180" loop muted autoPlay controls="">
-            <source src={CaptainVideo} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-          <video height="180" loop muted autoPlay controls="">
-            <source src={StanLeeVideo} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          flex: 1,
+          overflowY: "scroll",
+        }}
+      >
+        <div className="mt-2 mb-2 w-100">
+          <p className="ms-5">
+            Book Depository: Free delivery worldwide on over 20 million books
+          </p>
+          <div className="d-flex justify-content-center">
+            <video height="180" loop muted autoPlay controls="">
+              <source src={CaptainVideo} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            <video height="180" loop muted autoPlay controls="">
+              <source src={StanLeeVideo} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
         </div>
+        <p className="ms-5">Top rated</p>
+        <List products={topRated} />
+        <p className="ms-5">Latest</p>
+        <List products={latest} />
       </div>
-      <p className="ms-5">Top rated</p>
-      <List products={topRated} />
-      <p className="ms-5">Latest</p>
-      <List products={latest} />
     </div>
   );
 }

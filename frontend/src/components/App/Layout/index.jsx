@@ -20,7 +20,7 @@ const Layout = ({ children }) => {
           display: "flex",
           flex: 1,
           flexDirection: "column",
-          overflow: "scroll",
+          overflowY: "hidden",
           /*           border: "2px solid green",
            */
         }}

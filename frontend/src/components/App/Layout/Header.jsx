@@ -140,7 +140,7 @@ function Header() {
                     }}
                   >
                     <i className="bi bi-person-circle me-1"></i>
-                    Profile
+                    {user.name}
                   </a>
                 </li>
                 <li className="nav-item">

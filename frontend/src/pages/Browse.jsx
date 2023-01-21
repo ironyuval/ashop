@@ -16,12 +16,15 @@ function Browse() {
   const searchRef = useRef();
 
   useEffect(() => {
-    api.Product.getProducts(`perPage=15`);
+    getProducts({
+      page: 1,
+      perPage: 15,
+    });
   }, []);
 
-  const getProducts = async (queryString) => {
+  const getProducts = async (params) => {
     try {
-      const { data } = await api.Product.getProducts(queryString);
+      const { data } = await api.Product.getProducts(params);
       setProducts(data.products);
     } catch (e) {
       console.log(e);
@@ -183,7 +186,7 @@ function Browse() {
           </button>
         </div>
       </div>
-      <div className="m-auto">
+      <div style={{ overflowY: "scroll" }} className="m-auto">
         <List products={products} />
       </div>
     </div>
