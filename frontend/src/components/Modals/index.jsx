@@ -7,7 +7,7 @@ import { ToastContainer } from "react-toastify";
 import { useSelector } from "react-redux";
 
 const Modals = () => {
-  const user = useSelector((state) => state.app.user);
+  const user = useSelector((state) => state.core.user);
 
   return (
     <>

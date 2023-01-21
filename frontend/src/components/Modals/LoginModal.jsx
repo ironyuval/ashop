@@ -6,9 +6,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
 const LoginModal = () => {
-  const isShown = useSelector((state) => state.app.isLoginModalShown);
+  const isShown = useSelector((state) => state.modals.isLoginModalShown);
 
-  const user = useSelector((state) => state.app.user);
+  const user = useSelector((state) => state.core.user);
 
   const [email, setEmail] = useState("ironyuval65@gmail.com");
 

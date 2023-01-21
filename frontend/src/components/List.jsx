@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 const MAX_LETTERS = 28;
 
 function List({ products }) {
-  const user = useSelector((state) => state.app.user);
+  const user = useSelector((state) => state.core.user);
 
   const favorites = user && user.favorites;
 

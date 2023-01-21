@@ -32,7 +32,7 @@ const HeaderItems = {
 };
 
 function Header() {
-  const user = useSelector((state) => state.app.user);
+  const user = useSelector((state) => state.core.user);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();

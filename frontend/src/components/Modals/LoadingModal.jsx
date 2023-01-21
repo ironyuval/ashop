@@ -1,9 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import Modal from "react-bootstrap/Modal";
 
 export const LoadingModal = () => {
-  const isLoading = useSelector((state) => state.app.isLoading);
+  const isLoading = useSelector((state) => state.core.isLoading);
 
   if (!isLoading) return null;
   return (

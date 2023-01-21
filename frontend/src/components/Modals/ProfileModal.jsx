@@ -7,9 +7,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRef } from "react";
 
 const ProfileModal = () => {
-  const isShown = useSelector((state) => state.app.isProfileModalShown);
+  const isShown = useSelector((state) => state.modals.isProfileModalShown);
 
-  const user = useSelector((state) => state.app.user);
+  const user = useSelector((state) => state.core.user);
 
   const dispatch = useDispatch();
 

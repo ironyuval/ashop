@@ -6,8 +6,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
 const LogoutModal = () => {
-  const isShown = useSelector((state) => state.app.isLogoutModalShown);
-  const user = useSelector((state) => state.app.user);
+  const isShown = useSelector((state) => state.modals.isLogoutModalShown);
+  const user = useSelector((state) => state.core.user);
 
   const dispatch = useDispatch();
 
