@@ -1,8 +1,11 @@
-import { appSlice } from "./slice";
-import { configureStore } from "@reduxjs/toolkit";
+import { coreSlice, modalsSlice } from "./slice";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+
+const reducer = combineReducers({
+  core: coreSlice.reducer,
+  modals: modalsSlice.reducer,
+});
 
 export const store = configureStore({
-  reducer: {
-    app: appSlice.reducer,
-  },
+  reducer,
 });

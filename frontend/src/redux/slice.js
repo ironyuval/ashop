@@ -1,9 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
 
-export const initialState = {};
+const initialState = {
+  user: null,
+  isLoading: null,
+  isAppInited: null,
+};
 
-export const appSlice = createSlice({
-  name: "app",
+export const coreSlice = createSlice({
+  name: "core",
   initialState,
   reducers: {
     setUser: (state, action) => {
@@ -12,15 +16,6 @@ export const appSlice = createSlice({
     removeUser: (state) => {
       localStorage.removeItem("token");
       delete state.user;
-    },
-    setIsLogoutModalShown: (state, action) => {
-      state.isLogoutModalShown = action.payload;
-    },
-    setIsLoginModalShown: (state, action) => {
-      state.isLoginModalShown = action.payload;
-    },
-    setIsProfileModalShown: (state, action) => {
-      state.isProfileModalShown = action.payload;
     },
     setIsLoading: (state, action) => {
       state.isLoading = action.payload;
@@ -36,18 +31,37 @@ export const appSlice = createSlice({
 
       state.user.favorites = newFavorites;
     },
+    setIsAppInited: (state) => (state.isAppInited = true),
+  },
+});
+
+export const modalsSlice = createSlice({
+  name: "modals",
+  initialState: {},
+  reducers: {
+    setIsLogoutModalShown: (state, action) => {
+      state.isLogoutModalShown = action.payload;
+    },
+    setIsLoginModalShown: (state, action) => {
+      state.isLoginModalShown = action.payload;
+    },
+    setIsProfileModalShown: (state, action) => {
+      state.isProfileModalShown = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
+export const { setUser, removeUser, setIsLoading, toggleFavorite } =
+  coreSlice.actions;
+
 export const {
-  setUser,
-  removeUser,
   setIsLogoutModalShown,
-  setIsLoading,
-  toggleFavorite,
   setIsProfileModalShown,
   setIsLoginModalShown,
-} = appSlice.actions;
+} = modalsSlice.actions;
 
-export default appSlice.reducer;
+// Exported selectors for each reducer
+
+export const coreContext = createSelector((state) => state.core);
+export const modalsContext = createSelector((state) => state.modals);
