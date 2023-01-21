@@ -32,9 +32,6 @@ function Home() {
 
       setTopRated(topRated.products);
       setLatest(latest.products);
-
-      console.log(topRated);
-      console.log(latest);
     } catch (e) {
       console.log(e);
     }
@@ -47,13 +44,7 @@ function Home() {
   return (
     <div
       style={{
-        display: "flex",
-        flexDirection: "column",
-        flex: 1,
-        width: "100%",
-        height: "100%",
         backgroundColor: "#f5f5f5",
-        overflow: "scroll",
       }}
     >
       <div className="d-flex flex-column flex-md-row align-items-center flex-wrap container-fluid bg  .bg-gradient .bg-gradient">

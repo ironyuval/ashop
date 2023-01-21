@@ -48,7 +48,7 @@ function List({ products }) {
         products.map((product, idx) => (
           <div
             key={product._id}
-            className="card col-4 ms-5 mt-5"
+            className={`card col-4 ${idx && `ms-5`} mt-5`}
             style={{
               width: "180px",
             }}
