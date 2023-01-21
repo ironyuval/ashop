@@ -3,6 +3,7 @@ import api from "../api";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
+import { useLocation } from "react-router-dom";
 
 function Browse() {
   const [products, setProducts] = useState([]);
@@ -15,11 +16,19 @@ function Browse() {
 
   const searchRef = useRef();
 
+  const state = useLocation().state;
+  const search = (state && state.search) || "";
+
   useEffect(() => {
     getProducts({
       page: 1,
       perPage: 15,
+      keyword: search,
     });
+
+    if (search) {
+      searchRef.current.value = search;
+    }
   }, []);
 
   const getProducts = async (params) => {
@@ -72,7 +81,8 @@ function Browse() {
     getProducts(`perPage=15`);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     getProducts(buildQueryString());
   };
 
@@ -168,11 +178,11 @@ function Browse() {
         </div>
 
         <div className="d-flex ms-md-auto me-md-5 align-items-center space-between mb-md-4 mb-3 mt-4">
-          <form role="search">
+          <form onSubmit={(e) => e.preventDefault()}>
             <input
               ref={searchRef}
-              className="form-control me-2"
               type="search"
+              className="form-control me-2"
               placeholder="Search"
               aria-label="Search"
             />

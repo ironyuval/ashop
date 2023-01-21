@@ -31,16 +31,20 @@ class Features {
 
   sort() {
     const { sort } = this.queryStr;
-    this.query.sort({ [sort]: -1 });
+    if (sort) {
+      this.query.sort({ [sort]: -1 });
+    }
+
     return this;
   }
 
   pagination() {
-    const currentPage = Number(this.queryStr.page) || 1;
-    const resultPerPage = this.queryStr.perPage > MAX_PER_PAGE ? MAX_PER_PAGE
-      : this.queryStr.perPage;
+    const currentPage = this.queryStr.page ? Number(this.queryStr.page) : 1;
+    const resultPerPage = this.queryStr.perPage && Number(this.queryStr.perPage) < MAX_PER_PAGE
+      ? Number(this.queryStr.perPage)
+      : MAX_PER_PAGE;
     const skip = resultPerPage * (currentPage - 1);
-
+    console.log(resultPerPage);
     this.query = this.query.limit(resultPerPage).skip(skip);
 
     return this;

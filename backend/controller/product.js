@@ -16,6 +16,7 @@ export const getAllProducts = async (req, res) => {
     .sort()
     .pagination();
   const products = await feature.query;
+
   res.status(200).json({
     success: true,
     products,

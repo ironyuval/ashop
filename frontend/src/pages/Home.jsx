@@ -7,10 +7,15 @@ import StanLeeVideo from "../assets/stanlee.mp4";
 import api from "../api";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const [topRated, setTopRated] = useState([]);
   const [latest, setLatest] = useState([]);
+  const navigate = useNavigate();
+
+  const searchRef = useRef();
 
   const getData = async () => {
     try {
@@ -34,6 +39,13 @@ function Home() {
       setLatest(latest.products);
     } catch (e) {
       console.log(e);
+    }
+  };
+
+  const handleSearch = () => {
+    const value = searchRef.current.value;
+    if (value) {
+      navigate("/browse", { state: { search: value } });
     }
   };
 
@@ -63,15 +75,20 @@ function Home() {
           }}
         ></div>
         <div className="d-flex ms-md-auto me-md-5 align-items-center space-between mb-md-0 mb-3 ">
-          <form role="search">
+          <form onSubmit={(e) => e.preventDefault()}>
             <input
+              ref={searchRef}
               className="form-control me-2"
               type="search"
               placeholder="Search"
               aria-label="Search"
             />
           </form>
-          <button className="btn btn-outline-success ms-2" type="submit">
+          <button
+            onClick={handleSearch}
+            className="btn btn-outline-success ms-2"
+            type="submit"
+          >
             Search
           </button>
         </div>
