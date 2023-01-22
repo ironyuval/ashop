@@ -5,21 +5,23 @@ import app from './app';
 import User from './models/User';
 import { Permissions } from '../frontend/src/server-shared/types';
 
-export const isDevelopment = process.env.NODE_ENV !== 'production';
+const isDevelopment = process.env.NODE_ENV !== 'production';
 
-dotenv.config(isDevelopment ? {
-  path: './env',
-} : undefined);
+if (isDevelopment) {
+  dotenv.config({
+    path: './env',
+  });
+}
 
-const createDefaultAdmin = async () => {
+const createMasterUser = async () => {
   const hashedPassword = await bcrypt
-    .hash('123456', 10);
+    .hash(process.env.DEFAULT_MASTER_PASSWORD, 10);
 
   const admin = {
-    name: 'Yuval',
-    email: 'ironyuval65@gmail.com',
+    name: 'Master',
+    email: process.env.DEFAULT_MASTER_EMAIL,
     password: hashedPassword,
-    permission: Permissions.Admin,
+    permission: Permissions.Master,
   };
 
   const options = { upsert: true, new: true, setDefaultsOnInsert: true };
@@ -27,18 +29,25 @@ const createDefaultAdmin = async () => {
   await User.findOneAndUpdate({ email: admin.email }, admin, options);
 };
 
-export const connect = () => {
-  mongoose.connect(process.env.DB_CLOUD, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }).then((data) => {
-    createDefaultAdmin();
+const asyncListen = () => new Promise((resolve, reject) => {
+  app.listen(process.env.PORT, (err) => { if (err) reject(); resolve(); });
+});
 
-    app.listen(process.env.PORT, () => {
-      console.log(`server is working on http://localhost:${process.env.PORT}`);
-    });
-    console.log(`mongodb is connected with server: ${data.connection.host}`);
-  }).catch((error) => console.log(error));
+const connect = async () => mongoose.connect(process.env.DB_CLOUD, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+const init = async () => {
+  try {
+    const connectionData = await connect();
+    console.log(`mongodb is connected with: ${connectionData.connection.host}`);
+    createMasterUser();
+    await asyncListen();
+    console.info(`server rest api address: http://localhost:${process.env.PORT}`);
+  } catch (e) {
+    console.error('server initialization failed, make sure DB_CLOUD and PORT environment vars exist');
+  }
 };
 
-connect();
+init();

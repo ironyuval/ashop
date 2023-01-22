@@ -3,11 +3,6 @@ import { Permissions } from '../../frontend/src/server-shared/types';
 
 const UserSchema = new mongoose.Schema({
 
-  username: {
-    type: String,
-    required: [true, 'Please provide a username!'],
-  },
-
   name: {
     type: String,
     required: [true, 'Please provide a name!'],
@@ -26,7 +21,8 @@ const UserSchema = new mongoose.Schema({
 
   permission: {
     type: String,
-    default: Permissions.User,
+    enum: Object.values(Permissions),
+    default: Permissions.Registered,
     required: [true, 'Please provide a permission!'],
   },
 
@@ -35,6 +31,7 @@ const UserSchema = new mongoose.Schema({
   },
 
   wishlist: [{ type: Types.ObjectId, ref: 'Product' }],
+
   cart: [{ type: Types.ObjectId, ref: 'Product' }],
 });
 

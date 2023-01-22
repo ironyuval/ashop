@@ -1,0 +1,15 @@
+[
+  '{{repeat(100)}}',
+  {
+    title: '{{firstName()}} {{surname()}} {{company().toUpperCase()}} {{company().toUpperCase()}} {{company().toUpperCase()}}',
+    description: '{{lorem(1, "paragraphs")}}',
+    price: '{{integer(0,100)}}',
+    rating: '{{integer(0,5)}}',
+    images: [{url:"https://picsum.photos/id/{{integer(0,600)}}/200/300"}],
+    genre: function (tags) {
+      var fruits = ['action', 'horror', 'comedy','sports','scifi'];
+      return fruits[tags.integer(0, fruits.length - 1)];
+    }
+  }
+]
+https://json-generator.com/

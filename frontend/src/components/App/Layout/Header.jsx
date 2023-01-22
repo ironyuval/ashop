@@ -25,7 +25,7 @@ const HeaderItems = {
       path: "/wishlist",
       title: "Wishlist",
       icon: "bi bi-heart",
-      permission: [Permissions.User],
+      permission: [Permissions.Registered],
     },
   ],
   End: [],

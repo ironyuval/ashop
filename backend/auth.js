@@ -17,7 +17,7 @@ const handlePermissions = (permissions = []) => async (req, res, next) => {
       const userFound = await User.findById(userId);
       // admin excluded
       if (!userFound
-        || (userFound.permission !== Permissions.Admin
+        || (userFound.permission !== Permissions.Master
          && !permissions.includes(userFound.permission))) {
         throw (Error('Unauthorized user type!'));
       }

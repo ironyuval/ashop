@@ -1,12 +1,13 @@
-export const Category = {
-  Action: 1,
-  Horror: 2,
-  Comedy: 3,
-  Sports: 4,
-  SciFi: 5,
+export const Genres = {
+  Action: "action",
+  Horror: "horror",
+  Comedy: "comedy",
+  Sports: "sports",
+  SciFi: "scifi",
 };
 
 export const Permissions = {
-  User: "user",
+  Registered: "registered",
   Admin: "admin",
+  Master: "master",
 };

@@ -7,10 +7,10 @@ import { Permissions } from '../../frontend/src/server-shared/types';
 
 const router = Router();
 
-router.route('/data').get(handlePermissions([Permissions.User]), getUserData);
+router.route('/data').get(handlePermissions([Permissions.Registered]), getUserData);
 router.route('/').get(handlePermissions([Permissions.Admin]), getAllUsers);
-router.route('/').put(handlePermissions([Permissions.User]), updateUser);
-router.route('/favorite/:id').post(handlePermissions([Permissions.User]), toggleFavorite);
+router.route('/').put(handlePermissions([Permissions.Registered]), updateUser);
+router.route('/favorite/:id').post(handlePermissions([Permissions.Registered]), toggleFavorite);
 
 // forgot password
 // reset password -> update password

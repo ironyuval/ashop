@@ -49,6 +49,11 @@ class Features {
 
     return this;
   }
+
+  populate(args) {
+    this.query.populate(args);
+    return this;
+  }
 }
 
 export default Features;

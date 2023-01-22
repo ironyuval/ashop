@@ -22,7 +22,7 @@ function Home() {
       const topRatedQueryParams = {
         page: 1,
         perPage: 6,
-        sort: "ratings",
+        sort: "rating",
       };
 
       const latestQueryParams = {

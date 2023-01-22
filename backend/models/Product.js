@@ -1,17 +1,18 @@
 import { Schema, model } from 'mongoose';
+import { Genres } from '../../frontend/src/server-shared/types';
 
 const productSchema = new Schema({
-  name: {
+  title: {
     type: String,
     required: [true, 'Please enter a title of a product'],
     trim: true,
-    maxLength: [20, 'Product title not exceed than 20 characters'],
-  },
+    /*     maxLength: [40, 'Product title not exceed than 20 characters'],
+ */ },
   description: {
     type: String,
     required: [true, 'Please add a description of your product'],
     trim: true,
-    maxlength: [100, 'Description exceeded characters'],
+    /*    maxLength: [256, 'Description exceeded characters'], */
   },
   price: {
     type: Number,
@@ -19,7 +20,7 @@ const productSchema = new Schema({
     min: 0,
     max: 100,
   },
-  ratings: {
+  rating: {
     type: Number,
     default: 0,
     min: 0,
@@ -33,15 +34,16 @@ const productSchema = new Schema({
       },
     },
   ],
-  category: {
+  genre: {
     type: String,
-    required: [true, 'Please add a category of your product'],
+    enum: Object.values(Genres),
+    required: [true, 'Please add a genre'],
   },
   createdBy: {
     type: Schema.ObjectId,
     ref: 'User',
   },
-  createAt: {
+  createdAt: {
     type: Date,
     default: Date.now(),
   },
