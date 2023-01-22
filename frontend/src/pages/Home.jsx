@@ -21,13 +21,13 @@ function Home() {
     try {
       const topRatedQueryParams = {
         page: 1,
-        perPage: 5,
+        perPage: 6,
         sort: "ratings",
       };
 
       const latestQueryParams = {
         page: 1,
-        perPage: 5,
+        perPage: 6,
         sort: "createdAt",
       };
       const { data: topRated } = await api.Product.getProducts(

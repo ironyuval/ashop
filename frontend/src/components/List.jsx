@@ -37,86 +37,97 @@ function List({ products }) {
 
   return (
     <div
-      style={{
-        border: "1px solid purple",
-        display: "flex",
-        justifyContent: "center",
-        flexWrap: "wrap",
-      }}
+      className="container-fluid d-flex justify-content-center"
+      style={
+        {
+          /*         border: "1px solid purple",
+           */
+        }
+      }
     >
-      {products.length ? (
-        products.map((product, idx) => (
-          <div
-            key={product._id}
-            className={`card col-4 ${idx && `ms-5`} mt-5`}
-            style={{
-              width: "180px",
-            }}
-          >
-            <div className="m-auto">
-              <h5>
-                {product.name.substring(0, MAX_LETTERS).trim()}
-                {product.name.length > MAX_LETTERS ? "..." : null}
-              </h5>
-            </div>
+      <div
+        className="row"
+        style={
+          {
+            /*           border: "2px solid green",
+             */
+          }
+        }
+      >
+        {products.length ? (
+          products.map((product) => (
+            <div key={product._id} className="col-sm-6 col-md-4  col-xl-2 mt-4">
+              <div
+                key={product._id}
+                style={{ width: "180px" }}
+                className="card m-auto"
+              >
+                <div className="m-auto">
+                  <h5>
+                    {product.name.substring(0, MAX_LETTERS).trim()}
+                    {product.name.length > MAX_LETTERS ? "..." : null}
+                  </h5>
+                </div>
 
-            <div
-              style={{
-                backgroundImage: `url(${product.images[0].url})`,
-                backgroundRepeat: "no-repeat",
-                height: "200px",
-                backgroundSize: "100%",
-              }}
-              src={product.images[0].url}
-              className="card-img-top"
-              alt="..."
-            />
-            <div>
-              <span>Price: {product.price}</span>
-            </div>
-            <div>
-              <span>Category: {product.category}</span>
-            </div>
-            <div>
-              <span>Rating: {product.ratings}</span>
-            </div>
-            <div>
-              <span>
-                {`Created at: ${new Date(product.createAt).toLocaleDateString(
-                  "he-IL"
-                )}`}
-              </span>
-            </div>
-            <div>
-              <div
-                onClick={() => {
-                  if (user) toggleFavorite(product._id);
-                }}
-                disabled={!user}
-              >
-                <i
+                <div
                   style={{
-                    fontSize: 20,
-                    color: "yellow",
+                    backgroundImage: `url(${product.images[0].url})`,
+                    backgroundRepeat: "no-repeat",
+                    height: "200px",
+                    backgroundSize: "100% auto",
                   }}
-                  className={`bi bi-star${
-                    isProductFavorite(product._id) ? "-fill" : ""
-                  }`}
-                ></i>
-                Add to Favorites
-              </div>
-              <div
-                disabled={!user || user.permission !== Permissions.Admin}
-                onClick={() => handleClick(product)}
-              >
-                Edit
+                  src={product.images[0].url}
+                  className="card-img-top"
+                  alt="..."
+                />
+                <div>
+                  <span>Price: {product.price}</span>
+                </div>
+                <div>
+                  <span>Category: {product.category}</span>
+                </div>
+                <div>
+                  <span>Rating: {product.ratings}</span>
+                </div>
+                <div>
+                  <span>
+                    {`Created at: ${new Date(
+                      product.createAt
+                    ).toLocaleDateString("he-IL")}`}
+                  </span>
+                </div>
+                <div>
+                  <div
+                    onClick={() => {
+                      if (user) toggleFavorite(product._id);
+                    }}
+                    disabled={!user}
+                  >
+                    <i
+                      style={{
+                        fontSize: 20,
+                        color: "yellow",
+                      }}
+                      className={`bi bi-star${
+                        isProductFavorite(product._id) ? "-fill" : ""
+                      }`}
+                    ></i>
+                    Add to Favorites
+                  </div>
+                  <div
+                    disabled={!user || user.permission !== Permissions.Admin}
+                    onClick={() => handleClick(product)}
+                  >
+                    Edit
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        ))
-      ) : (
-        <div>No Results</div>
-      )}
+          ))
+        ) : (
+          <div>No Results</div>
+        )}
+      </div>
     </div>
   );
 }
