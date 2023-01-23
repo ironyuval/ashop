@@ -2,8 +2,36 @@ import { FiltersArray, Genres } from "../../server-shared/types";
 import { toCapitilize } from "../../utils/capitalize";
 import React from "react";
 import { useSelector } from "react-redux";
+import { useRef } from "react";
+import { useEffect } from "react";
+import { useState } from "react";
+
+const initialFilters = () => {
+  const filters = {};
+
+  for (let filter of FiltersArray) {
+    if (filter.type === "range") {
+      filters[filter.name] = {
+        min: filter.min,
+        max: filter.max,
+      };
+    }
+    if (filter.type === "select") {
+      filters[filter.name] = {
+        value: "",
+      };
+    }
+  }
+
+  return filters;
+};
 
 const FiltersModal = () => {
+  const [filters, setFilters] = useState(initialFilters());
+
+  if (!filters) return;
+
+  console.log(filters);
   return (
     <div className="modal fade" id="filtersModal" tabIndex="-1" role="dialog">
       <div className="modal-dialog" role="document">
@@ -26,8 +54,12 @@ const FiltersModal = () => {
             {FiltersArray.map((filter, idx) => {
               switch (filter.type) {
                 case "range": {
+                  console.log(filters[filter.name]);
                   return (
-                    <div className={`input-group ${idx === 0 ? "" : "mt-3"} `}>
+                    <div
+                      key={idx}
+                      className={`input-group ${idx === 0 ? "" : "mt-3"} `}
+                    >
                       <span
                         style={{ width: "75px" }}
                         className="input-group-text fw-bold"
@@ -37,15 +69,21 @@ const FiltersModal = () => {
 
                       <span className="input-group-text">From</span>
                       <input
-                        type="text"
-                        min={filter.min}
-                        max={filter.max}
+                        type="number"
+                        value={filters[filter.name].min}
+                        onChange={(e) => {
+                          setFilters({
+                            ...filters,
+                            [filter.name]: e.currentTarget.value,
+                          });
+                        }}
                         aria-label="First name"
                         className="form-control"
                       />
                       <span className="input-group-text">To</span>
                       <input
-                        type="text"
+                        type="number"
+                        value={filters[filter.name].max}
                         aria-label="Last name"
                         className="form-control"
                       />
@@ -54,7 +92,10 @@ const FiltersModal = () => {
                 }
                 case "select": {
                   return (
-                    <div className={`input-group ${idx === 0 ? "" : "mt-3"} `}>
+                    <div
+                      key={idx}
+                      className={`input-group ${idx === 0 ? "" : "mt-3"} `}
+                    >
                       <span
                         style={{ width: "75px" }}
                         className="input-group-text fw-bold"
@@ -66,7 +107,7 @@ const FiltersModal = () => {
                         className="form-select"
                         aria-label="Default select example"
                       >
-                        <option selected>All</option>
+                        <option>All</option>
                         {filter.data.map((genre, idx) => (
                           <option key={idx} value={genre}>
                             {genre}
@@ -76,6 +117,8 @@ const FiltersModal = () => {
                     </div>
                   );
                 }
+                default:
+                  return null;
               }
             })}
           </div>

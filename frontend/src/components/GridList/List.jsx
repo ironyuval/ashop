@@ -31,8 +31,6 @@ function List({ products }) {
     }
   };
 
-  console.log(products);
-
   return (
     <div className="container-fluid list-container">
       <div className="row">
