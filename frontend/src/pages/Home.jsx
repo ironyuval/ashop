@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unknown-property */
-import List from "../components/List";
-import SearchBar from "../components/SearchBar";
+import List from "../components/GridList/List";
 import Logo from "../assets/logo.png";
 import CaptainVideo from "../assets/captain.mp4";
 import StanLeeVideo from "../assets/stanlee.mp4";
@@ -86,7 +85,7 @@ function Home() {
           </form>
           <button
             onClick={handleSearch}
-            className="btn btn-outline-success ms-2"
+            className="btn btn-success ms-3 fw-bold"
             type="submit"
           >
             Search
@@ -99,6 +98,7 @@ function Home() {
           flexDirection: "column",
           flex: 1,
           overflowY: "scroll",
+          overflowX: "hidden",
         }}
       >
         <div className="mt-2 mb-2 w-100">

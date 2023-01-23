@@ -1,5 +1,6 @@
-import { FiveStars } from "./FiveStars";
-import { toCapitilize } from "../utils/capitalize";
+import { FiveStars } from "./../FiveStars";
+import Diagonal from "./Diagonal";
+import { toCapitilize } from "../../utils/capitalize";
 
 const MAX_LETTERS = 28;
 
@@ -28,15 +29,20 @@ const ListItem = ({
 
       <div
         style={{
+          backgroundColor: "black",
           backgroundImage: `url(${product.images[0].url})`,
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
-          height: "300px",
-          backgroundSize: "cover",
+          height: "250px",
+          backgroundSize: "100%",
+          position: "relative",
+          overflow: "hidden",
         }}
         src={product.images[0].url}
-        alt="..."
-      />
+        alt="image"
+      >
+        <Diagonal text={"test"} />
+      </div>
 
       <div className="btn-group" role="group" aria-label="Basic example">
         <button type="button" className="btn btn-secondary">

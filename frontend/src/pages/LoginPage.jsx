@@ -1,16 +1,14 @@
 import loginSchema from "../validation/login.validation";
-import { setUser } from "../redux/slice";
 import api from "../api";
 import { onTokenReceived } from "../components/App/logic";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("galbenyosef@gmail.com");
-  const [password, setPassword] = useState("12345678AAaa-");
+  const [email, setEmail] = useState("ironyuval65@gmail.com");
+  const [password, setPassword] = useState("123456");
   const [showPasswordErrorMsg, setShowPasswordErrorMsg] = useState(false);
 
   const dispatch = useDispatch();

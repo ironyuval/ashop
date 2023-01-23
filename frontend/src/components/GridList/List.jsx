@@ -1,9 +1,9 @@
 import ListItem from "./ListItem";
-import { toggleFavorite as toggleFavoriteProduct } from "../redux/slice";
-import api from "../api";
+import { toggleFavorite as toggleFavoriteProduct } from "../../redux/slice";
+import api from "../../api";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import PropTypes from "prop-types";
+import "./List.css";
 
 function List({ products }) {
   const user = useSelector((state) => state.core.user);
@@ -34,11 +34,11 @@ function List({ products }) {
   console.log(products);
 
   return (
-    <div className="container-fluid d-flex justify-content-center">
-      <div className="row w-xl-75">
+    <div className="container-fluid list-container">
+      <div className="row">
         {products.length ? (
           products.map((product) => (
-            <div key={product._id} className="col-sm-6 col-md-4  col-xl-2 mt-4">
+            <div key={product._id} className="col-sm-6 col-md-4 col-xxl-2 my-4">
               <ListItem
                 item={product}
                 isFavorite={isProductFavorite(product._id)}

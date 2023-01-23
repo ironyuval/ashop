@@ -48,6 +48,9 @@ export const modalsSlice = createSlice({
     setIsProfileModalShown: (state, action) => {
       state.isProfileModalShown = action.payload;
     },
+    setIsFiltersModalShown: (state, action) => {
+      state.isFiltersModalShown = action.payload;
+    },
   },
 });
 
@@ -59,6 +62,7 @@ export const {
   setIsLogoutModalShown,
   setIsProfileModalShown,
   setIsLoginModalShown,
+  setIsFiltersModalShown,
 } = modalsSlice.actions;
 
 // Exported selectors for each reducer
