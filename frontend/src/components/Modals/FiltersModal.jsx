@@ -1,13 +1,10 @@
+import { FiltersArray, Genres } from "../../server-shared/types";
+import { toCapitilize } from "../../utils/capitalize";
 import React from "react";
 import { useSelector } from "react-redux";
 
 const FiltersModal = () => {
-  const isShown = useSelector((state) => state.modals.isFiltersModalShown);
-
-  console.log(isShown);
-
-  /*   if (!isShown) return null;
-   */ return (
+  return (
     <div className="modal fade" id="filtersModal" tabIndex="-1" role="dialog">
       <div className="modal-dialog" role="document">
         <div className="modal-content">
@@ -24,49 +21,63 @@ const FiltersModal = () => {
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
+
           <div className="modal-body">
-            <div className="input-group">
-              <span className="input-group-text fw-bold">Price</span>
+            {FiltersArray.map((filter, idx) => {
+              switch (filter.type) {
+                case "range": {
+                  return (
+                    <div className={`input-group ${idx === 0 ? "" : "mt-3"} `}>
+                      <span
+                        style={{ width: "75px" }}
+                        className="input-group-text fw-bold"
+                      >
+                        {toCapitilize(filter.name)}
+                      </span>
 
-              <span className="input-group-text">From</span>
-              <input
-                type="text"
-                aria-label="First name"
-                className="form-control"
-              />
-              <span className="input-group-text">To</span>
-              <input
-                type="text"
-                aria-label="Last name"
-                className="form-control"
-              />
-            </div>
-            <div className="input-group mt-3">
-              <span className="input-group-text fw-bold">Rating</span>
+                      <span className="input-group-text">From</span>
+                      <input
+                        type="text"
+                        min={filter.min}
+                        max={filter.max}
+                        aria-label="First name"
+                        className="form-control"
+                      />
+                      <span className="input-group-text">To</span>
+                      <input
+                        type="text"
+                        aria-label="Last name"
+                        className="form-control"
+                      />
+                    </div>
+                  );
+                }
+                case "select": {
+                  return (
+                    <div className={`input-group ${idx === 0 ? "" : "mt-3"} `}>
+                      <span
+                        style={{ width: "75px" }}
+                        className="input-group-text fw-bold"
+                      >
+                        {toCapitilize(filter.name)}
+                      </span>
 
-              <span className="input-group-text">From</span>
-              <input
-                type="text"
-                aria-label="First name"
-                className="form-control"
-              />
-              <span className="input-group-text">To</span>
-              <input
-                type="text"
-                aria-label="Last name"
-                className="form-control"
-              />
-            </div>
-          </div>
-          <div className="input-group px-3">
-            <span className="input-group-text fw-bold">Genre</span>
-
-            <select className="form-select" aria-label="Default select example">
-              <option selected>Open thisu</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
+                      <select
+                        className="form-select"
+                        aria-label="Default select example"
+                      >
+                        <option selected>All</option>
+                        {filter.data.map((genre, idx) => (
+                          <option key={idx} value={genre}>
+                            {genre}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  );
+                }
+              }
+            })}
           </div>
           <div className="modal-footer">
             <button

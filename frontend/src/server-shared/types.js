@@ -11,3 +11,23 @@ export const Permissions = {
   Admin: "admin",
   Master: "master",
 };
+
+export const FiltersArray = [
+  {
+    name: "price",
+    type: "range",
+    min: 0,
+    max: 100,
+  },
+  {
+    name: "rating",
+    type: "range",
+    min: 0,
+    max: 5,
+  },
+  {
+    name: "genre",
+    type: "select",
+    data: Object.keys(Genres),
+  },
+];

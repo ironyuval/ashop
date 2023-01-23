@@ -53,10 +53,6 @@ function Browse() {
     getProducts(`perPage=15`);
   };
 
-  const handleClickFilters = () => {
-    dispatch(setIsFiltersModalShown(true));
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     getProducts(buildQueryString());
