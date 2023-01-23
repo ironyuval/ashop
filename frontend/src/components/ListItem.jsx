@@ -1,5 +1,7 @@
+import { FiveStars } from "./FiveStars";
+import { toCapitilize } from "../utils/capitalize";
+
 const MAX_LETTERS = 28;
-import PropTypes from "prop-types";
 
 const ListItem = ({
   item: product,
@@ -9,29 +11,33 @@ const ListItem = ({
   userPermission,
 }) => {
   return (
-    <div
-      key={product._id}
-      style={{ minWidth: "200px" }}
-      className="card m-auto"
-    >
-      <div className="m-auto">
-        <h5>
+    <div key={product._id} className="card m-auto text-center">
+      <div style={{ height: "50px" }} className="d-flex">
+        <div className="m-auto">
           {product.title.substring(0, MAX_LETTERS).trim()}
           {product.title.length > MAX_LETTERS ? "..." : null}
-        </h5>
+        </div>
+      </div>
+
+      <div className="row">
+        <div className="col">{toCapitilize(product.genre)}</div>
+        <div className="col">
+          <FiveStars size={12} rating={product.rating} />
+        </div>
       </div>
 
       <div
         style={{
           backgroundImage: `url(${product.images[0].url})`,
           backgroundRepeat: "no-repeat",
-          height: "200px",
-          backgroundSize: "100% auto",
+          backgroundPosition: "center",
+          height: "300px",
+          backgroundSize: "cover",
         }}
         src={product.images[0].url}
-        className="card-img-top"
         alt="..."
       />
+
       <div className="btn-group" role="group" aria-label="Basic example">
         <button type="button" className="btn btn-secondary">
           <i className="bi bi-pen"></i>
@@ -43,15 +49,16 @@ const ListItem = ({
           <i className="bi bi-heart"></i>
         </button>
       </div>
-      <div>
-        <span>
-          {`Created at: ${new Date(product.createdAt).toLocaleDateString(
-            "he-IL"
-          )}`}
-        </span>
-      </div>
-      <div>
-        <span>{`Created by: ${product.createdBy.name}`}</span>
+      <div className="row">
+        <div className="col text-center">
+          <span>
+            {`${new Date(product.createdAt).toLocaleDateString("he-IL")}`}
+          </span>
+        </div>
+        <div className="col text-center">
+          <i className="bi bi-person-fill" />
+          <span>{`${product.createdBy.name}`}</span>
+        </div>
       </div>
     </div>
   );

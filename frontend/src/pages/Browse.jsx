@@ -53,7 +53,7 @@ function Browse() {
     setCategory(category);
   };
 
-  const renderFiveStars = () => {
+  const renderFiveStars = (rating) => {
     const result = [];
 
     for (let i = 1; i <= 5; i++) {
