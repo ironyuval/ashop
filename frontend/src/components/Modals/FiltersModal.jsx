@@ -3,110 +3,70 @@ import { toCapitilize } from "../../utils/capitalize";
 import React from "react";
 import { useState } from "react";
 
-const initialFilters = () => {
+const initRangeFilters = () => {
   const filters = {};
 
   const filterNames = Object.keys(Filters);
 
   for (let filter of filterNames) {
     if (Filters[filter].type === "range") {
-      filters[filter] = {
-        min: Filters[filter].min,
-        max: Filters[filter].max,
-      };
-    }
-    if (Filters[filter].type === "select") {
-      filters[filter] = {
-        value: "",
-      };
+      filters[filter] = [Filters[filter].min, Filters[filter].max];
     }
   }
 
   return filters;
 };
 
+const MIN_RANGE_IDX = 0;
+const MAX_RANGE_IDX = 1;
+
 const FiltersModal = ({ handleSubmit, handleReset }) => {
-  const [filters, setFilters] = useState(initialFilters());
+  const [filters, setFilters] = useState(initRangeFilters());
   const filterNames = Object.keys(Filters);
 
-  const handleChangeRange = ({ filter, min = null, max = null }) => {
-    let fixedVal;
+  const handleChangeRange =
+    ({ filter, min, max }) =>
+    (e) => {
+      const value = parseInt(e.currentTarget.value);
+      let fixedVal;
 
-    if (min !== null) {
-      if (parseInt(min) <= Filters[filter].min)
-        fixedVal = Filters[filter].min.toString();
-      else if (parseInt(min) >= Filters[filter].max)
-        fixedVal = Filters[filter].max.toString();
-      else if (isNaN(parseInt(min))) {
-        fixedVal = Filters[filter].min.toString();
-      } else {
-        fixedVal = min;
+      if (min) {
+        //restrict fixed min
+        if (value < Filters[filter].min) fixedVal = Filters[filter].min;
+        //restrict fixed max
+        else if (value > Filters[filter].max) fixedVal = Filters[filter].max;
+        //fixed reset value
+        else if (isNaN(value)) {
+          fixedVal = Filters[filter].min;
+          //no fix needed
+        } else {
+          fixedVal = value;
+        }
+      } else if (max) {
+        if (value < Filters[filter].min) fixedVal = Filters[filter].min;
+        else if (value > Filters[filter].max) fixedVal = Filters[filter].max;
+        else if (isNaN(value)) {
+          fixedVal = Filters[filter].min;
+        } else {
+          fixedVal = value;
+        }
       }
-    } else if (max !== null) {
-      console.log("max");
-      if (parseInt(max) <= Filters[filter].min)
-        fixedVal = Filters[filter].min.toString();
-      else if (parseInt(max) >= Filters[filter].max)
-        fixedVal = Filters[filter].max.toString();
-      else if (isNaN(parseInt(max))) {
-        fixedVal = Filters[filter].min.toString();
-      } else {
-        fixedVal = max;
-      }
-    }
 
-    const nextState = {
-      ...filters,
-      [filter]: {
-        ...filters[filter],
-        min: min !== null ? fixedVal : filters[filter].min,
-        max: max !== null ? fixedVal : filters[filter].max,
-      },
+      const newFilters = {
+        ...filters,
+        [filter]: [
+          min ? fixedVal : filters[filter][MIN_RANGE_IDX],
+          max ? fixedVal : filters[filter][MAX_RANGE_IDX],
+        ],
+      };
+
+      setFilters(newFilters);
     };
 
-    console.log(nextState);
-
-    setFilters(nextState);
-  };
-
-  const handleBlurRange = (filter, e) => {
-    if (
-      parseInt(filters[filter.name].min) > parseInt(filters[filter.name].max)
-    ) {
-      setFilters({
-        ...filters,
-        [filter.name]: {
-          ...filters[filter.name],
-          min: filters[filter.name].max,
-        },
-      });
-    } else if (
-      parseInt(filters[filter.name].max) < parseInt(filters[filter.name].min)
-    ) {
-      setFilters({
-        ...filters,
-        [filter.name]: {
-          ...filters[filter.name],
-          max: filters[filter.name].min,
-        },
-      });
-    }
-  };
-
-  const handleChangeRangeMax = (filter, e) => {
+  const handleChangeSelect = (filter) => (e) => {
     setFilters({
       ...filters,
-      [filter.name]: {
-        ...filters[filter.name],
-        max: (() => {
-          //limits
-          if (parseInt(e.currentTarget.value) < filter.min)
-            return filter.min.toString();
-          if (parseInt(e.currentTarget.value) > filter.max)
-            return filter.max.toString();
-          return parseInt(e.currentTarget.value);
-        })(),
-      },
+      [filter]: e.target.value,
     });
   };
 
@@ -121,14 +81,23 @@ const FiltersModal = ({ handleSubmit, handleReset }) => {
             <button
               type="button"
               className="close"
-              data-dismiss="modal"
+              data-bs-dismiss="modal"
               aria-label="Close"
             >
-              <span aria-hidden="true">&times;</span>
+              <span aria-hidden="true">X</span>
             </button>
           </div>
 
           <div className="modal-body">
+            <div className="d-flex mb-3">
+              <input
+                type="search"
+                className="form-control"
+                placeholder="Advanced search"
+                aria-label="Advanced search"
+              />
+            </div>
+
             {filterNames.map((filter, idx) => {
               switch (Filters[filter].type) {
                 case "range": {
@@ -139,33 +108,33 @@ const FiltersModal = ({ handleSubmit, handleReset }) => {
                     >
                       <span
                         style={{ width: "75px" }}
-                        className="input-group-text fw-bold"
+                        className="input-group-text"
                       >
                         {toCapitilize(filter)}
                       </span>
 
-                      <span className="input-group-text">From</span>
+                      <span className="input-group-text">Min</span>
                       <input
                         type="number"
-                        value={parseInt(filters[filter].min).toString()}
-                        onChange={(e) =>
-                          handleChangeRange({
-                            filter,
-                            min: e.currentTarget.value,
-                          })
-                        }
+                        value={parseInt(
+                          filters[filter][MIN_RANGE_IDX]
+                        ).toString()}
+                        onChange={handleChangeRange({
+                          filter,
+                          min: true,
+                        })}
                         aria-label="First name"
                         className="form-control"
                       />
-                      <span className="input-group-text">To</span>
+                      <span className="input-group-text">Max</span>
                       <input
-                        value={parseInt(filters[filter].max).toString()}
-                        onChange={(e) =>
-                          handleChangeRange({
-                            filter,
-                            max: e.currentTarget.value,
-                          })
-                        }
+                        value={parseInt(
+                          filters[filter][MAX_RANGE_IDX]
+                        ).toString()}
+                        onChange={handleChangeRange({
+                          filter,
+                          max: true,
+                        })}
                         type="number"
                         aria-label="Last name"
                         className="form-control"
@@ -181,16 +150,18 @@ const FiltersModal = ({ handleSubmit, handleReset }) => {
                     >
                       <span
                         style={{ width: "75px" }}
-                        className="input-group-text fw-bold"
+                        className="input-group-text"
                       >
                         {toCapitilize(filter)}
                       </span>
 
                       <select
+                        onChange={handleChangeSelect(filter)}
+                        value={filters[filter]}
                         className="form-select"
                         aria-label="Default select example"
                       >
-                        <option>All</option>
+                        <option value={""}>All</option>
                         {Filters[filter].data.map((genre, idx) => (
                           <option key={idx} value={genre}>
                             {genre}
@@ -218,7 +189,7 @@ const FiltersModal = ({ handleSubmit, handleReset }) => {
               type="button"
               className="btn btn-primary"
             >
-              Save changes
+              Advanced search
             </button>
           </div>
         </div>

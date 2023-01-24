@@ -6,10 +6,8 @@ const handlePermissions = (permissions = []) => async (req, res, next) => {
   try {
     const { authorization } = req.headers;
     const token = authorization && authorization.split(' ')[1];
-    console.log(token);
     const decodedToken = jwt.verify(token, process.env.SECRET);
     const { userId } = decodedToken;
-    console.log(userId);
 
     if (!userId) { throw (Error('Missing token')); }
 

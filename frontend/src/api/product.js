@@ -7,7 +7,7 @@ const Endpoints = {
 
 export default {
   getProducts: (params) =>
-    methods.get(Endpoints.all(new URLSearchParams(params).toString())),
+    methods.get(Endpoints.all(new URLSearchParams(params))),
   createProduct: (data) => methods.post(Endpoints.all(), data),
   updateProduct: (productId, data) =>
     methods.put(Endpoints.singleById(productId), data),

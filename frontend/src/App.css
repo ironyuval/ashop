@@ -6,8 +6,22 @@
   color: #162CA2
 }
 
+.color-dark-red {
+  color: #C31D10
+}
+
 .bg {
   background-color: #1849CA;
+}
+
+.bg-red {
+  background-color: #C31D10
+}
+
+body, html {
+  font-family: "AmericanCaptain";
+  font-size: 18px;
+  letter-spacing: 0.5px;
 }
 
 .nav-link {

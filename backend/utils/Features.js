@@ -1,4 +1,5 @@
 const MAX_PER_PAGE = 20;
+const excludedFields = ['keyword', 'page', 'limit', 'perPage', 'sort'];
 
 class Features {
   constructor(query, queryStr) {
@@ -22,9 +23,7 @@ class Features {
 
   filter() {
     const queryCopy = { ...this.queryStr };
-    const removeFields = ['keyword', 'page', 'limit', 'perPage', 'sort'];
-
-    removeFields.forEach((key) => delete queryCopy[key]);
+    excludedFields.forEach((key) => delete queryCopy[key]);
     this.query = this.query.find(queryCopy);
     return this;
   }
@@ -34,7 +33,6 @@ class Features {
     if (sort) {
       this.query.sort({ [sort]: -1 });
     }
-
     return this;
   }
 
@@ -44,9 +42,7 @@ class Features {
       ? Number(this.queryStr.perPage)
       : MAX_PER_PAGE;
     const skip = resultPerPage * (currentPage - 1);
-    console.log(resultPerPage);
     this.query = this.query.limit(resultPerPage).skip(skip);
-
     return this;
   }
 

@@ -2,7 +2,7 @@ import { FiveStars } from "./../FiveStars";
 import Diagonal from "./Diagonal";
 import { toCapitilize } from "../../utils/capitalize";
 
-const MAX_LETTERS = 28;
+const MAX_LETTERS = 35;
 
 const ListItem = ({
   item: product,
@@ -12,12 +12,10 @@ const ListItem = ({
   userPermission,
 }) => {
   return (
-    <div key={product._id} className="card m-auto text-center">
-      <div style={{ height: "50px" }} className="d-flex">
-        <div className="m-auto">
-          {product.title.substring(0, MAX_LETTERS).trim()}
-          {product.title.length > MAX_LETTERS ? "..." : null}
-        </div>
+    <div key={product._id} className="card m-auto text-center h-100">
+      <div className="m-auto">
+        {product.title.substring(0, MAX_LETTERS).trim()}
+        {product.title.length > MAX_LETTERS ? "..." : null}
       </div>
 
       <div className="row">
@@ -44,14 +42,14 @@ const ListItem = ({
         <Diagonal text={"test"} />
       </div>
 
-      <div className="btn-group" role="group" aria-label="Basic example">
-        <button type="button" className="btn btn-secondary">
+      <div className="btn-group">
+        <button type="button" className="btn btn color-dark-blue rounded-0">
           <i className="bi bi-pen"></i>
         </button>
-        <button type="button" className="btn btn-secondary">
+        <button type="button" className="btn btn fs-5">
           <i className="bi bi-cart3"></i> {`${product.price}.00$`}
         </button>
-        <button type="button" className="btn btn-secondary">
+        <button type="button" className="btn btn  color-dark-red rounded-0">
           <i className="bi bi-heart"></i>
         </button>
       </div>
