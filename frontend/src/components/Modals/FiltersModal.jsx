@@ -1,37 +1,106 @@
-import { FiltersArray, Genres } from "../../server-shared/types";
+import { Filters } from "../../server-shared/types";
 import { toCapitilize } from "../../utils/capitalize";
 import React from "react";
-import { useSelector } from "react-redux";
-import { useRef } from "react";
-import { useEffect } from "react";
 import { useState } from "react";
 
 const initialFilters = () => {
   const filters = {};
 
-  for (let filter of FiltersArray) {
-    if (filter.type === "range") {
-      filters[filter.name] = {
-        min: filter.min,
-        max: filter.max,
+  const filterNames = Object.keys(Filters);
+
+  for (let filter of filterNames) {
+    if (Filters[filter].type === "range") {
+      filters[filter] = {
+        min: Filters[filter].min,
+        max: Filters[filter].max,
       };
     }
-    if (filter.type === "select") {
-      filters[filter.name] = {
+    if (Filters[filter].type === "select") {
+      filters[filter] = {
         value: "",
       };
     }
   }
 
+  console.log(filters);
+
   return filters;
 };
 
-const FiltersModal = () => {
+const FiltersModal = ({ handleSubmit, handleReset }) => {
   const [filters, setFilters] = useState(initialFilters());
+  const filterNames = Object.keys(Filters);
 
-  if (!filters) return;
+  const handleChangeRange = ({ filter, min, max, value }) => {
+    let fixedVal;
 
-  console.log(filters);
+    if (min) {
+      if (parseInt(e.currentTarget.value) < filters[filter].min)
+        fixedVal = filters[filter].min.toString();
+      if (parseInt(e.currentTarget.value) > filters[filter].max)
+        fixedVal = filters[filter].max.toString();
+      fixedVal = parseInt(e.currentTarget.value);
+    } else if (max) {
+      if (parseInt(e.currentTarget.value) < filter.min)
+        fixedVal = filters[filter].min.toString();
+      if (parseInt(e.currentTarget.value) > filter.max)
+        fixedVal = filters[filter].max.toString();
+      fixedVal = parseInt(e.currentTarget.value);
+    }
+
+    const nextState = {
+      ...filters,
+      [filter]: {
+        ...filters[filter],
+        min: min ? fixedVal : filters[filter].min,
+        max: max ? fixedVal : filters[filter].max,
+      },
+    };
+
+    setFilters(nextState);
+  };
+
+  const handleBlurRange = (filter, e) => {
+    if (
+      parseInt(filters[filter.name].min) > parseInt(filters[filter.name].max)
+    ) {
+      setFilters({
+        ...filters,
+        [filter.name]: {
+          ...filters[filter.name],
+          min: filters[filter.name].max,
+        },
+      });
+    } else if (
+      parseInt(filters[filter.name].max) < parseInt(filters[filter.name].min)
+    ) {
+      setFilters({
+        ...filters,
+        [filter.name]: {
+          ...filters[filter.name],
+          max: filters[filter.name].min,
+        },
+      });
+    }
+  };
+
+  const handleChangeRangeMax = (filter, e) => {
+    setFilters({
+      ...filters,
+      [filter.name]: {
+        ...filters[filter.name],
+        max: (() => {
+          //limits
+          if (parseInt(e.currentTarget.value) < filter.min)
+            return filter.min.toString();
+          if (parseInt(e.currentTarget.value) > filter.max)
+            return filter.max.toString();
+          return parseInt(e.currentTarget.value);
+        })(),
+      },
+    });
+  };
+
   return (
     <div className="modal fade" id="filtersModal" tabIndex="-1" role="dialog">
       <div className="modal-dialog" role="document">
@@ -51,10 +120,9 @@ const FiltersModal = () => {
           </div>
 
           <div className="modal-body">
-            {FiltersArray.map((filter, idx) => {
-              switch (filter.type) {
+            {filterNames.map((filter, idx) => {
+              switch (Filters[filter].type) {
                 case "range": {
-                  console.log(filters[filter.name]);
                   return (
                     <div
                       key={idx}
@@ -64,26 +132,22 @@ const FiltersModal = () => {
                         style={{ width: "75px" }}
                         className="input-group-text fw-bold"
                       >
-                        {toCapitilize(filter.name)}
+                        {toCapitilize(filter)}
                       </span>
 
                       <span className="input-group-text">From</span>
                       <input
                         type="number"
-                        value={filters[filter.name].min}
-                        onChange={(e) => {
-                          setFilters({
-                            ...filters,
-                            [filter.name]: e.currentTarget.value,
-                          });
-                        }}
+                        value={parseInt(filters[filter].min).toString()}
+                        onChange={(e) => handleChangeRangeMin(filter, e)}
                         aria-label="First name"
                         className="form-control"
                       />
                       <span className="input-group-text">To</span>
                       <input
+                        value={parseInt(filters[filter].max).toString()}
+                        onChange={(e) => handleChangeRangeMax(filter, e)}
                         type="number"
-                        value={filters[filter.name].max}
                         aria-label="Last name"
                         className="form-control"
                       />
@@ -100,7 +164,7 @@ const FiltersModal = () => {
                         style={{ width: "75px" }}
                         className="input-group-text fw-bold"
                       >
-                        {toCapitilize(filter.name)}
+                        {toCapitilize(filter)}
                       </span>
 
                       <select
@@ -108,7 +172,7 @@ const FiltersModal = () => {
                         aria-label="Default select example"
                       >
                         <option>All</option>
-                        {filter.data.map((genre, idx) => (
+                        {Filters[filter].data.map((genre, idx) => (
                           <option key={idx} value={genre}>
                             {genre}
                           </option>
@@ -130,7 +194,11 @@ const FiltersModal = () => {
             >
               Close
             </button>
-            <button type="button" className="btn btn-primary">
+            <button
+              onClick={() => handleSubmit(filters)}
+              type="button"
+              className="btn btn-primary"
+            >
               Save changes
             </button>
           </div>

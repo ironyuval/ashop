@@ -2,6 +2,8 @@ import List from "../components/GridList/List";
 import api from "../api";
 import Logo from "../assets/logo.png";
 import { setIsFiltersModalShown } from "../redux/slice";
+import FiltersModal from "../components/Modals/FiltersModal";
+import { FiltersArray } from "../server-shared/types";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
@@ -10,14 +12,6 @@ import { useDispatch } from "react-redux";
 
 function Browse() {
   const [products, setProducts] = useState([]);
-
-  const [price, setPrice] = useState(100);
-
-  const [rating, setRating] = useState(0);
-
-  const [category, setCategory] = useState();
-
-  const dispatch = useDispatch();
 
   const searchRef = useRef();
 
@@ -53,23 +47,29 @@ function Browse() {
     getProducts(`perPage=15`);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    getProducts(buildQueryString());
+  const handleQuickSearch = (e) => {
+    getProducts({
+      page: 1,
+      perPage: 15,
+      keyword: searchRef.current.value,
+    });
   };
 
-  const buildQueryString = () => {
-    let queryString = ``;
-    const searchValue = searchRef.current.value;
+  const handleAdvancedSearch = (filters) => {
+    console.log(filters);
+    const params = {
+      page: 1,
+      perPage: 15,
+      keyword: searchRef.current.value,
+    };
 
-    if (searchValue) {
-      queryString += `&keyword=${searchValue}`;
-    }
-    if (rating) {
-      queryString += `&ratings=${rating}`;
+    const filterNames = Object.keys(filters);
+
+    for (const filterName of filterNames) {
+      params[filterName] = filters[filterName];
     }
 
-    return queryString;
+    getProducts(params);
   };
 
   return (
@@ -83,6 +83,8 @@ function Browse() {
         height: "100%",
       }}
     >
+      <FiltersModal handleSubmit={handleAdvancedSearch} />
+
       <div className="d-flex flex-column flex-md-row align-items-center flex-wrap container-fluid bg  .bg-gradient .bg-gradient">
         <div
           className="ms-md-5"
@@ -126,7 +128,7 @@ function Browse() {
             />
           </form>
           <button
-            onClick={handleSubmit}
+            onClick={handleQuickSearch}
             className="btn btn-success ms-3 fw-bold"
             type="submit"
           >

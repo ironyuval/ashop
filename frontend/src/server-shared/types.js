@@ -12,22 +12,19 @@ export const Permissions = {
   Master: "master",
 };
 
-export const FiltersArray = [
-  {
-    name: "price",
+export const Filters = {
+  Price: {
     type: "range",
     min: 0,
     max: 100,
   },
-  {
-    name: "rating",
+  Rating: {
     type: "range",
     min: 0,
     max: 5,
   },
-  {
-    name: "genre",
+  Genre: {
     type: "select",
     data: Object.keys(Genres),
   },
-];
+};

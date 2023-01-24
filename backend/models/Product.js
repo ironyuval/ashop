@@ -36,7 +36,7 @@ const productSchema = new Schema({
   ],
   genre: {
     type: String,
-    enum: Object.values(Genres),
+    enum: Object.keys(Genres),
     required: [true, 'Please add a genre'],
   },
   createdBy: {
