@@ -22,8 +22,6 @@ const initialFilters = () => {
     }
   }
 
-  console.log(filters);
-
   return filters;
 };
 
@@ -31,31 +29,42 @@ const FiltersModal = ({ handleSubmit, handleReset }) => {
   const [filters, setFilters] = useState(initialFilters());
   const filterNames = Object.keys(Filters);
 
-  const handleChangeRange = ({ filter, min, max, value }) => {
+  const handleChangeRange = ({ filter, min = null, max = null }) => {
     let fixedVal;
 
-    if (min) {
-      if (parseInt(e.currentTarget.value) < filters[filter].min)
-        fixedVal = filters[filter].min.toString();
-      if (parseInt(e.currentTarget.value) > filters[filter].max)
-        fixedVal = filters[filter].max.toString();
-      fixedVal = parseInt(e.currentTarget.value);
-    } else if (max) {
-      if (parseInt(e.currentTarget.value) < filter.min)
-        fixedVal = filters[filter].min.toString();
-      if (parseInt(e.currentTarget.value) > filter.max)
-        fixedVal = filters[filter].max.toString();
-      fixedVal = parseInt(e.currentTarget.value);
+    if (min !== null) {
+      if (parseInt(min) <= Filters[filter].min)
+        fixedVal = Filters[filter].min.toString();
+      else if (parseInt(min) >= Filters[filter].max)
+        fixedVal = Filters[filter].max.toString();
+      else if (isNaN(parseInt(min))) {
+        fixedVal = Filters[filter].min.toString();
+      } else {
+        fixedVal = min;
+      }
+    } else if (max !== null) {
+      console.log("max");
+      if (parseInt(max) <= Filters[filter].min)
+        fixedVal = Filters[filter].min.toString();
+      else if (parseInt(max) >= Filters[filter].max)
+        fixedVal = Filters[filter].max.toString();
+      else if (isNaN(parseInt(max))) {
+        fixedVal = Filters[filter].min.toString();
+      } else {
+        fixedVal = max;
+      }
     }
 
     const nextState = {
       ...filters,
       [filter]: {
         ...filters[filter],
-        min: min ? fixedVal : filters[filter].min,
-        max: max ? fixedVal : filters[filter].max,
+        min: min !== null ? fixedVal : filters[filter].min,
+        max: max !== null ? fixedVal : filters[filter].max,
       },
     };
+
+    console.log(nextState);
 
     setFilters(nextState);
   };
@@ -139,14 +148,24 @@ const FiltersModal = ({ handleSubmit, handleReset }) => {
                       <input
                         type="number"
                         value={parseInt(filters[filter].min).toString()}
-                        onChange={(e) => handleChangeRangeMin(filter, e)}
+                        onChange={(e) =>
+                          handleChangeRange({
+                            filter,
+                            min: e.currentTarget.value,
+                          })
+                        }
                         aria-label="First name"
                         className="form-control"
                       />
                       <span className="input-group-text">To</span>
                       <input
                         value={parseInt(filters[filter].max).toString()}
-                        onChange={(e) => handleChangeRangeMax(filter, e)}
+                        onChange={(e) =>
+                          handleChangeRange({
+                            filter,
+                            max: e.currentTarget.value,
+                          })
+                        }
                         type="number"
                         aria-label="Last name"
                         className="form-control"
