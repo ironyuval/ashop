@@ -68,7 +68,7 @@ function Browse() {
 
   const handleAdvancedSearch = (filters) => {
     setPagination((pagination) => ({ ...pagination, page: 1 }));
-    getProducts(filters);
+    getProducts({ ...filters, ...pagination });
   };
 
   const handlePaging = (newPage) => {
