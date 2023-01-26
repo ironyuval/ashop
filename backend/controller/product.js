@@ -32,11 +32,11 @@ export const getAllProducts = async (req, res) => {
 
   const products = await queryData.query;
 
-  /*   const totalCount = await queryData.count();
- */
+  const totalCount = await queryData.count();
+
   res.status(200).json({
-    /*     totalCount,
- */ success: true,
+    totalCount,
+    success: true,
     products,
     resultCount: products.length,
   });

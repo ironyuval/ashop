@@ -37,7 +37,10 @@ function Browse() {
     try {
       const { data } = await api.Product.getProducts(params);
       setProducts(data.products);
-      setPagination((pagination) => ({ ...pagination, total: data.count }));
+      setPagination((pagination) => ({
+        ...pagination,
+        total: data.totalCount,
+      }));
     } catch (e) {
       console.log(e);
     }
@@ -63,8 +66,12 @@ function Browse() {
     getProducts(filters);
   };
 
-  const handlePaging = (newPage) =>
-    setPagination((pagination) => ({ ...pagination, page: newPage }));
+  const handlePaging = (newPage) => {
+    const lastPage = Math.ceil(pagination.total / pagination.perPage);
+
+    if (newPage <= lastPage)
+      setPagination((pagination) => ({ ...pagination, page: newPage }));
+  };
 
   console.log(pagination);
 

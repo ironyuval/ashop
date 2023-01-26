@@ -5,7 +5,6 @@ const MAX_PER_PAGE = 20;
 class Features {
   constructor(query, queryStr) {
     this.query = query;
-    this.queryCount = query;
     this.queryStr = queryStr;
     console.log('queryStr: ', queryStr);
   }
@@ -25,7 +24,7 @@ class Features {
 
       };
     this.query = this.query.find({ ...keyword });
-    this.queryCount = this.query;
+    this.queryCount = this.query.clone();
 
     return this;
   }
@@ -46,7 +45,7 @@ class Features {
     });
 
     this.query = this.query.find(queryCopy);
-    this.queryCount = this.query;
+    this.queryCount = this.query.clone();
 
     return this;
   }
