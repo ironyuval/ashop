@@ -2,7 +2,6 @@ import List from "../components/GridList/List";
 import api from "../api";
 import Logo from "../assets/logo.png";
 import FiltersModal from "../components/Modals/FiltersModal";
-import { Filters, FiltersArray } from "../server-shared/types";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
@@ -11,6 +10,12 @@ import { useLocation } from "react-router-dom";
 function Browse() {
   const [products, setProducts] = useState([]);
 
+  const [pagination, setPagination] = useState({
+    page: 1,
+    perPage: 12,
+    total: 0,
+  });
+
   const searchRef = useRef();
 
   const state = useLocation().state;
@@ -18,20 +23,21 @@ function Browse() {
 
   useEffect(() => {
     getProducts({
-      page: 1,
-      perPage: 15,
+      page: pagination.page,
+      perPage: pagination.perPage,
       keyword: search,
     });
 
     if (search) {
       searchRef.current.value = search;
     }
-  }, []);
+  }, [pagination.page]);
 
   const getProducts = async (params) => {
     try {
       const { data } = await api.Product.getProducts(params);
       setProducts(data.products);
+      setPagination((pagination) => ({ ...pagination, total: data.count }));
     } catch (e) {
       console.log(e);
     }
@@ -54,19 +60,13 @@ function Browse() {
   };
 
   const handleAdvancedSearch = (filters) => {
-    console.log("request ", filters);
-    let params = {};
-    const filterNames = Object.keys(Filters);
-
-    for (let filterName of filterNames) {
-    }
-
-    for (const filterName of filterNames) {
-      params[filterName] = filters[filterName];
-    }
-
     getProducts(filters);
   };
+
+  const handlePaging = (newPage) =>
+    setPagination((pagination) => ({ ...pagination, page: newPage }));
+
+  console.log(pagination);
 
   return (
     <div
@@ -116,13 +116,16 @@ function Browse() {
             </div>
           </div>
           <div className="d-flex">
-            <input
-              ref={searchRef}
-              type="search"
-              className="form-control"
-              placeholder="Quick search"
-              aria-label="Quick search"
-            />
+            <form onSubmit={(e) => e.preventDefault()}>
+              <input
+                ref={searchRef}
+                type="search"
+                className="form-control"
+                placeholder="Quick search"
+                aria-label="Quick search"
+              />
+            </form>
+
             <button
               onClick={handleQuickSearch}
               className="btn btn-success ms-3"
@@ -133,6 +136,7 @@ function Browse() {
           </div>
         </div>
       </div>
+
       <div
         style={{
           display: "flex",
@@ -143,7 +147,78 @@ function Browse() {
           width: "100%",
         }}
       >
+        <nav aria-label="Page navigation example">
+          <ul className="pagination justify-content-center">
+            <li className={`page-item ${pagination.page === 1 && `disabled`}`}>
+              <a
+                onClick={() => handlePaging(pagination.page - 1)}
+                className="page-link"
+                href="#"
+                tabIndex="-1"
+              >
+                Previous
+              </a>
+            </li>
+            <li className="page-item disabled">
+              <a className="page-link" href="#">
+                {pagination.page}
+              </a>
+            </li>
+            <li className={`page-item`}>
+              <a className="page-link" href="#">
+                {pagination.page + 1}
+              </a>
+            </li>
+            <li className={`page-item`}>
+              <a
+                onClick={() => handlePaging(pagination.page + 2)}
+                className="page-link"
+                href="#"
+              >
+                {pagination.page + 2}
+              </a>
+            </li>
+            <li className="page-item">
+              <a
+                className="page-link"
+                onClick={() => handlePaging(pagination.page + 1)}
+                href="#"
+              >
+                Next
+              </a>
+            </li>
+          </ul>
+        </nav>
         <List products={products} />
+        <nav aria-label="Page navigation example">
+          <ul className="pagination justify-content-center">
+            <li className="page-item disabled">
+              <a className="page-link" href="#" tabIndex="-1">
+                Previous
+              </a>
+            </li>
+            <li className="page-item">
+              <a className="page-link" href="#">
+                1
+              </a>
+            </li>
+            <li className="page-item">
+              <a className="page-link" href="#">
+                2
+              </a>
+            </li>
+            <li className="page-item">
+              <a className="page-link" href="#">
+                3
+              </a>
+            </li>
+            <li className="page-item">
+              <a className="page-link" href="#">
+                Next
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   );

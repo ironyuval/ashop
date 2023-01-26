@@ -23,18 +23,22 @@ export const createMockProducts = async (req, res) => {
 };
 
 export const getAllProducts = async (req, res) => {
-  const feature = new Features(Product.find(), req.query)
+  const queryData = new Features(Product.find(), req.query)
     .search()
     .filter()
     .sort()
     .pagination()
     .populate({ path: 'createdBy', select: 'name' });
-  const products = await feature.query;
 
+  const products = await queryData.query;
+
+  /*   const totalCount = await queryData.count();
+ */
   res.status(200).json({
-    success: true,
+    /*     totalCount,
+ */ success: true,
     products,
-    productsCount: products.length,
+    resultCount: products.length,
   });
 };
 

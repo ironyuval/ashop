@@ -62,7 +62,7 @@ function Home() {
         backgroundColor: "#f5f5f5",
       }}
     >
-      <div className="d-flex flex-column flex-md-row align-items-center flex-wrap container-fluid bg  .bg-gradient .bg-gradient">
+      <div className="d-flex flex-column flex-lg-row align-items-center flex-wrap container-fluid bg  .bg-gradient .bg-gradient">
         <div
           className="ms-md-5"
           style={{
@@ -73,23 +73,27 @@ function Home() {
             backgroundRepeat: "no-repeat",
           }}
         ></div>
-        <div className="d-flex ms-md-auto me-md-5 align-items-center space-between mb-md-0 mb-3 ">
-          <form onSubmit={(e) => e.preventDefault()}>
-            <input
-              ref={searchRef}
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-          </form>
-          <button
-            onClick={handleSearch}
-            className="btn btn-success ms-3 fw-bold"
-            type="submit"
-          >
-            Search
-          </button>
+
+        <div className="d-flex m-auto flex-column-reverse flex-sm-row ms-lg-auto me-lg-5 align-items-center space-between mb-lg-4 mb-3 sm-mt-4">
+          <div className="d-flex">
+            <form onSubmit={(e) => e.preventDefault()}>
+              <input
+                ref={searchRef}
+                type="search"
+                className="form-control"
+                placeholder="Quick search"
+                aria-label="Quick search"
+              />
+            </form>
+
+            <button
+              onClick={handleSearch}
+              className="btn btn-success ms-3"
+              type="submit"
+            >
+              Search
+            </button>
+          </div>
         </div>
       </div>
       <div

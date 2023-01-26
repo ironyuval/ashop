@@ -1,10 +1,17 @@
+import { Filters } from '../../frontend/src/server-shared/types';
+
 const MAX_PER_PAGE = 20;
-const excludedFields = ['keyword', 'page', 'limit', 'perPage', 'sort'];
 
 class Features {
   constructor(query, queryStr) {
     this.query = query;
+    this.queryCount = query;
     this.queryStr = queryStr;
+    console.log('queryStr: ', queryStr);
+  }
+
+  count() {
+    return this.queryCount.countDocuments({});
   }
 
   search() {
@@ -18,13 +25,29 @@ class Features {
 
       };
     this.query = this.query.find({ ...keyword });
+    this.queryCount = this.query;
+
     return this;
   }
 
   filter() {
-    const queryCopy = { ...this.queryStr };
-    excludedFields.forEach((key) => delete queryCopy[key]);
+    const queryCopy = {};
+
+    const filterNames = Object.keys(Filters);
+
+    filterNames.forEach((filterName) => {
+      if (this.queryStr[filterName] && Filters[filterName].type === 'range') {
+        const filter = this.queryStr[filterName].split(',');
+        const [min, max] = [filter[0], filter[1]];
+        queryCopy[filterName] = { $gte: parseInt(min, 10), $lte: parseInt(max, 10) };
+      } else if (this.queryStr[filterName] && Filters[filterName].type === 'select') {
+        queryCopy[filterName] = this.queryStr[filterName];
+      }
+    });
+
     this.query = this.query.find(queryCopy);
+    this.queryCount = this.query;
+
     return this;
   }
 

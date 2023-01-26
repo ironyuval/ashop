@@ -13,17 +13,17 @@ export const Permissions = {
 };
 
 export const Filters = {
-  Price: {
+  price: {
     type: "range",
     min: 0,
     max: 100,
   },
-  Rating: {
+  rating: {
     type: "range",
     min: 0,
     max: 5,
   },
-  Genre: {
+  genre: {
     type: "select",
     data: Object.keys(Genres),
   },
