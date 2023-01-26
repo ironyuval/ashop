@@ -16,6 +16,8 @@ function Browse() {
     total: 0,
   });
 
+  const lastPage = Math.ceil(pagination.total / pagination.perPage);
+
   const searchRef = useRef();
 
   const state = useLocation().state;
@@ -31,7 +33,7 @@ function Browse() {
     if (search) {
       searchRef.current.value = search;
     }
-  }, [pagination.page]);
+  }, []);
 
   const getProducts = async (params) => {
     try {
@@ -47,33 +49,38 @@ function Browse() {
   };
 
   const handleClickReset = () => {
-    setCategory(undefined);
-    setPrice(100);
-    setRating(0);
+    setPagination((pagination) => ({ ...pagination, page: 1 }));
     searchRef.current.value = "";
-    getProducts(`perPage=15`);
-  };
-
-  const handleQuickSearch = (e) => {
     getProducts({
       page: 1,
-      perPage: 15,
+      perPage: pagination.perPage,
+    });
+  };
+
+  const handleQuickSearch = () => {
+    setPagination((pagination) => ({ ...pagination, page: 1 }));
+    getProducts({
+      page: 1,
+      perPage: pagination.perPage,
       keyword: searchRef.current.value,
     });
   };
 
   const handleAdvancedSearch = (filters) => {
+    setPagination((pagination) => ({ ...pagination, page: 1 }));
     getProducts(filters);
   };
 
   const handlePaging = (newPage) => {
-    const lastPage = Math.ceil(pagination.total / pagination.perPage);
-
-    if (newPage <= lastPage)
+    if (newPage <= lastPage) {
+      getProducts({
+        page: newPage,
+        perPage: pagination.perPage,
+        keyword: searchRef.current.value,
+      });
       setPagination((pagination) => ({ ...pagination, page: newPage }));
+    }
   };
-
-  console.log(pagination);
 
   return (
     <div
@@ -166,30 +173,50 @@ function Browse() {
                 Previous
               </a>
             </li>
-            <li className="page-item disabled">
-              <a className="page-link" href="#">
-                {pagination.page}
+            <li className={`page-item ${pagination.page === 1 && `disabled`}`}>
+              <a
+                onClick={() =>
+                  handlePaging(
+                    pagination.page === 1
+                      ? pagination.page
+                      : pagination.page - 1
+                  )
+                }
+                className="page-link"
+                href="#"
+              >
+                {pagination.page === 1 ? pagination.page : pagination.page - 1}
               </a>
             </li>
-            <li className={`page-item`}>
+            <li className={`page-item ${pagination.page !== 1 && `disabled`}`}>
               <a
                 onClick={() => handlePaging(pagination.page + 1)}
                 className="page-link"
                 href="#"
               >
-                {pagination.page + 1}
+                {pagination.page === 1 ? pagination.page + 1 : pagination.page}
               </a>
             </li>
-            <li className={`page-item`}>
+            <li
+              className={`page-item ${
+                pagination.page === lastPage && `disabled`
+              }`}
+            >
               <a
-                onClick={() => handlePaging(pagination.page + 2)}
+                onClick={() => handlePaging(pagination.page + 1)}
                 className="page-link"
                 href="#"
               >
-                {pagination.page + 2}
+                {pagination.page === 1
+                  ? pagination.page + 2
+                  : pagination.page + 1}
               </a>
             </li>
-            <li className="page-item">
+            <li
+              className={`page-item ${
+                pagination.page === lastPage && `disabled`
+              }`}
+            >
               <a
                 className="page-link"
                 onClick={() => handlePaging(pagination.page + 1)}
@@ -203,28 +230,65 @@ function Browse() {
         <List products={products} />
         <nav aria-label="Page navigation example">
           <ul className="pagination justify-content-center">
-            <li className="page-item disabled">
-              <a className="page-link" href="#" tabIndex="-1">
+            <li className={`page-item ${pagination.page === 1 && `disabled`}`}>
+              <a
+                onClick={() => handlePaging(pagination.page - 1)}
+                className="page-link"
+                href="#"
+                tabIndex="-1"
+              >
                 Previous
               </a>
             </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                1
+            <li className={`page-item ${pagination.page === 1 && `disabled`}`}>
+              <a
+                onClick={() =>
+                  handlePaging(
+                    pagination.page === 1
+                      ? pagination.page
+                      : pagination.page - 1
+                  )
+                }
+                className="page-link"
+                href="#"
+              >
+                {pagination.page === 1 ? pagination.page : pagination.page - 1}
               </a>
             </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                2
+            <li className={`page-item ${pagination.page !== 1 && `disabled`}`}>
+              <a
+                onClick={() => handlePaging(pagination.page + 1)}
+                className="page-link"
+                href="#"
+              >
+                {pagination.page === 1 ? pagination.page + 1 : pagination.page}
               </a>
             </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                3
+            <li
+              className={`page-item ${
+                pagination.page === lastPage && `disabled`
+              }`}
+            >
+              <a
+                onClick={() => handlePaging(pagination.page + 1)}
+                className="page-link"
+                href="#"
+              >
+                {pagination.page === 1
+                  ? pagination.page + 2
+                  : pagination.page + 1}
               </a>
             </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
+            <li
+              className={`page-item ${
+                pagination.page === lastPage && `disabled`
+              }`}
+            >
+              <a
+                className="page-link"
+                onClick={() => handlePaging(pagination.page + 1)}
+                href="#"
+              >
                 Next
               </a>
             </li>

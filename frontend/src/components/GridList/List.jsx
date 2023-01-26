@@ -1,5 +1,5 @@
 import ListItem from "./ListItem";
-import { toggleFavorite as toggleFavoriteProduct } from "../../redux/slice";
+import { toggleWishlist as toggleWishlistProduct } from "../../redux/slice";
 import api from "../../api";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,7 +8,7 @@ import "./List.css";
 function List({ products }) {
   const user = useSelector((state) => state.core.user);
 
-  const favorites = user && user.favorites;
+  const wishlist = user && user.wishlist;
 
   const dispatch = useDispatch();
 
@@ -19,13 +19,13 @@ function List({ products }) {
   };
 
   const isProductFavorite = (productId) => {
-    return favorites && favorites.includes(productId);
+    return wishlist && wishlist.includes(productId);
   };
 
-  const toggleFavorite = async (productId) => {
+  const toggleWishlist = async (productId) => {
     try {
-      await api.User.toggleFavorite(productId);
-      dispatch(toggleFavoriteProduct(productId));
+      await api.User.toggleWishlist(productId);
+      dispatch(toggleWishlistProduct(productId));
     } catch (e) {
       console.log(e);
     }
@@ -40,7 +40,7 @@ function List({ products }) {
               <ListItem
                 item={product}
                 isFavorite={isProductFavorite(product._id)}
-                toggleFavorite={toggleFavorite}
+                toggleWishlist={toggleWishlist}
                 handleClick={handleClick}
               />
             </div>

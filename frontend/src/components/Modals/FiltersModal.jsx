@@ -2,6 +2,7 @@ import { Filters } from "../../server-shared/types";
 import { toCapitilize } from "../../utils/capitalize";
 import React from "react";
 import { useState } from "react";
+import { useRef } from "react";
 
 const initRangeFilters = () => {
   const filters = {};
@@ -23,6 +24,8 @@ const MAX_RANGE_IDX = 1;
 const FiltersModal = ({ handleSubmit, handleReset }) => {
   const [filters, setFilters] = useState(initRangeFilters());
   const filterNames = Object.keys(Filters);
+
+  const searchRef = useRef();
 
   const handleChangeRange =
     ({ filter, min, max }) =>
@@ -91,6 +94,7 @@ const FiltersModal = ({ handleSubmit, handleReset }) => {
           <div className="modal-body">
             <div className="d-flex mb-3">
               <input
+                ref={searchRef}
                 type="search"
                 className="form-control"
                 placeholder="Advanced search"
@@ -185,7 +189,9 @@ const FiltersModal = ({ handleSubmit, handleReset }) => {
               Close
             </button>
             <button
-              onClick={() => handleSubmit(filters)}
+              onClick={() =>
+                handleSubmit({ ...filters, keyword: searchRef.current.value })
+              }
               type="button"
               className="btn btn-primary"
             >

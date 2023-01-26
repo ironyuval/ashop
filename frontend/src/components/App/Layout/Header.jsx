@@ -58,7 +58,7 @@ function Header() {
               if (
                 (!user && item.permission) ||
                 (item.permission &&
-                  user.permission !== Permissions.Admin &&
+                  user.permission !== Permissions.Master &&
                   !item.permission.includes(user.permission))
               )
                 return null;

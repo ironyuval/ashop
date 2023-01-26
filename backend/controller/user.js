@@ -11,7 +11,7 @@ export const getUserData = async (request, response) => {
     return response.status(200).send({
       email: userFound.email,
       name: userFound.name,
-      favorites: userFound.favorites,
+      wishlist: userFound.wishlist,
       permission: userFound.permission,
       image: userFound.image,
     });
@@ -37,23 +37,23 @@ export const getAllUsers = async (req, res) => {
   });
 };
 
-export const toggleFavorite = async (req, res) => {
-  const self = req.user;
-  const user = await User.findById(self.userId);
+export const toggleWishlist = async (req, res) => {
+  const { userId } = req;
+  const user = await User.findById(userId);
 
   if (user) {
-    const userFavorites = user.favorites;
+    const userWishlist = user.wishlist;
     const productId = req.params.id;
 
-    let newFavorites = [...userFavorites];
+    let newWishlist = [...userWishlist];
 
-    if (userFavorites.includes(productId)) {
-      newFavorites = userFavorites.filter((id) => id !== productId);
+    if (newWishlist.includes(productId)) {
+      newWishlist = newWishlist.filter((id) => id !== productId);
     } else {
-      newFavorites.push(productId);
+      newWishlist.push(productId);
     }
 
-    user.favorites = newFavorites;
+    user.wishlist = newWishlist;
     await user.save();
     return res.status(200).json({
       success: true,

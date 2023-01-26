@@ -20,16 +20,16 @@ export const coreSlice = createSlice({
     setIsLoading: (state, action) => {
       state.isLoading = action.payload;
     },
-    toggleFavorite: (state, action) => {
+    toggleWishlist: (state, action) => {
       const productId = action.payload;
-      let newFavorites = [...state.user.favorites];
-      if (state.user.favorites.includes(productId)) {
-        newFavorites = state.user.favorites.filter((id) => id !== productId);
+      let newWishlist = [...state.user.wishlist];
+      if (state.user.wishlist.includes(productId)) {
+        newWishlist = state.user.wishlist.filter((id) => id !== productId);
       } else {
-        newFavorites.push(productId);
+        newWishlist.push(productId);
       }
 
-      state.user.favorites = newFavorites;
+      state.user.wishlist = newWishlist;
     },
     setIsAppInited: (state) => (state.isAppInited = true),
   },
@@ -55,7 +55,7 @@ export const modalsSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setUser, removeUser, setIsLoading, toggleFavorite } =
+export const { setUser, removeUser, setIsLoading, toggleWishlist } =
   coreSlice.actions;
 
 export const {
