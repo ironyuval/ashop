@@ -33,7 +33,7 @@ function List({ products }) {
 
   return (
     <div className="container-fluid list-container">
-      <div className="row">
+      <div className="row justify-content-center">
         {products.length ? (
           products.map((product) => (
             <div key={product._id} className="col-sm-6 col-md-4 col-xxl-2 my-4">

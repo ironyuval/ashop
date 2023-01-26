@@ -172,7 +172,11 @@ function Browse() {
               </a>
             </li>
             <li className={`page-item`}>
-              <a className="page-link" href="#">
+              <a
+                onClick={() => handlePaging(pagination.page + 1)}
+                className="page-link"
+                href="#"
+              >
                 {pagination.page + 1}
               </a>
             </li>
