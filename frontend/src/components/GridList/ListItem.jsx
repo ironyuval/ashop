@@ -43,7 +43,11 @@ const ListItem = ({
       </div>
 
       <div className="btn-group">
-        <button type="button" className="btn btn color-dark-blue rounded-0">
+        <button
+          onClick={handleClick}
+          type="button"
+          className="btn btn color-dark-blue rounded-0"
+        >
           <i className="bi bi-pen"></i>
         </button>
         <button type="button" className="btn btn fs-5">

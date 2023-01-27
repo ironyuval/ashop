@@ -15,7 +15,7 @@ function List({ products }) {
   const navigate = useNavigate();
 
   const handleClick = (product) => {
-    navigate("/product", { state: { product } });
+    navigate(`/product/${product._id}`, { state: { product } });
   };
 
   const isProductFavorite = (productId) => {
@@ -41,7 +41,7 @@ function List({ products }) {
                 item={product}
                 isFavorite={isProductFavorite(product._id)}
                 toggleWishlist={toggleWishlist}
-                handleClick={handleClick}
+                handleClick={() => handleClick(product)}
               />
             </div>
           ))

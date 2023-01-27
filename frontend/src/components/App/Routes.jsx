@@ -15,7 +15,7 @@ export const AppRoutes = () => (
     <Route path="/register" element={<Register />} />
     <Route path="/login" element={<LoginPage />} />
     <Route path="/admin" element={<Admin />} />
-    <Route path="/product" element={<Product />} />
+    <Route path="/product/:productId" element={<Product />} />
     <Route path="/404" element={<div>404</div>} />
     <Route path="*" element={<Navigate to="/404" />} />
   </Routes>

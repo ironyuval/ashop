@@ -64,7 +64,7 @@ export const toggleWishlist = async (req, res) => {
   });
 };
 
-export const updateUser = async (req, res) => {
+export const updateUserData = async (req, res) => {
   const { user } = req;
   const { body } = req;
 
