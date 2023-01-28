@@ -64,11 +64,13 @@ export const getWishlist = async (req, res) => {
     .filter()
     .pagination();
   const wishlist = await feature.query;
+  const totalCount = await feature.count();
 
   res.status(200).json({
     success: true,
     data: wishlist,
     count: wishlist.length,
+    totalCount,
   });
 };
 
@@ -85,12 +87,15 @@ export const getCart = async (req, res) => {
     .search()
     .filter()
     .pagination();
+
+  const totalCount = await feature.count();
   const cart = await feature.query;
 
   res.status(200).json({
     success: true,
     data: cart,
     count: cart.length,
+    totalCount,
   });
 };
 

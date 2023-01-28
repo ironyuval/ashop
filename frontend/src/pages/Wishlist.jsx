@@ -46,6 +46,8 @@ function Wishlist() {
         ...pagination,
         total: data.totalCount,
       }));
+
+      console.log(data.totalCount, pagination.perPage);
     } catch (e) {
       console.log(e);
     }
