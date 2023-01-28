@@ -37,10 +37,10 @@ function Cart() {
 
   const getProducts = async (params) => {
     try {
-      const { data } = await api.User.getWishlist(params);
+      const { data } = await api.User.getCart(params);
 
       console.log(data);
-      setProducts(data.wishlist);
+      setProducts(data.data);
       setPagination((pagination) => ({
         ...pagination,
         total: data.totalCount,
@@ -230,7 +230,7 @@ function Cart() {
           </ul>
         </nav>
         <List products={products} />
-        <nav aria-label="Page navigation example">
+        <nav aria-label="Page navigation example mt-auto">
           <ul className="pagination justify-content-center">
             <li className={`page-item ${pagination.page === 1 && `disabled`}`}>
               <a

@@ -67,23 +67,44 @@ export const getWishlist = async (req, res) => {
 
   res.status(200).json({
     success: true,
-    wishlist,
+    data: wishlist,
     count: wishlist.length,
   });
 };
 
+export const getCart = async (req, res) => {
+  const userCart = req.user.cart;
+
+  const feature = new Features(Product.find(
+    {
+      _id: {
+        $in: userCart,
+      },
+    },
+  ), req.query)
+    .search()
+    .filter()
+    .pagination();
+  const cart = await feature.query;
+
+  res.status(200).json({
+    success: true,
+    data: cart,
+    count: cart.length,
+  });
+};
+
 export const toggleWishlist = async (req, res) => {
-  const { userId } = req;
-  const user = await User.findById(userId);
+  const { user } = req;
 
   if (user) {
-    const userWishlist = user.wishlist;
-    const productId = req.params.id;
+    const wishlist = user.wishlist || [];
+    const productId = (req.params.id);
 
-    let newWishlist = [...userWishlist];
+    let newWishlist = [...wishlist];
 
-    if (newWishlist.includes(productId)) {
-      newWishlist = newWishlist.filter((id) => id !== productId);
+    if (wishlist.includes((productId))) {
+      newWishlist = wishlist.filter((id) => !id.equals(productId));
     } else {
       newWishlist.push(productId);
     }
@@ -103,13 +124,13 @@ export const toggleCart = async (req, res) => {
   const { user } = req;
 
   if (user) {
-    const userCart = user.cart;
-    const productId = req.params.id;
+    const cart = user.cart || [];
+    const productId = (req.params.id);
 
-    let newCart = [...userCart];
+    let newCart = [...cart];
 
-    if (newCart.includes(productId)) {
-      newCart = newCart.filter((id) => id !== productId);
+    if (cart.includes((productId))) {
+      newCart = cart.filter((id) => !id.equals(productId));
     } else {
       newCart.push(productId);
     }

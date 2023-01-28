@@ -24,18 +24,18 @@ export const coreSlice = createSlice({
       const productId = action.payload;
       let wishlist = state.user.wishlist || [];
       if (wishlist.includes(productId)) {
-        wishlist = wishlist.filter((product) => product._id !== productId);
+        state.user.wishlist = wishlist.filter((id) => id !== productId);
       } else {
-        wishlist.push(productId);
+        state.user.wishlist.push(productId);
       }
     },
     toggleCart: (state, action) => {
       const productId = action.payload;
       let cart = state.user.cart || [];
       if (cart.includes(productId)) {
-        cart = cart.filter((product) => product._id !== productId);
+        state.user.cart = cart.filter((id) => id !== productId);
       } else {
-        cart.push(productId);
+        state.user.cart.push(productId);
       }
     },
     setIsAppInited: (state) => (state.isAppInited = true),

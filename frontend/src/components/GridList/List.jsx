@@ -49,7 +49,7 @@ function List({ products }) {
   };
 
   return (
-    <div className="container-fluid list-container">
+    <div className="container-fluid list-container m-auto">
       <div className="row justify-content-center">
         {products.length ? (
           products.map((product) => (

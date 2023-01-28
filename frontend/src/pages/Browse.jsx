@@ -162,7 +162,7 @@ function Browse() {
         }}
       >
         <nav aria-label="Page navigation example">
-          <ul className="pagination justify-content-center">
+          <ul className="pagination justify-content-center mb-0 pt-4">
             <li className={`page-item ${pagination.page === 1 && `disabled`}`}>
               <a
                 onClick={() => handlePaging(pagination.page - 1)}
@@ -228,8 +228,8 @@ function Browse() {
           </ul>
         </nav>
         <List products={products} />
-        <nav aria-label="Page navigation example">
-          <ul className="pagination justify-content-center">
+        <div aria-label="Page navigation example mt-auto">
+          <ul className="pagination justify-content-center pb-2">
             <li className={`page-item ${pagination.page === 1 && `disabled`}`}>
               <a
                 onClick={() => handlePaging(pagination.page - 1)}
@@ -293,7 +293,7 @@ function Browse() {
               </a>
             </li>
           </ul>
-        </nav>
+        </div>
       </div>
     </div>
   );

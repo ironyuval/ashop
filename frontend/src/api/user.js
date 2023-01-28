@@ -4,6 +4,7 @@ const Endpoints = {
   toggleWishlistById: (productId) => `api/user/wishlist/${productId}`,
   toggleCartById: (productId) => `api/user/cart/${productId}`,
   data: () => `api/user/data`,
+  cart: () => `api/user/cart`,
   wishlist: () => `api/user/wishlist`,
   singleById: (userId) => `api/user/${userId}`,
   all: () => `api/user`,
@@ -18,4 +19,5 @@ export default {
   updateUser: (userId, data) => methods.put(Endpoints.singleById(userId), data),
   getData: () => methods.get(Endpoints.data()),
   getWishlist: () => methods.get(Endpoints.wishlist()),
+  getCart: () => methods.get(Endpoints.cart()),
 };

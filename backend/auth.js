@@ -5,7 +5,6 @@ import User from './models/User';
 const handlePermissions = (permissions = []) => async (req, res, next) => {
   try {
     const { authorization } = req.headers;
-    console.log(authorization);
     const token = authorization && authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.SECRET);
     const { userId } = decodedToken;

@@ -76,7 +76,7 @@ const ListItem = ({
         </div>
         <div className="col text-center">
           <i className="bi bi-person-fill" />
-          <span>{`${product.createdBy.name}`}</span>
+          <span>{`${product.createdBy?.name || "Unknown"}`}</span>
         </div>
       </div>
     </div>

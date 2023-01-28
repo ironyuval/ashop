@@ -123,7 +123,7 @@ function Header() {
                       location.pathname === "/cart" ? "active" : ""
                     }`}
                     onClick={() => {
-                      dispatch(setIsProfileModalShown(true));
+                      navigate("/cart");
                     }}
                   >
                     <i className="bi bi-cart3 me-1"></i>
