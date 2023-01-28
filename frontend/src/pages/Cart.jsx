@@ -2,6 +2,7 @@ import List from "../components/GridList/List";
 import api from "../api";
 import Logo from "../assets/logo.png";
 import FiltersModal from "../components/Modals/FiltersModal";
+import Paging from "../components/GridList/Paging";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
@@ -163,139 +164,17 @@ function Cart() {
           width: "100%",
         }}
       >
-        <nav aria-label="Page navigation example">
-          <ul className="pagination justify-content-center">
-            <li className={`page-item ${pagination.page === 1 && `disabled`}`}>
-              <a
-                onClick={() => handlePaging(pagination.page - 1)}
-                className="page-link"
-                href="#"
-                tabIndex="-1"
-              >
-                Previous
-              </a>
-            </li>
-            <li className={`page-item ${pagination.page === 1 && `disabled`}`}>
-              <a
-                onClick={() =>
-                  handlePaging(
-                    pagination.page === 1
-                      ? pagination.page
-                      : pagination.page - 1
-                  )
-                }
-                className="page-link"
-                href="#"
-              >
-                {pagination.page === 1 ? pagination.page : pagination.page - 1}
-              </a>
-            </li>
-            <li className={`page-item ${pagination.page !== 1 && `disabled`}`}>
-              <a
-                onClick={() => handlePaging(pagination.page + 1)}
-                className="page-link"
-                href="#"
-              >
-                {pagination.page === 1 ? pagination.page + 1 : pagination.page}
-              </a>
-            </li>
-            <li
-              className={`page-item ${
-                pagination.page === lastPage && `disabled`
-              }`}
-            >
-              <a
-                onClick={() => handlePaging(pagination.page + 1)}
-                className="page-link"
-                href="#"
-              >
-                {pagination.page === 1
-                  ? pagination.page + 2
-                  : pagination.page + 1}
-              </a>
-            </li>
-            <li
-              className={`page-item ${
-                pagination.page === lastPage && `disabled`
-              }`}
-            >
-              <a
-                className="page-link"
-                onClick={() => handlePaging(pagination.page + 1)}
-                href="#"
-              >
-                Next
-              </a>
-            </li>
-          </ul>
-        </nav>
+        <Paging
+          currentPage={pagination.page}
+          handleChange={handlePaging}
+          lastPage={Math.ceil(pagination.total / pagination.perPage)}
+        />
         <List products={products} />
-        <nav aria-label="Page navigation example mt-auto">
-          <ul className="pagination justify-content-center">
-            <li className={`page-item ${pagination.page === 1 && `disabled`}`}>
-              <a
-                onClick={() => handlePaging(pagination.page - 1)}
-                className="page-link"
-                href="#"
-                tabIndex="-1"
-              >
-                Previous
-              </a>
-            </li>
-            <li className={`page-item ${pagination.page === 1 && `disabled`}`}>
-              <a
-                onClick={() =>
-                  handlePaging(
-                    pagination.page === 1
-                      ? pagination.page
-                      : pagination.page - 1
-                  )
-                }
-                className="page-link"
-                href="#"
-              >
-                {pagination.page === 1 ? pagination.page : pagination.page - 1}
-              </a>
-            </li>
-            <li className={`page-item ${pagination.page !== 1 && `disabled`}`}>
-              <a
-                onClick={() => handlePaging(pagination.page + 1)}
-                className="page-link"
-                href="#"
-              >
-                {pagination.page === 1 ? pagination.page + 1 : pagination.page}
-              </a>
-            </li>
-            <li
-              className={`page-item ${
-                pagination.page === lastPage && `disabled`
-              }`}
-            >
-              <a
-                onClick={() => handlePaging(pagination.page + 1)}
-                className="page-link"
-                href="#"
-              >
-                {pagination.page === 1
-                  ? pagination.page + 2
-                  : pagination.page + 1}
-              </a>
-            </li>
-            <li
-              className={`page-item ${
-                pagination.page === lastPage && `disabled`
-              }`}
-            >
-              <a
-                className="page-link"
-                onClick={() => handlePaging(pagination.page + 1)}
-                href="#"
-              >
-                Next
-              </a>
-            </li>
-          </ul>
-        </nav>
+        <Paging
+          currentPage={pagination.page}
+          handleChange={handlePaging}
+          lastPage={Math.ceil(pagination.total / pagination.perPage)}
+        />
       </div>
     </div>
   );

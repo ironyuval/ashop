@@ -1,4 +1,5 @@
 const Paging = ({ currentPage, handleChange, lastPage }) => {
+  console.log(lastPage);
   return (
     <nav aria-label="Page navigation example">
       <ul className="pagination justify-content-center p-0 m-0">

@@ -1,33 +1,41 @@
 import nodemailer from 'nodemailer';
 
-// async..await is not allowed in global scope, must use a wrapper
-const sendMail = async () => {
-  // Generate test SMTP service account from ethereal.email
-  // Only needed if you don't have a real mail account for testing
-  // create reusable transporter object using the default SMTP transport
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'comix.mailer@gmail.com', // generated ethereal user
-      pass: 'M%Y!$6rn5GE,cB7', // generated ethereal password
-    },
-  });
+const sendMail = async (subject, text, html, recipents = []) => {
+  try {
+    const mailerUser = process.env.DEFAULT_MAILER_USER;
+    const mailerPass = process.env.DEFAULT_MAILER_PASSWORD;
 
-  // send mail with defined transport object
-  const info = await transporter.sendMail({
-    from: '"Fred Foo 👻" <comix.mailer@gmail.com>', // sender address
-    to: 'Gal B <galbenyosef@gmail.com>', // sender address
-    subject: 'Hello ✔', // Subject line
-    text: 'Hello world?', // plain text body
-    html: '<b>Hello world?</b>', // html body
-  });
+    console.log(mailerUser, mailerPass);
 
-  console.log('Message sent: %s', info.messageId);
-  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+    if (!mailerUser || !mailerPass) {
+      throw Error('Environment mailer credentials are missing');
+    }
 
-  // Preview only available when sending through an Ethereal account
-  console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-  // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+    if (recipents.length) {
+      throw Error('No recipents');
+    }
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: mailerUser,
+        pass: mailerPass,
+      },
+    });
+
+    await transporter.sendMail({
+      from: '"Comix Mailer 👻" <comix.mailer@gmail.com>', // sender address
+      to: recipents, // sender address
+      subject, // Subject line
+      text, // plain text body
+      html, // html body
+    });
+
+    console.log('Mail sent');
+
+    // send mail with defined transport object
+  } catch (e) {
+    console.log('Mail sent error', e.message);
+  }
 };
 
 export default sendMail;

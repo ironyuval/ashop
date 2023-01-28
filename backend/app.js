@@ -8,7 +8,6 @@ import testFn from '../frontend/src/server-shared/test';
 import productRoutes from './routes/product';
 import userRoutes from './routes/user';
 import authRoutes from './routes/auth';
-import sendMail from './utils/mailer';
 
 testFn();
 
@@ -32,7 +31,5 @@ app.use(express.static(path.join(__dirname, '../frontend/build')));
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../frontend/build/index.html'));
 });
-
-/* sendMail(); */
 
 export default app;

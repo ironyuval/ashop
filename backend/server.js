@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import app from './app';
 import User from './models/User';
 import { Permissions } from '../frontend/src/server-shared/types';
+import sendMail from './utils/mailer';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -45,6 +46,7 @@ const init = async () => {
     createMasterUser();
     await asyncListen();
     console.info(`server rest api address: http://localhost:${process.env.PORT}`);
+    sendMail();
   } catch (e) {
     console.error('server initialization failed, make sure DB_CLOUD and PORT environment vars exist');
   }
