@@ -1,5 +1,5 @@
 import api from "../../api";
-import { setIsLoading, setUser } from "../../redux/slice";
+import { setIsAppInited, setIsLoading, setUser } from "../../redux/slice";
 import axios from "axios";
 
 export const onTokenReceived = (token) => async (dispatch) => {
@@ -20,11 +20,11 @@ export const getUserData = () => async (dispatch) => {
     dispatch(setUser(data));
     console.log("user data received: ");
     console.log(data);
-    console.log("app inited");
   } catch (e) {
     console.log(e);
   } finally {
     dispatch(setIsLoading(false));
-    dispatch(setIsAppInited(true));
+    dispatch(setIsAppInited());
+    console.log("app inited");
   }
 };

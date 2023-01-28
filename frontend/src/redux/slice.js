@@ -38,7 +38,9 @@ export const coreSlice = createSlice({
         state.user.cart.push(productId);
       }
     },
-    setIsAppInited: (state) => (state.isAppInited = true),
+    setIsAppInited: (state) => {
+      state.isAppInited = true;
+    },
   },
 });
 

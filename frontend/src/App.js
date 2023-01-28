@@ -21,19 +21,19 @@ function App() {
     if (token) {
       dispatch(onTokenReceived(token));
     } else {
-      dispatch(setIsAppInited(true));
+      dispatch(setIsAppInited());
     }
   }, []);
 
   return (
     <>
-      <LoadingModal />
-
-      {isAppInited && (
+      {isAppInited ? (
         <Layout>
           <Modals />
           <AppRoutes />
         </Layout>
+      ) : (
+        <LoadingModal />
       )}
     </>
   );
