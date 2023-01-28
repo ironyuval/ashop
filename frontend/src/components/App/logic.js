@@ -18,12 +18,13 @@ export const getUserData = () => async (dispatch) => {
     console.log("getting data for user...");
     const { data } = await api.User.getData();
     dispatch(setUser(data));
-    console.log("user data: ");
+    console.log("user data received: ");
     console.log(data);
     console.log("app inited");
   } catch (e) {
     console.log(e);
   } finally {
     dispatch(setIsLoading(false));
+    dispatch(setIsAppInited(true));
   }
 };

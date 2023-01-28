@@ -62,8 +62,14 @@ export const modalsSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setUser, removeUser, setIsLoading, toggleWishlist, toggleCart } =
-  coreSlice.actions;
+export const {
+  setUser,
+  removeUser,
+  setIsLoading,
+  toggleWishlist,
+  toggleCart,
+  setIsAppInited,
+} = coreSlice.actions;
 
 export const {
   setIsLogoutModalShown,
