@@ -22,14 +22,21 @@ export const coreSlice = createSlice({
     },
     toggleWishlist: (state, action) => {
       const productId = action.payload;
-      let newWishlist = [...state.user.wishlist];
-      if (state.user.wishlist.includes(productId)) {
-        newWishlist = state.user.wishlist.filter((id) => id !== productId);
+      let wishlist = state.user.wishlist || [];
+      if (wishlist.includes(productId)) {
+        wishlist = wishlist.filter((product) => product._id !== productId);
       } else {
-        newWishlist.push(productId);
+        wishlist.push(productId);
       }
-
-      state.user.wishlist = newWishlist;
+    },
+    toggleCart: (state, action) => {
+      const productId = action.payload;
+      let cart = state.user.cart || [];
+      if (cart.includes(productId)) {
+        cart = cart.filter((product) => product._id !== productId);
+      } else {
+        cart.push(productId);
+      }
     },
     setIsAppInited: (state) => (state.isAppInited = true),
   },
@@ -55,7 +62,7 @@ export const modalsSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setUser, removeUser, setIsLoading, toggleWishlist } =
+export const { setUser, removeUser, setIsLoading, toggleWishlist, toggleCart } =
   coreSlice.actions;
 
 export const {

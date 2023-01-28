@@ -65,10 +65,25 @@ function Product(props) {
 
   return (
     <div
-      style={{ overflowY: "scroll" }}
-      className="d-flex justify-content-center flex-column align-items-center h-100"
+      className="d-block d-lg-flex align-items-center h-100 fs-5"
+      style={{ position: "relative", overflowY: "scroll" }}
     >
-      <div className="mt-2 mb-2 m-lg-auto h-100">
+      <div
+        style={{
+          backgroundImage: `url(${images[0].url})`,
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+          position: "absolute",
+          top: 0,
+          bottom: 0,
+          right: 0,
+          left: 0,
+          zIndex: -1,
+          filter: "blur(50px)",
+        }}
+      />
+      <div className="mt-2 mb-2 m-auto">
         {!isNew && (
           <DeleteModal
             productId={product._id}
@@ -79,20 +94,20 @@ function Product(props) {
         <div
           style={{
             maxWidth: "992px",
+            height: "600px",
           }}
           className="row m-auto"
         >
           <div className="col-12 col-lg-6 m-auto">
             <div
-              className="text-center m-auto"
+              className="m-auto"
               style={{
                 backgroundColor: "black",
                 backgroundImage: `url(${images[0].url})`,
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",
+                width: "400px",
                 aspectRatio: 2 / 3,
-                height: "100%",
-                width: "300px",
                 position: "relative",
                 overflow: "hidden",
                 backgroundSize: "cover",
@@ -104,7 +119,10 @@ function Product(props) {
             </div>
           </div>
 
-          <div style={{ width: "300px" }} className="col-12 col-lg-6 m-auto">
+          <div
+            style={{ width: "400px", backgroundColor: "rgba(0,0,0,0.3)" }}
+            className="rounded-3 col-12 col-lg-6 m-auto d-flex flex-column h-100 justify-content-between text-white"
+          >
             <div className="form-group">
               <label>Title</label>
               <input

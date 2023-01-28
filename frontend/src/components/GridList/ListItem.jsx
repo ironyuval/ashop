@@ -7,7 +7,9 @@ const MAX_LETTERS = 35;
 const ListItem = ({
   item: product,
   isFavorite,
+  isInCart,
   toggleWishlist,
+  toggleCart,
   handleClick,
   userPermission,
 }) => {
@@ -50,8 +52,13 @@ const ListItem = ({
         >
           <i className="bi bi-pen"></i>
         </button>
-        <button type="button" className="btn btn fs-5">
-          <i className="bi bi-cart3"></i> {`${product.price}.00$`}
+        <button
+          onClick={() => toggleCart(product._id)}
+          type="button"
+          className="btn btn fs-5"
+        >
+          <i className={`bi bi-cart${isInCart ? "-check-fill" : ""}`}></i>
+          {`${product.price}.00$`}
         </button>
         <button
           onClick={() => toggleWishlist(product._id)}

@@ -1,20 +1,33 @@
 import bcrypt from 'bcrypt';
+import Product from '../models/Product';
 import User from '../models/User';
 import Features from '../utils/Features';
 
 export const getUserData = async (request, response) => {
   try {
-    const { userId } = request;
-
-    const userFound = await User.findById(userId);
+    const { user } = request;
 
     return response.status(200).send({
-      email: userFound.email,
-      name: userFound.name,
-      wishlist: userFound.wishlist,
-      permission: userFound.permission,
-      image: userFound.image,
+      email: user.email,
+      name: user.name,
+      wishlist: user.wishlist,
+      cart: user.cart,
+      permission: user.permission,
+      image: user.image,
     });
+  } catch (e) {
+    console.log(e);
+    return response.status(400).send({
+      message: 'Server Error',
+    });
+  }
+};
+
+export const deleteAllUsers = async (request, response) => {
+  try {
+    await User.deleteMany({});
+
+    return response.status(200).send();
   } catch (e) {
     console.log(e);
     return response.status(400).send({
@@ -37,6 +50,28 @@ export const getAllUsers = async (req, res) => {
   });
 };
 
+export const getWishlist = async (req, res) => {
+  const userWishList = req.user.wishlist;
+
+  const feature = new Features(Product.find(
+    {
+      _id: {
+        $in: userWishList,
+      },
+    },
+  ), req.query)
+    .search()
+    .filter()
+    .pagination();
+  const wishlist = await feature.query;
+
+  res.status(200).json({
+    success: true,
+    wishlist,
+    count: wishlist.length,
+  });
+};
+
 export const toggleWishlist = async (req, res) => {
   const { userId } = req;
   const user = await User.findById(userId);
@@ -54,6 +89,32 @@ export const toggleWishlist = async (req, res) => {
     }
 
     user.wishlist = newWishlist;
+    await user.save();
+    return res.status(200).json({
+      success: true,
+    });
+  }
+  res.status(404).json({
+    success: false,
+  });
+};
+
+export const toggleCart = async (req, res) => {
+  const { user } = req;
+
+  if (user) {
+    const userCart = user.cart;
+    const productId = req.params.id;
+
+    let newCart = [...userCart];
+
+    if (newCart.includes(productId)) {
+      newCart = newCart.filter((id) => id !== productId);
+    } else {
+      newCart.push(productId);
+    }
+
+    user.cart = newCart;
     await user.save();
     return res.status(200).json({
       success: true,

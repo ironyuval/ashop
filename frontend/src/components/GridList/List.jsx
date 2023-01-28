@@ -1,5 +1,8 @@
 import ListItem from "./ListItem";
-import { toggleWishlist as toggleWishlistProduct } from "../../redux/slice";
+import {
+  toggleWishlist as toggleWishlistProduct,
+  toggleCart as toggleCartProduct,
+} from "../../redux/slice";
 import api from "../../api";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +12,7 @@ function List({ products }) {
   const user = useSelector((state) => state.core.user);
 
   const wishlist = user && user.wishlist;
+  const cart = user && user.cart;
 
   const dispatch = useDispatch();
 
@@ -22,10 +26,23 @@ function List({ products }) {
     return wishlist && wishlist.includes(productId);
   };
 
+  const isProductInCart = (productId) => {
+    return cart && cart.includes(productId);
+  };
+
   const toggleWishlist = async (productId) => {
     try {
       await api.User.toggleWishlist(productId);
       dispatch(toggleWishlistProduct(productId));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const toggleCart = async (productId) => {
+    try {
+      await api.User.toggleCart(productId);
+      dispatch(toggleCartProduct(productId));
     } catch (e) {
       console.log(e);
     }
@@ -40,7 +57,9 @@ function List({ products }) {
               <ListItem
                 item={product}
                 isFavorite={isProductFavorite(product._id)}
+                isInCart={isProductInCart(product._id)}
                 toggleWishlist={toggleWishlist}
+                toggleCart={toggleCart}
                 handleClick={() => handleClick(product)}
               />
             </div>

@@ -5,6 +5,7 @@ import User from './models/User';
 const handlePermissions = (permissions = []) => async (req, res, next) => {
   try {
     const { authorization } = req.headers;
+    console.log(authorization);
     const token = authorization && authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.SECRET);
     const { userId } = decodedToken;
@@ -13,6 +14,7 @@ const handlePermissions = (permissions = []) => async (req, res, next) => {
 
     if (permissions.length) {
       const userFound = await User.findById(userId);
+      req.user = userFound;
       // admin excluded
       if (!userFound
         || (userFound.permission !== Permissions.Master
@@ -20,8 +22,6 @@ const handlePermissions = (permissions = []) => async (req, res, next) => {
         throw (Error('Unauthorized user type!'));
       }
     }
-
-    req.userId = userId;
 
     next();
   } catch (error) {
