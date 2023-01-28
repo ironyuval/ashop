@@ -15,7 +15,7 @@ const ListItem = ({
 }) => {
   return (
     <div key={product._id} className="card m-auto text-center h-100">
-      <div className="m-auto">
+      <div className="m-auto border-bottom border-3">
         {product.title.substring(0, MAX_LETTERS).trim()}
         {product.title.length > MAX_LETTERS ? "..." : null}
       </div>

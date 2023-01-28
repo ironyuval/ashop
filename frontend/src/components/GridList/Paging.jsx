@@ -1,5 +1,4 @@
 const Paging = ({ currentPage, handleChange, lastPage }) => {
-  console.log(lastPage);
   return (
     <nav aria-label="Page navigation example">
       <ul className="pagination justify-content-center p-0 m-0">
@@ -24,7 +23,11 @@ const Paging = ({ currentPage, handleChange, lastPage }) => {
             {currentPage === 1 ? currentPage : currentPage - 1}
           </a>
         </li>
-        <li className={`page-item ${currentPage !== 1 && `disabled`}`}>
+        <li
+          className={`page-item ${
+            (currentPage !== 1 || lastPage === 1) && `disabled`
+          }`}
+        >
           <a
             onClick={() => handleChange(currentPage + 1)}
             className="page-link"

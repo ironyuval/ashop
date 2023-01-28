@@ -27,14 +27,12 @@ function App() {
 
   return (
     <>
-      {isAppInited ? (
-        <Layout>
-          <Modals />
-          <AppRoutes />
-        </Layout>
-      ) : (
-        <LoadingModal />
-      )}
+      <Layout>
+        <Modals />
+        <AppRoutes />
+      </Layout>
+
+      <LoadingModal />
     </>
   );
 }
