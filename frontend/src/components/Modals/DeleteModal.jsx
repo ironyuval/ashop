@@ -1,11 +1,9 @@
 import api from "../../api";
 import React from "react";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-const DeleteModal = ({ isShown, setIsShown, productId }) => {
+const DeleteModal = ({ productId }) => {
   const handleClose = () => setIsShown(false);
 
   const navigate = useNavigate();
@@ -29,22 +27,44 @@ const DeleteModal = ({ isShown, setIsShown, productId }) => {
   };
 
   return (
-    <>
-      <Modal show={isShown} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Delete Dialog</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Are you sure?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="danger" onClick={handleDelete}>
-            Confirm
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </>
+    <div className="modal fade" id="deleteModal" tabIndex="-1" role="dialog">
+      <div className="modal-dialog" role="document">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title" id="exampleModalLongTitle">
+              Logout
+            </h5>
+            <button
+              type="button"
+              className="close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">X</span>
+            </button>
+          </div>
+
+          <div className="modal-body">Are you sure?</div>
+          <div className="modal-footer">
+            <button
+              type="button"
+              className="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              onClick={handleDelete}
+              type="button"
+              data-bs-dismiss="modal"
+              className="btn btn-danger"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -1,4 +1,4 @@
-import { createSelector, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   user: null,
@@ -44,25 +44,6 @@ export const coreSlice = createSlice({
   },
 });
 
-export const modalsSlice = createSlice({
-  name: "modals",
-  initialState: {},
-  reducers: {
-    setIsLogoutModalShown: (state, action) => {
-      state.isLogoutModalShown = action.payload;
-    },
-    setIsLoginModalShown: (state, action) => {
-      state.isLoginModalShown = action.payload;
-    },
-    setIsProfileModalShown: (state, action) => {
-      state.isProfileModalShown = action.payload;
-    },
-    setIsFiltersModalShown: (state, action) => {
-      state.isFiltersModalShown = action.payload;
-    },
-  },
-});
-
 // Action creators are generated for each case reducer function
 export const {
   setUser,
@@ -72,15 +53,3 @@ export const {
   toggleCart,
   setIsAppInited,
 } = coreSlice.actions;
-
-export const {
-  setIsLogoutModalShown,
-  setIsProfileModalShown,
-  setIsLoginModalShown,
-  setIsFiltersModalShown,
-} = modalsSlice.actions;
-
-// Exported selectors for each reducer
-
-export const coreContext = createSelector((state) => state.core);
-export const modalsContext = createSelector((state) => state.modals);

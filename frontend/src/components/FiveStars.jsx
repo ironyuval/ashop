@@ -20,5 +20,12 @@ export const FiveStars = ({
     );
   }
 
-  return <div style={containerStyle}>{result}</div>;
+  return (
+    <div
+      className=" d-flex h-100 align-items-center justify-content-center"
+      style={containerStyle}
+    >
+      {result}
+    </div>
+  );
 };

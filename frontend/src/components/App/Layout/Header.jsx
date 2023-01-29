@@ -1,10 +1,6 @@
-import {
-  setIsLogoutModalShown,
-  setIsProfileModalShown,
-} from "../../../redux/slice";
 import { Permissions } from "../../../server-shared/types";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const HeaderItems = {
   Start: [
@@ -35,7 +31,6 @@ function Header() {
   const user = useSelector((state) => state.core.user);
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const location = useLocation();
 
   const isLoggedIn = Boolean(user);
@@ -84,20 +79,22 @@ function Header() {
               <>
                 <li className="nav-item">
                   <a
+                    data-bs-toggle="modal"
+                    data-bs-target="#loginModal"
                     className={`nav-link ${
                       location.pathname === "/login" ? "active" : ""
                     }`}
-                    onClick={() => navigate("/login")}
                   >
                     Login
                   </a>
                 </li>
                 <li className="nav-item">
                   <a
+                    data-bs-toggle="modal"
+                    data-bs-target="#registerModal"
                     className={`nav-link ${
                       location.pathname === "/register" ? "active" : ""
                     }`}
-                    onClick={() => navigate("/register")}
                   >
                     Register
                   </a>
@@ -132,12 +129,11 @@ function Header() {
                 </li>
                 <li className="nav-item">
                   <a
+                    data-bs-toggle="modal"
+                    data-bs-target="#profileModal"
                     className={`nav-link ${
                       location.pathname === "/profile" ? "active" : ""
                     }`}
-                    onClick={() => {
-                      dispatch(setIsProfileModalShown(true));
-                    }}
                   >
                     <i className="bi bi-person-circle me-1"></i>
                     {user.name}
@@ -145,10 +141,9 @@ function Header() {
                 </li>
                 <li className="nav-item">
                   <a
+                    data-bs-toggle="modal"
+                    data-bs-target="#logoutModal"
                     className="nav-link"
-                    onClick={() => {
-                      dispatch(setIsLogoutModalShown(true));
-                    }}
                   >
                     <i className="bi bi-box-arrow-left me-1"></i>
                     Logout

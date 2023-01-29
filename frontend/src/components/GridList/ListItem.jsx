@@ -15,14 +15,14 @@ const ListItem = ({
 }) => {
   return (
     <div key={product._id} className="card m-auto text-center h-100">
-      <div className="m-auto border-bottom border-3">
+      <div className="m-auto">
         {product.title.substring(0, MAX_LETTERS).trim()}
         {product.title.length > MAX_LETTERS ? "..." : null}
       </div>
 
-      <div className="row w-100 m-auto">
-        <div className="col p-0">{toCapitilize(product.genre)}</div>
-        <div className="col p-0">
+      <div className="row mx-auto w-100 border-top border-2">
+        <div className="col">{product.genre}</div>
+        <div className="col">
           <FiveStars size={12} rating={product.rating} />
         </div>
       </div>
@@ -33,8 +33,9 @@ const ListItem = ({
           backgroundImage: `url(${product.images[0].url})`,
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
-          height: "250px",
-          backgroundSize: "100%",
+          width: "100%",
+          aspectRatio: 2 / 3,
+          backgroundSize: "cover",
           position: "relative",
           overflow: "hidden",
         }}
@@ -68,7 +69,7 @@ const ListItem = ({
           <i className={`bi bi-heart${isFavorite ? "-fill" : ""}`}></i>
         </button>
       </div>
-      <div className="row m-auto w-100">
+      <div className="row mx-auto w-100">
         <div className="col text-center p-0">
           <span>
             {`${new Date(product.createdAt).toLocaleDateString("he-IL")}`}
