@@ -6,10 +6,16 @@ export const Genres = {
   SciFi: "scifi",
 };
 
-export const Permissions = {
-  Registered: "registered",
+export const Roles = {
+  User: "user",
   Admin: "admin",
   Master: "master",
+};
+
+export const Permissions = {
+  Registered: [Roles.User, Roles.Admin, Roles.Master],
+  Admin: [Roles.Admin, Roles.Master],
+  Master: [Roles.Master],
 };
 
 export const Filters = {

@@ -1,8 +1,7 @@
 import { FiveStars } from "./../FiveStars";
 import Diagonal from "./Diagonal";
-import { toCapitilize } from "../../utils/capitalize";
 
-const MAX_LETTERS = 35;
+const MAX_LETTERS = 40;
 
 const ListItem = ({
   item: product,

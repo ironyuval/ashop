@@ -3,6 +3,7 @@ import LogoutModal from "./LogoutModal";
 import MobileMenu from "./MobileMenu";
 import ProfileModal from "./ProfileModal";
 import { LoadingModal } from "./LoadingModal";
+import RegisterModal from "./RegisterModal";
 import { ToastContainer } from "react-toastify";
 import { useSelector } from "react-redux";
 
@@ -12,15 +13,18 @@ const Modals = () => {
   return (
     <>
       <MobileMenu />
-      <LoginModal />
-
       <ToastContainer position="bottom-right" />
       {user ? (
         <>
           <LogoutModal />
           <ProfileModal />
         </>
-      ) : null}
+      ) : (
+        <>
+          <LoginModal />
+          <RegisterModal />
+        </>
+      )}
     </>
   );
 };

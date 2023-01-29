@@ -2,30 +2,58 @@ import { Permissions } from "../../../server-shared/types";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const HeaderItems = {
+const getHeaderItems = (user) => ({
   Start: [
     {
       path: "/",
-      title: "Home",
+      title: "home",
+      icon: "bi bi-house",
     },
     {
       path: "/about",
-      title: "About",
+      title: "about",
     },
     {
       path: "/browse",
-      title: "Browse",
+      title: "browse",
       icon: "bi bi-search",
     },
     {
       path: "/wishlist",
-      title: "Wishlist",
+      title: "wishlist",
       icon: "bi bi-heart",
-      permission: [Permissions.Registered],
+      permission: Permissions.Registered,
     },
   ],
-  End: [],
-};
+  End: !user
+    ? [
+        {
+          title: "login",
+          toggle: "loginModal",
+        },
+        {
+          title: "register",
+          toggle: "registerModal",
+        },
+      ]
+    : [
+        {
+          path: "/cart",
+          title: "cart",
+          icon: "bi bi-cart3",
+        },
+        {
+          title: user.name,
+          icon: "bi bi-person-circle",
+          toggle: "profileModal",
+        },
+        {
+          title: "logout",
+          icon: "bi bi-box-arrow-left",
+          toggle: "logoutModal",
+        },
+      ],
+});
 
 function Header() {
   const user = useSelector((state) => state.core.user);
@@ -33,7 +61,7 @@ function Header() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const isLoggedIn = Boolean(user);
+  const HeaderItems = getHeaderItems(user);
 
   return (
     <nav className="navbar navbar-light grad navbar-expand-md bg ">
@@ -75,82 +103,31 @@ function Header() {
           </ul>
 
           <ul className="navbar-nav">
-            {!isLoggedIn ? (
-              <>
-                <li className="nav-item">
+            {HeaderItems.End.map((item, index) => {
+              if (
+                (!user && item.permission) ||
+                (item.permission &&
+                  user.permission !== Permissions.Master &&
+                  !item.permission.includes(user.permission))
+              )
+                return null;
+              return (
+                <li key={index} className="nav-item">
                   <a
                     data-bs-toggle="modal"
-                    data-bs-target="#loginModal"
+                    data-bs-target={`#${item.toggle}`}
                     className={`nav-link ${
-                      location.pathname === "/login" ? "active" : ""
+                      location.pathname === item.path ? "active" : ""
                     }`}
+                    aria-current="page"
+                    onClick={() => item.path && navigate(item.path)}
                   >
-                    Login
+                    {item.icon && <i className={`${item.icon} me-1`}></i>}
+                    {item.title}
                   </a>
                 </li>
-                <li className="nav-item">
-                  <a
-                    data-bs-toggle="modal"
-                    data-bs-target="#registerModal"
-                    className={`nav-link ${
-                      location.pathname === "/register" ? "active" : ""
-                    }`}
-                  >
-                    Register
-                  </a>
-                </li>
-              </>
-            ) : (
-              <>
-                {user.permission === Permissions.Admin ? (
-                  <li className="nav-item">
-                    <a
-                      className={`nav-link ${
-                        location.pathname === "/admin" ? "active" : ""
-                      }`}
-                      onClick={() => navigate("/admin")}
-                    >
-                      Admin
-                    </a>
-                  </li>
-                ) : undefined}
-                <li className="nav-item">
-                  <a
-                    className={`nav-link ${
-                      location.pathname === "/cart" ? "active" : ""
-                    }`}
-                    onClick={() => {
-                      navigate("/cart");
-                    }}
-                  >
-                    <i className="bi bi-cart3 me-1"></i>
-                    Cart
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a
-                    data-bs-toggle="modal"
-                    data-bs-target="#profileModal"
-                    className={`nav-link ${
-                      location.pathname === "/profile" ? "active" : ""
-                    }`}
-                  >
-                    <i className="bi bi-person-circle me-1"></i>
-                    {user.name}
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a
-                    data-bs-toggle="modal"
-                    data-bs-target="#logoutModal"
-                    className="nav-link"
-                  >
-                    <i className="bi bi-box-arrow-left me-1"></i>
-                    Logout
-                  </a>
-                </li>
-              </>
-            )}
+              );
+            })}
           </ul>
         </div>
       </div>
