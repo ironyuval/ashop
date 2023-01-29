@@ -128,7 +128,7 @@ function Product(props) {
               <input
                 value={title}
                 onChange={(event) => {
-                  setName(event.target.value);
+                  setTitle(event.target.value);
                 }}
                 className="form-control"
                 placeholder="Enter name"
