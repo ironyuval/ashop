@@ -29,10 +29,10 @@ function Product(props) {
   const renderGenres = () => {
     const options = [];
 
-    for (const key in Object.keys(Genres)) {
+    for (const key of Object.keys(Genres)) {
       options.push(
-        <option key={key} value={Genres[key]}>
-          {key}
+        <option key={key} value={key}>
+          {Genres[key]}
         </option>
       );
     }
@@ -198,7 +198,7 @@ function Product(props) {
                 }}
                 className="form-control"
               >
-                <option hidden>Choose Category</option>
+                <option hidden>Choose Genre</option>
                 {renderGenres()}
               </select>
             </div>
