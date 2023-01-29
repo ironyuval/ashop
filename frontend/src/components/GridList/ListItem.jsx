@@ -20,9 +20,9 @@ const ListItem = ({
         {product.title.length > MAX_LETTERS ? "..." : null}
       </div>
 
-      <div className="row">
-        <div className="col">{toCapitilize(product.genre)}</div>
-        <div className="col">
+      <div className="row w-100 m-auto">
+        <div className="col p-0">{toCapitilize(product.genre)}</div>
+        <div className="col p-0">
           <FiveStars size={12} rating={product.rating} />
         </div>
       </div>
@@ -68,13 +68,13 @@ const ListItem = ({
           <i className={`bi bi-heart${isFavorite ? "-fill" : ""}`}></i>
         </button>
       </div>
-      <div className="row">
-        <div className="col text-center">
+      <div className="row m-auto w-100">
+        <div className="col text-center p-0">
           <span>
             {`${new Date(product.createdAt).toLocaleDateString("he-IL")}`}
           </span>
         </div>
-        <div className="col text-center">
+        <div className="col text-center p-0">
           <i className="bi bi-person-fill" />
           <span>{`${product.createdBy?.name || "Unknown"}`}</span>
         </div>
