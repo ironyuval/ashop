@@ -1,4 +1,4 @@
-import { removeUser } from "../../redux/slice";
+import { removeUser } from "../../../redux/slice";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";

@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import app from './app';
 import User from './models/User';
-import { Permissions } from '../frontend/src/server-shared/types';
+import { Roles } from '../frontend/src/server-shared/types';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -14,14 +14,14 @@ if (isDevelopment) {
 }
 
 const createMasterUser = async () => {
-  const hashedPassword = await bcrypt
-    .hash(process.env.DEFAULT_MASTER_PASSWORD, 10);
+  const hashedPassword = bcrypt
+    .hashSync(process.env.DEFAULT_MASTER_PASSWORD, 10);
 
   const master = {
     name: 'Master',
     email: process.env.DEFAULT_MASTER_EMAIL,
     password: hashedPassword,
-    permission: Permissions.Master,
+    role: Roles.Master,
   };
 
   const options = { upsert: true, new: true, setDefaultsOnInsert: true };

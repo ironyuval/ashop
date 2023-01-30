@@ -1,4 +1,4 @@
-import DeleteModal from "../components/Modals/DeleteModal";
+import DeleteModal from "../components/Modals/product/DeleteModal";
 import api from "../api";
 import { Genres } from "../server-shared/types";
 import Diagonal from "../components/GridList/Diagonal";

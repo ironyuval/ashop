@@ -1,5 +1,5 @@
-import { Filters } from "../../server-shared/types";
-import { toCapitilize } from "../../utils/capitalize";
+import { Filters } from "../../../server-shared/types";
+import { toCapitilize } from "../../../utils/capitalize";
 import React from "react";
 import { useState } from "react";
 import { useRef } from "react";

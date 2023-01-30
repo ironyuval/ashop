@@ -1,8 +1,7 @@
 import jwt from 'jsonwebtoken';
-import { Permissions } from '../frontend/src/server-shared/types';
 import User from './models/User';
 
-const handlePermissions = (permissions = []) => async (req, res, next) => {
+const setPermissions = (permissions = []) => async (req, res, next) => {
   try {
     const { authorization } = req.headers;
     const token = authorization && authorization.split(' ')[1];
@@ -16,8 +15,7 @@ const handlePermissions = (permissions = []) => async (req, res, next) => {
       req.user = userFound;
       // admin excluded
       if (!userFound
-        || (userFound.permission !== Permissions.Master
-         && !permissions.includes(userFound.permission))) {
+        || (!permissions.includes(userFound.role))) {
         throw (Error('Unauthorized user type!'));
       }
     }
@@ -31,4 +29,4 @@ const handlePermissions = (permissions = []) => async (req, res, next) => {
   }
 };
 
-export default handlePermissions;
+export default setPermissions;

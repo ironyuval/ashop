@@ -1,6 +1,7 @@
-import loginSchema from "../../validation/login.validation";
-import api from "../../api";
-import { onTokenReceived } from "../App/logic";
+import loginSchema from "../../../validation/login.validation";
+import api from "../../../api";
+import { onTokenReceived } from "../../App/logic";
+import getModalById from "../../../utils/getModalById";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
@@ -40,7 +41,8 @@ const LoginModal = () => {
       const response = await api.Auth.login(email, password);
       const token = response.data.token;
       dispatch(onTokenReceived(token));
-      navigate("/");
+      const loginModal = getModalById("loginModal");
+      loginModal.hide();
     }
   };
 
@@ -99,7 +101,6 @@ const LoginModal = () => {
             <button
               onClick={handleSubmit}
               type="button"
-              data-bs-dismiss="modal"
               className="btn btn-primary"
             >
               Login

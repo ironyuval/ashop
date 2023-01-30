@@ -1,2 +1,4 @@
 const getModalById = (id) =>
-  new bootstrap.Modal(document.getElementById(id), {});
+  bootstrap.Modal.getInstance(document.getElementById(id));
+
+export default getModalById;

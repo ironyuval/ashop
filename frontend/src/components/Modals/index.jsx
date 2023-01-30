@@ -1,9 +1,9 @@
-import LoginModal from "./LoginModal";
-import LogoutModal from "./LogoutModal";
+import LoginModal from "./auth/LoginModal";
+import LogoutModal from "./auth/LogoutModal";
 import MobileMenu from "./MobileMenu";
-import ProfileModal from "./ProfileModal";
+import ProfileModal from "./user/ProfileModal";
 import { LoadingModal } from "./LoadingModal";
-import RegisterModal from "./RegisterModal";
+import RegisterModal from "./auth/RegisterModal";
 import { ToastContainer } from "react-toastify";
 import { useSelector } from "react-redux";
 

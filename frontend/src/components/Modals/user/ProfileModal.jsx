@@ -1,20 +1,42 @@
-import { setUser } from "../../redux/slice";
-import api from "../../api";
+import { setUser } from "../../../redux/slice";
+import api from "../../../api";
+import getModalById from "../../../utils/getModalById";
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRef } from "react";
+import { toast } from "react-toastify";
 
 const ProfileModal = () => {
   const user = useSelector((state) => state.core.user);
+  console.log(user);
 
   const dispatch = useDispatch();
 
-  const [name, setName] = useState(user ? user.name : "");
   const [image, setImage] = useState(user ? user.image || "" : "");
+
+  const nameRef = useRef();
 
   const oldPasswordRef = useRef(null);
   const newPasswordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
+
+  const [errors, setErrors] = useState({});
+
+  /*   const isValid =
+    nameRef.current?.value &&
+    emailRef.current?.value &&
+    passwordRef.current?.value &&
+    confirmPasswordRef.current?.value &&
+    !Object.keys(errors).length; */
+  const handleError = (errorField, errorMessage) => {
+    setErrors((errors) => ({ ...errors, [errorField]: errorMessage }));
+  };
+
+  const clearError = (errorField) => {
+    const newErrors = { ...errors };
+    delete newErrors[errorField];
+    setErrors(newErrors);
+  };
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -28,7 +50,24 @@ const ProfileModal = () => {
     setName(user.name);
   };
 
+  const handleValidateBySchema = (name, schema) => (e) => {
+    const value = e.target.value;
+
+    const validatedValue = schema.validate(value);
+
+    const { error } = validatedValue;
+    if (error) {
+      for (let item of error.details) {
+        const errorMessage = item.message.split('" ')[1];
+        handleError(name, errorMessage);
+      }
+    } else {
+      clearError(name);
+    }
+  };
+
   const handleSave = async () => {
+    const name = nameRef.current.value;
     const data = {
       name,
       image,
@@ -37,10 +76,17 @@ const ProfileModal = () => {
     };
 
     try {
-      await api.User.updateUser(user._id, data);
+      console.log(data);
+      await api.User.updateData(user._id, data);
       dispatch(setUser({ name, image }));
+      const profileModal = getModalById("profileModal");
+      profileModal.hide();
     } catch (e) {
-      console.log(e.message);
+      if (e.response.data.message) {
+        toast.error(`${e.response.data.message}`);
+      } else {
+        toast.error(`${e.message}`);
+      }
     }
   };
 
@@ -66,20 +112,23 @@ const ProfileModal = () => {
 
           <div className="modal-body">
             <div className="d-flex flex-column align-items-center">
-              {image ? (
-                <img height={200} width={200} src={image} />
-              ) : (
-                <i
-                  style={{ fontSize: 60 }}
-                  className="bi bi-person-circle me-1"
-                ></i>
-              )}
+              <div className="mb-2">
+                {image ? (
+                  <img height={200} width={200} src={image} />
+                ) : (
+                  <i
+                    style={{ fontSize: 60 }}
+                    className="bi bi-person-circle"
+                  ></i>
+                )}
+              </div>
+
               <div className="input-group mb-3">
                 <span className="input-group-text">Username</span>
 
                 <input
-                  value={name}
-                  onChange={handleNameChange}
+                  ref={nameRef}
+                  defaultValue={user.name}
                   type="text"
                   className="form-control"
                   aria-label="Username"
@@ -115,7 +164,7 @@ const ProfileModal = () => {
 
                 <input
                   ref={oldPasswordRef}
-                  type="text"
+                  type="password"
                   className="form-control"
                   aria-label="Old password"
                   aria-describedby="basic-addon1"
@@ -126,7 +175,7 @@ const ProfileModal = () => {
 
                 <input
                   ref={newPasswordRef}
-                  type="text"
+                  type="password"
                   className="form-control"
                   aria-label="New password"
                   aria-describedby="basic-addon1"
@@ -137,7 +186,7 @@ const ProfileModal = () => {
 
                 <input
                   ref={confirmPasswordRef}
-                  type="text"
+                  type="password"
                   className="form-control"
                   aria-label="Confirm new password"
                   aria-describedby="basic-addon1"
@@ -156,7 +205,6 @@ const ProfileModal = () => {
             <button
               onClick={handleSave}
               type="button"
-              data-bs-dismiss="modal"
               className="btn btn-danger"
             >
               Save

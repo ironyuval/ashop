@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 function App() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.core.user);
+  const userMail = user && user.email;
   const isAppInited = useSelector((state) => state.core.isAppInited);
 
   useEffect(() => {
@@ -27,10 +28,10 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (user && user.name) {
+    if (userMail) {
       toast.success(`Welcome, ${user.name}!`);
     }
-  }, [user]);
+  }, [userMail]);
 
   return (
     <>

@@ -12,7 +12,7 @@ export const getUserData = async (request, response) => {
       name: user.name,
       wishlist: user.wishlist,
       cart: user.cart,
-      permission: user.permission,
+      role: user.role,
       image: user.image,
     });
   } catch (e) {
@@ -152,38 +152,40 @@ export const toggleCart = async (req, res) => {
 };
 
 export const updateUserData = async (req, res) => {
-  const { user } = req;
-  const { body } = req;
+  try {
+    const { user } = req;
+    const { body } = req;
 
-  const userFound = await User.findById(user.userId);
+    // user changing password
+    if (body.newPassword) {
+      const passwordCheck = await bcrypt.compare(
+        req.body.oldPassword,
+        user.password,
+      );
 
-  if (body.newPassword) {
-    if (!userFound) {
-      return res.status(404).send({ message: 'Email not found' });
+      if (!passwordCheck) {
+        return res.status(400).send({
+          message: 'Old password does not match',
+        });
+      }
+
+      const hashedPassword = await bcrypt.hash(body.newPassword, 10);
+
+      user.password = hashedPassword;
     }
 
-    const passwordCheck = await bcrypt.compare(
-      req.body.oldPassword,
-      userFound.password,
-    );
+    user.name = body.name;
+    user.image = body.image;
 
-    if (!passwordCheck) {
-      return res.status(400).send({
-        message: 'Old password does not match',
-      });
-    }
+    user.save();
 
-    const hashedPassword = await bcrypt.hash(body.newPassword, 10);
-
-    userFound.password = hashedPassword;
+    res.status(200).json({
+      success: true,
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(400).json({
+      success: true,
+    });
   }
-
-  userFound.name = body.name;
-  userFound.image = body.image;
-
-  userFound.save();
-
-  res.status(200).json({
-    success: true,
-  });
 };

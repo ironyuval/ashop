@@ -1,8 +1,6 @@
 import Home from "../../pages/Home";
 import About from "../../pages/About";
 import Browse from "../../pages/Browse";
-import Register from "../../pages/Register";
-import LoginPage from "../../pages/LoginPage";
 import Admin from "../../pages/Admin";
 import Product from "../../pages/Product";
 import Wishlist from "../../pages/Wishlist";
@@ -16,8 +14,6 @@ export const AppRoutes = () => (
     <Route path="/browse" element={<Browse />} />
     <Route path="/wishlist" element={<Wishlist />} />
     <Route path="/cart" element={<Cart />} />
-    <Route path="/register" element={<Register />} />
-    <Route path="/login" element={<LoginPage />} />
     <Route path="/admin" element={<Admin />} />
     <Route path="/product/:productId" element={<Product />} />
     <Route path="/404" element={<div>404</div>} />

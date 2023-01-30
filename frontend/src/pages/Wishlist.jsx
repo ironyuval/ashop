@@ -1,7 +1,7 @@
 import List from "../components/GridList/List";
 import api from "../api";
 import Logo from "../assets/logo.png";
-import FiltersModal from "../components/Modals/FiltersModal";
+import FiltersModal from "../components/Modals/product/FiltersModal";
 import Paging from "../components/GridList/Paging";
 import { useState } from "react";
 import { useEffect } from "react";
