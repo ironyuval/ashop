@@ -13,9 +13,6 @@ export const onTokenReceived = (token) => async (dispatch) => {
 export const getUserData = () => async (dispatch) => {
   try {
     dispatch(setIsLoading(true));
-
-    console.log("initing app...");
-    console.log("getting data for user...");
     const { data } = await api.User.getData();
     dispatch(setUser(data));
     console.log("user data received: ");
@@ -25,6 +22,5 @@ export const getUserData = () => async (dispatch) => {
   } finally {
     dispatch(setIsLoading(false));
     dispatch(setIsAppInited());
-    console.log("app inited");
   }
 };

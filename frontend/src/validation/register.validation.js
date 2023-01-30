@@ -3,15 +3,23 @@ import Joi from "joi";
 const passRegex =
   /^(?=.*[A-Z])(?=.*[a-z])(?=.*[$&+,:;=?@#|'<>.^*()%!-])(?=(?:.*[0-9]){4}).*/;
 
-export const registerSchema = Joi.object({
-  name: Joi.string().min(2).max(255).required(),
-  email: Joi.string()
-    .min(6)
-    .max(64)
-    .email({ tlds: { allow: false } })
-    .required(),
-  password: Joi.string().min(8).max(30).regex(passRegex).required(),
-  confirmPassword: Joi.ref("password"),
-});
+export const emailSchema = Joi.string()
+  .min(6)
+  .max(32)
+  .email({ tlds: { allow: false } })
+  .trim()
+  .required();
+export const nameSchema = Joi.string().min(2).max(16).trim().required();
 
-export default registerSchema;
+export const passwordSchema = Joi.string()
+  .min(8)
+  .max(16)
+  .regex(passRegex)
+  .trim()
+  .required();
+
+export const registerSchema = Joi.object({
+  name: nameSchema,
+  email: emailSchema,
+  password: passwordSchema,
+});

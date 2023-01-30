@@ -18,12 +18,13 @@ const getHeaderItems = (user) => ({
       title: "browse",
       icon: "bi bi-search",
     },
-    {
-      path: "/wishlist",
-      title: "wishlist",
-      icon: "bi bi-heart",
-      permission: Permissions.Registered,
-    },
+    user
+      ? {
+          path: "/wishlist",
+          title: "wishlist",
+          icon: "bi bi-heart",
+        }
+      : null,
   ],
   End: !user
     ? [
@@ -78,13 +79,7 @@ function Header() {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-sm-0">
             {HeaderItems.Start.map((item, index) => {
-              if (
-                (!user && item.permission) ||
-                (item.permission &&
-                  user.permission !== Permissions.Master &&
-                  !item.permission.includes(user.permission))
-              )
-                return null;
+              if (!item) return null;
               return (
                 <li key={index} className="nav-item">
                   <a
@@ -104,13 +99,7 @@ function Header() {
 
           <ul className="navbar-nav">
             {HeaderItems.End.map((item, index) => {
-              if (
-                (!user && item.permission) ||
-                (item.permission &&
-                  user.permission !== Permissions.Master &&
-                  !item.permission.includes(user.permission))
-              )
-                return null;
+              if (!item) return null;
               return (
                 <li key={index} className="nav-item">
                   <a

@@ -5,8 +5,6 @@ const sendMail = async (subject, text, html, recipents = []) => {
     const mailerUser = process.env.DEFAULT_MAILER_USER;
     const mailerPass = process.env.DEFAULT_MAILER_PASSWORD;
 
-    console.log(mailerUser, mailerPass);
-
     if (!mailerUser || !mailerPass) {
       throw Error('Environment mailer credentials are missing');
     }

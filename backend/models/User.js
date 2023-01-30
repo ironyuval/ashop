@@ -1,5 +1,5 @@
 import mongoose, { model, Types } from 'mongoose';
-import { Permissions } from '../../frontend/src/server-shared/types';
+import { Roles } from '../../frontend/src/server-shared/types';
 
 const UserSchema = new mongoose.Schema({
 
@@ -19,11 +19,10 @@ const UserSchema = new mongoose.Schema({
     required: [true, 'Please provide a password!'],
   },
 
-  permission: {
+  role: {
     type: String,
-    enum: Object.values(Permissions),
-    default: Permissions.Registered,
-    required: [true, 'Please provide a permission!'],
+    enum: Object.values(Roles),
+    default: Roles.User,
   },
 
   image: {

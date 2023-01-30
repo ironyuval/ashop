@@ -1,4 +1,3 @@
-import testFn from "./server-shared/test";
 import "./App.css";
 import { AppRoutes } from "./components/App/Routes";
 import Layout from "./components/App/Layout";
@@ -10,19 +9,19 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-testFn();
-
 function App() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.core.user);
   const isAppInited = useSelector((state) => state.core.isAppInited);
 
   useEffect(() => {
+    console.log("initing app...");
     const token = localStorage.getItem("token");
 
     if (token) {
       dispatch(onTokenReceived(token));
     } else {
+      console.log("no user logged");
       dispatch(setIsAppInited());
     }
   }, []);

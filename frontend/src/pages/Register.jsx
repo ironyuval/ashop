@@ -1,4 +1,4 @@
-import registerSchema from "../validation/register.validation";
+import { registerSchema } from "../validation/register.validation";
 import api from "../api";
 import { onTokenReceived } from "../components/App/logic";
 import { useState } from "react";

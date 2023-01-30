@@ -39,6 +39,7 @@ export const coreSlice = createSlice({
       }
     },
     setIsAppInited: (state) => {
+      console.log("app inited");
       state.isAppInited = true;
     },
   },
