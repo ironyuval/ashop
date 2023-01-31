@@ -6,10 +6,12 @@ import { loginSchema } from '../../frontend/src/server-shared/validation/login.v
 import User from '../models/User';
 
 export const register = async (req, res) => {
+  const requestEmail = req.body.email.toLowerCase();
+
   try {
     const validatedValue = registerSchema.validate({
       name: req.body.name,
-      email: req.body.email,
+      email: requestEmail,
       password: req.body.password,
     });
 
@@ -21,7 +23,7 @@ export const register = async (req, res) => {
       throw (new Error(errorMessage));
     }
 
-    const userExists = await User.findOne({ email: req.body.email });
+    const userExists = await User.findOne({ email: requestEmail });
     if (userExists) {
       return res.status(500).json({
         message: 'User already exists',
@@ -32,7 +34,7 @@ export const register = async (req, res) => {
 
     const user = new User({
       name: req.body.name,
-      email: req.body.email,
+      email: requestEmail,
       password: hashedPassword,
     });
 
@@ -59,8 +61,10 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
+    const requestEmail = req.body.email.toLowerCase();
+
     const validatedValue = loginSchema.validate({
-      email: req.body.email,
+      email: requestEmail,
       password: req.body.password,
     });
 
@@ -72,7 +76,9 @@ export const login = async (req, res) => {
       throw (new Error(errorMessage));
     }
 
-    const user = await User.findOne({ email: req.body.email });
+    console.log(req.body.email);
+
+    const user = await User.findOne({ email: requestEmail });
 
     if (!user) {
       return res.status(404).send({ message: 'Email not found' });

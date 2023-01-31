@@ -70,6 +70,7 @@ function Product(props) {
         toast.success("Product updated successfully");
       }
     } catch (e) {
+      toast.error("Error");
       console.log(e);
     }
   };
