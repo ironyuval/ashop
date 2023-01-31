@@ -51,104 +51,129 @@ export const getAllUsers = async (req, res) => {
 };
 
 export const getWishlist = async (req, res) => {
-  const userWishList = req.user.wishlist;
+  try {
+    const userWishList = req.user.wishlist;
 
-  const feature = new Features(Product.find(
-    {
-      _id: {
-        $in: userWishList,
+    const feature = new Features(Product.find(
+      {
+        _id: {
+          $in: userWishList,
+        },
       },
-    },
-  ), req.query)
-    .search()
-    .filter()
-    .pagination();
-  const wishlist = await feature.query;
-  const totalCount = await feature.count();
+    ), req.query)
+      .search()
+      .filter()
+      .pagination();
+    const wishlist = await feature.query;
+    const totalCount = await feature.count();
 
-  res.status(200).json({
-    success: true,
-    data: wishlist,
-    count: wishlist.length,
-    totalCount,
-  });
+    res.status(200).json({
+      success: true,
+      data: wishlist,
+      count: wishlist.length,
+      totalCount,
+    });
+  } catch (e) {
+    res.status(400).json({
+      success: false,
+      message: e,
+    });
+  }
 };
 
 export const getCart = async (req, res) => {
-  const userCart = req.user.cart;
+  try {
+    const userCart = req.user.cart;
 
-  const feature = new Features(Product.find(
-    {
-      _id: {
-        $in: userCart,
+    const feature = new Features(Product.find(
+      {
+        _id: {
+          $in: userCart,
+        },
       },
-    },
-  ), req.query)
-    .search()
-    .filter()
-    .pagination();
+    ), req.query)
+      .search()
+      .filter()
+      .pagination();
 
-  const totalCount = await feature.count();
-  const cart = await feature.query;
+    const totalCount = await feature.count();
+    const cart = await feature.query;
 
-  res.status(200).json({
-    success: true,
-    data: cart,
-    count: cart.length,
-    totalCount,
-  });
+    res.status(200).json({
+      success: true,
+      data: cart,
+      count: cart.length,
+      totalCount,
+    });
+  } catch (e) {
+    res.status(404).json({
+      success: false,
+      message: e,
+    });
+  }
 };
 
 export const toggleWishlist = async (req, res) => {
-  const { user } = req;
+  try {
+    const { user } = req;
 
-  if (user) {
-    const wishlist = user.wishlist || [];
-    const productId = (req.params.id);
+    if (user) {
+      const wishlist = user.wishlist || [];
+      const productId = (req.params.id);
 
-    let newWishlist = [...wishlist];
+      let newWishlist = [...wishlist];
 
-    if (wishlist.includes((productId))) {
-      newWishlist = wishlist.filter((id) => !id.equals(productId));
-    } else {
-      newWishlist.push(productId);
+      if (wishlist.includes((productId))) {
+        newWishlist = wishlist.filter((id) => !id.equals(productId));
+      } else {
+        newWishlist.push(productId);
+      }
+
+      user.wishlist = newWishlist;
+      await user.save();
+      return res.status(200).json({
+        success: true,
+      });
     }
-
-    user.wishlist = newWishlist;
-    await user.save();
-    return res.status(200).json({
-      success: true,
+    res.status(404).json({
+      success: false,
+    });
+  } catch (e) {
+    res.status(404).json({
+      success: false,
+      message: e,
     });
   }
-  res.status(404).json({
-    success: false,
-  });
 };
 
 export const toggleCart = async (req, res) => {
-  const { user } = req;
+  try {
+    const { user } = req;
 
-  if (user) {
-    const cart = user.cart || [];
-    const productId = (req.params.id);
+    if (user) {
+      const cart = user.cart || [];
+      const productId = (req.params.id);
 
-    let newCart = [...cart];
+      let newCart = [...cart];
 
-    if (cart.includes((productId))) {
-      newCart = cart.filter((id) => !id.equals(productId));
-    } else {
-      newCart.push(productId);
+      if (cart.includes((productId))) {
+        newCart = cart.filter((id) => !id.equals(productId));
+      } else {
+        newCart.push(productId);
+      }
+
+      user.cart = newCart;
+      await user.save();
+      return res.status(200).json({
+        success: true,
+      });
     }
-
-    user.cart = newCart;
-    await user.save();
-    return res.status(200).json({
-      success: true,
+  } catch (e) {
+    res.status(404).json({
+      success: false,
+      message: e,
     });
   }
-  res.status(404).json({
-    success: false,
-  });
 };
 
 export const updateUserData = async (req, res) => {
@@ -185,7 +210,7 @@ export const updateUserData = async (req, res) => {
   } catch (e) {
     console.log(e);
     res.status(400).json({
-      success: true,
+      success: false,
     });
   }
 };
