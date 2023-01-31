@@ -159,7 +159,11 @@ const RegisterModal = () => {
                   }`}
                   id="exampleInputPassword1"
                 />
-                <div className="invalid-feedback">{errors["password"]}</div>
+                <div className="invalid-feedback">
+                  {
+                    "Minimum eight and maximum 16 characters, at least one uppercase letter, one lowercase letter, at least four numbers and one special character"
+                  }
+                </div>
               </div>
               <div>
                 <label

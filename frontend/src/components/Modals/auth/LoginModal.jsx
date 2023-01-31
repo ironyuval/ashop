@@ -113,7 +113,7 @@ const LoginModal = () => {
                   errors["password"] ? "is-invalid" : ""
                 }`}
               />
-              <div className="invalid-feedback">{errors["password"]}</div>
+              <div className="invalid-feedback">{'errors["password"]'}</div>
             </div>
             <div className="input-group">
               <a className="mt-3">Forgot Password</a>
