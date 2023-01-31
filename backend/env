@@ -3,6 +3,6 @@ SECRET='secret'
 DB_URL="mongodb://localhost:27017/eshop"
 DB_CLOUD="mongodb+srv://admin:7L8m5XkTdf!ga6D@cluster0.xziwijd.mongodb.net/main"
 DEFAULT_MASTER_EMAIL='ironyuval65@gmail.com'
-DEFAULT_MASTER_PASSWORD='123456'
+DEFAULT_MASTER_PASSWORD='123456aaAA!'
 DEFAULT_MAILER_USER='comix.mailer@gmail.com'
 DEFAULT_MAILER_PASSWORD='wbpvcrgarsshremf'

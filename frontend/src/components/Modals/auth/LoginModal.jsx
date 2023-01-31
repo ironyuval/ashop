@@ -102,7 +102,7 @@ const LoginModal = () => {
 
               <input
                 ref={passwordRef}
-                defaultValue={isDevelopment ? "123456" : ""}
+                defaultValue={isDevelopment ? "123456aaAA!" : ""}
                 type="password"
                 aria-label="password"
                 aria-describedby="basic-addon1"
