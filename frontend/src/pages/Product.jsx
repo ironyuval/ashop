@@ -1,16 +1,23 @@
 import DeleteModal from "../components/Modals/product/DeleteModal";
 import api from "../api";
-import { Genres } from "../server-shared/types";
+import { Genres, Roles } from "../server-shared/types";
 import Diagonal from "../components/GridList/Diagonal";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 function Product(props) {
   const params = useLocation();
 
   const product = params.state?.product;
   const isNew = !product;
+
+  const user = useSelector((state) => state.core.user);
+
+  const showEdit =
+    user.role === Roles.Master ||
+    (user.role === Roles.Admin && product.createdBy._id === user.id);
 
   const [title, setTitle] = useState(product?.title || "");
   const [description, setDescription] = useState(product?.description || "");
@@ -133,6 +140,7 @@ function Product(props) {
             <div className="form-group">
               <label>Title</label>
               <input
+                disabled={!showEdit}
                 value={title}
                 onChange={(event) => {
                   setTitle(event.target.value);
@@ -144,6 +152,7 @@ function Product(props) {
             <div className="form-group">
               <label>Description</label>
               <textarea
+                disabled={!showEdit}
                 value={description}
                 onChange={(event) => {
                   setDescription(event.target.value);
@@ -156,6 +165,7 @@ function Product(props) {
               <div className="form-group col-6">
                 <label>Price</label>
                 <input
+                  disabled={!showEdit}
                   value={price}
                   onChange={(event) => {
                     setPrice(event.target.value);
@@ -168,6 +178,7 @@ function Product(props) {
               <div className="form-group col-6">
                 <label>Rating</label>
                 <select
+                  disabled={!showEdit}
                   value={rating}
                   onChange={(event) => {
                     setRating(parseInt(event.target.value));
@@ -187,6 +198,7 @@ function Product(props) {
             <div className="form-group">
               <label>Image</label>
               <input
+                disabled={!showEdit}
                 value={images[0].url}
                 onChange={(event) => {
                   setImages([{ url: event.target.value }]);
@@ -198,6 +210,7 @@ function Product(props) {
             <div className="form-group">
               <label>Genre</label>
               <select
+                disabled={!showEdit}
                 value={genre}
                 onChange={(event) => {
                   console.log(event.target.value);

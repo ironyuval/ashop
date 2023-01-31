@@ -1,8 +1,8 @@
 function About(props) {
   return (
-    <div className="about">
+    <div className="container about m-auto">
       <h1>About Us</h1>
-      <p>Hello and Welcome to COMIX</p>
+      <p>Hello and Welcome to Comix</p>
       <br />
       <p>
         Trek Bicycle Corporation is a bicycle and cycling product manufacturer

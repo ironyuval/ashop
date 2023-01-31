@@ -80,16 +80,7 @@ function Browse() {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        flex: 1,
-        justifyContent: "space-between",
-        alignItems: "center",
-        height: "100%",
-      }}
-    >
+    <div className="d-flex flex-column justify-space-between align-items-center h-100">
       <FiltersModal handleSubmit={handleAdvancedSearch} />
 
       <div className="d-flex flex-column flex-lg-row align-items-center flex-wrap container-fluid bg-blue .bg-gradient">
@@ -149,13 +140,9 @@ function Browse() {
       </div>
 
       <div
+        className="d-flex flex-column overflow-auto w-100"
         style={{
-          display: "flex",
-          flexDirection: "column",
           flex: 1,
-          overflowY: "scroll",
-          overflowX: "hidden",
-          width: "100%",
         }}
       >
         <Paging

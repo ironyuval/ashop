@@ -2,7 +2,6 @@ import {
   emailSchema,
   nameSchema,
   passwordSchema,
-  registerSchema,
 } from "../../../validation/register.validation";
 import api from "../../../api";
 import { onTokenReceived } from "../../App/logic";
@@ -12,40 +11,6 @@ import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-
-/* const formFields = [
-  { name: "name", validationSchema: nameSchema },
-  {
-    name: "email",
-    type: "email",
-    validationSchema: emailSchema,
-    label: "Email address",
-  },
-  { name: "password", type: "password", validationSchema: passwordSchema },
-];
-
-const ValidatedInputLabel =
-  forwardRef <
-  HTMLInputElement >
-  (({ label, name, type = "text", onBlur, error }, ref) => {
-    return (
-      <div>
-        <label htmlFor={`input-${name}`} className="form-label">
-          {label || toCapitilize(name)}
-        </label>
-        <input
-          ref={ref}
-          onBlur={onBlur}
-          name={name}
-          className={`form-control ${error ? "is-invalid" : ""}`}
-          type={type}
-          id={`input-${name}`}
-          aria-describedby={`input-${name}`}
-        />
-        <div className="invalid-feedback">{error}</div>
-      </div>
-    );
-  }); */
 
 const RegisterModal = () => {
   const nameRef = useRef();

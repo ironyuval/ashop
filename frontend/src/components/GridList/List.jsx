@@ -1,4 +1,6 @@
 import ListItem from "./ListItem";
+import { Roles } from "../../server-shared/types";
+
 import {
   toggleWishlist as toggleWishlistProduct,
   toggleCart as toggleCartProduct,
@@ -61,6 +63,11 @@ function List({ products }) {
                 toggleWishlist={toggleWishlist}
                 toggleCart={toggleCart}
                 handleClick={() => handleClick(product)}
+                showEdit={
+                  user.role === Roles.Master ||
+                  (user.role === Roles.Admin &&
+                    product.createdBy._id === user.id)
+                }
               />
             </div>
           ))
