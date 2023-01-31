@@ -13,11 +13,13 @@ if (isDevelopment) {
   });
 }
 
-/* const createDefaultUsers = async () => {
+const createDefaultUsers = async () => {
+  await User.deleteMany({});
+
   const hashedPassword = bcrypt
     .hashSync(process.env.DEFAULT_MASTER_PASSWORD, 10);
 
-    const master = {
+  const master = {
     name: 'Master',
     email: process.env.DEFAULT_MASTER_EMAIL,
     password: hashedPassword,
@@ -39,11 +41,7 @@ if (isDevelopment) {
   };
 
   await User.insertMany([master, admin, user]);
-
-  const options = { upsert: true, new: true, setDefaultsOnInsert: true };
-
-  await User.findOneAndUpdate({ email: master.email }, master, options);
-}; */
+};
 
 const asyncListen = () => new Promise((resolve, reject) => {
   app.listen(process.env.PORT, (err) => { if (err) reject(); resolve(); });
@@ -58,7 +56,7 @@ const init = async () => {
   try {
     const connectionData = await connect();
     console.log(`mongodb is connected with: ${connectionData.connection.host}`);
-    /*     await createDefaultUsers();
+    /* await createDefaultUsers();
  */ await asyncListen();
     console.info(`server rest api address: http://localhost:${process.env.PORT}`);
   } catch (e) {

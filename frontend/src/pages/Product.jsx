@@ -18,7 +18,7 @@ function Product(props) {
   const showEdit =
     user &&
     (user.role === Roles.Master ||
-      (user.role === Roles.Admin && product.createdBy._id === user.id));
+      (user.role === Roles.Admin && product?.createdBy?._id === user.id));
 
   const [title, setTitle] = useState(product?.title || "");
   const [description, setDescription] = useState(product?.description || "");

@@ -1,11 +1,12 @@
 import api from "../../../api";
 import { onTokenReceived } from "../../App/logic";
 import getModalById from "../../../utils/getModalById";
+
+import { isDevelopment } from "../../../utils";
 import {
   emailSchema,
   passwordSchema,
-} from "../../../validation/register.validation";
-import { isDevelopment } from "../../../utils";
+} from "../../../server-shared/validation/register.validation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useRef } from "react";

@@ -1,12 +1,12 @@
-import {
-  emailSchema,
-  nameSchema,
-  passwordSchema,
-} from "../../../validation/register.validation";
 import api from "../../../api";
 import { onTokenReceived } from "../../App/logic";
 import { isDevelopment } from "../../../utils";
 import getModalById from "../../../utils/getModalById";
+import {
+  emailSchema,
+  nameSchema,
+  passwordSchema,
+} from "../../../server-shared/validation/register.validation";
 import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";

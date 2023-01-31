@@ -67,7 +67,7 @@ function List({ products }) {
                   user &&
                   (user.role === Roles.Master ||
                     (user.role === Roles.Admin &&
-                      product.createdBy._id === user.id))
+                      product.createdBy?._id === user.id))
                 }
               />
             </div>

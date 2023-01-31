@@ -7,7 +7,6 @@ export const loginSchema = Joi.object({
     .email({ tlds: { allow: false } })
     .required(),
   password: Joi.string().min(6).max(32).required(),
-  confirmPassword: Joi.ref("password"),
 });
 
 export default loginSchema;

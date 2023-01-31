@@ -1,9 +1,24 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { registerSchema } from '../../frontend/src/server-shared/validation/register.validation';
 import User from '../models/User';
 
 export const register = async (req, res) => {
   try {
+    const validatedValue = registerSchema.validate({
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+    });
+
+    const { error } = validatedValue;
+
+    if (error) {
+      const item = error.details[0];
+      const errorMessage = item.message.replace('" ', '')[1];
+      throw (new Error(errorMessage));
+    }
+
     const userExists = await User.findOne({ email: req.body.email });
     if (userExists) {
       return res.status(500).json({

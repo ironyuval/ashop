@@ -1,7 +1,24 @@
 import Product from '../models/Product';
 import Features from '../utils/Features';
+import { productSchema } from '../../frontend/src/server-shared/validation/product.validation';
 
 export const createProduct = async (req, res) => {
+  const validatedValue = productSchema.validate({
+    title: req.body.title,
+    description: req.body.description,
+    price: req.body.price,
+    rating: req.body.rating,
+    genre: req.body.genre,
+  });
+
+  const { error } = validatedValue;
+
+  if (error) {
+    const item = error.details[0];
+    const errorMessage = item.message.replace('" ', '')[1];
+    throw (new Error(errorMessage));
+  }
+
   const product = await Product.create({ ...req.body, createdBy: req.user._id });
   res.status(201).json({
     success: true,
@@ -43,6 +60,22 @@ export const getAllProducts = async (req, res) => {
 };
 
 export const updateProduct = async (req, res) => {
+  const validatedValue = productSchema.validate({
+    title: req.body.title,
+    description: req.body.description,
+    price: req.body.price,
+    rating: req.body.rating,
+    genre: req.body.genre,
+  });
+
+  const { error } = validatedValue;
+
+  if (error) {
+    const item = error.details[0];
+    const errorMessage = item.message.replace('" ', '')[1];
+    throw (new Error(errorMessage));
+  }
+
   let product = await Product.findById(req.params.id);
   if (!product) {
     return res.status(404).json({

@@ -4,7 +4,7 @@ import getModalById from "../../../utils/getModalById";
 import {
   nameSchema,
   passwordSchema,
-} from "../../../validation/register.validation";
+} from "../../../server-shared/validation/register.validation";
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRef } from "react";
