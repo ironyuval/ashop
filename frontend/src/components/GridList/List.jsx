@@ -64,9 +64,10 @@ function List({ products }) {
                 toggleCart={toggleCart}
                 handleClick={() => handleClick(product)}
                 showEdit={
-                  user.role === Roles.Master ||
-                  (user.role === Roles.Admin &&
-                    product.createdBy._id === user.id)
+                  user &&
+                  (user.role === Roles.Master ||
+                    (user.role === Roles.Admin &&
+                      product.createdBy._id === user.id))
                 }
               />
             </div>
