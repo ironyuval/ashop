@@ -1,6 +1,10 @@
 import { setUser } from "../../../redux/slice";
 import api from "../../../api";
 import getModalById from "../../../utils/getModalById";
+import {
+  nameSchema,
+  passwordSchema,
+} from "../../../validation/register.validation";
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRef } from "react";
@@ -8,7 +12,6 @@ import { toast } from "react-toastify";
 
 const ProfileModal = () => {
   const user = useSelector((state) => state.core.user);
-  console.log(user);
 
   const dispatch = useDispatch();
 
@@ -22,12 +25,8 @@ const ProfileModal = () => {
 
   const [errors, setErrors] = useState({});
 
-  /*   const isValid =
-    nameRef.current?.value &&
-    emailRef.current?.value &&
-    passwordRef.current?.value &&
-    confirmPasswordRef.current?.value &&
-    !Object.keys(errors).length; */
+  const isValid = !Object.keys(errors).length;
+
   const handleError = (errorField, errorMessage) => {
     setErrors((errors) => ({ ...errors, [errorField]: errorMessage }));
   };
@@ -36,10 +35,6 @@ const ProfileModal = () => {
     const newErrors = { ...errors };
     delete newErrors[errorField];
     setErrors(newErrors);
-  };
-
-  const handleNameChange = (e) => {
-    setName(e.target.value);
   };
 
   const handleImageChange = (e) => {
@@ -129,11 +124,15 @@ const ProfileModal = () => {
                 <input
                   ref={nameRef}
                   defaultValue={user.name}
+                  onBlur={handleValidateBySchema("name", nameSchema)}
                   type="text"
-                  className="form-control"
-                  aria-label="Username"
+                  className={`form-control ${
+                    errors["name"] ? "is-invalid" : ""
+                  }`}
+                  aria-label="name"
                   aria-describedby="basic-addon1"
                 />
+                <div className="invalid-feedback">{errors["name"]}</div>
               </div>
               <div className="input-group mb-3">
                 <span className="input-group-text">Profile image</span>
@@ -165,10 +164,14 @@ const ProfileModal = () => {
                 <input
                   ref={oldPasswordRef}
                   type="password"
-                  className="form-control"
+                  onBlur={handleValidateBySchema("password", passwordSchema)}
+                  className={`form-control ${
+                    errors["password"] ? "is-invalid" : ""
+                  }`}
                   aria-label="Old password"
                   aria-describedby="basic-addon1"
                 />
+                <div className="invalid-feedback">{errors["password"]}</div>
               </div>
               <div className="input-group mb-3">
                 <span className="input-group-text">New password</span>

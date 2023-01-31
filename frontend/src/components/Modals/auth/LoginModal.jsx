@@ -2,19 +2,51 @@ import loginSchema from "../../../validation/login.validation";
 import api from "../../../api";
 import { onTokenReceived } from "../../App/logic";
 import getModalById from "../../../utils/getModalById";
+import {
+  emailSchema,
+  nameSchema,
+  passwordSchema,
+} from "../../../validation/register.validation";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useRef } from "react";
 
 const LoginModal = () => {
-  const [email, setEmail] = useState("ironyuval65@gmail.com");
+  const emailRef = useRef();
 
-  const [password, setPassword] = useState("123456");
+  const passwordRef = useRef();
 
   const dispatch = useDispatch();
 
-  const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
+
+  const handleError = (errorField, errorMessage) => {
+    setErrors((errors) => ({ ...errors, [errorField]: errorMessage }));
+  };
+
+  const clearError = (errorField) => {
+    const newErrors = { ...errors };
+    delete newErrors[errorField];
+    setErrors(newErrors);
+  };
+
+  const handleValidateBySchema = (name, schema) => (e) => {
+    const value = e.target.value;
+
+    const validatedValue = schema.validate(value);
+
+    const { error } = validatedValue;
+    if (error) {
+      for (let item of error.details) {
+        const errorMessage = item.message.split('" ')[1];
+        handleError(name, errorMessage);
+      }
+    } else {
+      clearError(name);
+    }
+  };
 
   const handleEmailChange = (ev) => {
     setEmail(ev.target.value);
@@ -69,25 +101,31 @@ const LoginModal = () => {
               <span className="input-group-text">Email</span>
 
               <input
-                value={email}
-                onChange={handleEmailChange}
+                ref={emailRef}
                 type="text"
-                className="form-control"
                 aria-label="Email"
                 aria-describedby="basic-addon1"
+                onBlur={handleValidateBySchema("email", emailSchema)}
+                className={`form-control ${
+                  errors["email"] ? "is-invalid" : ""
+                }`}
               />
+              <div className="invalid-feedback">{errors["email"]}</div>
             </div>
             <div className="input-group">
               <span className="input-group-text">password</span>
 
               <input
-                value={password}
-                onChange={handlePasswordChange}
+                ref={passwordRef}
                 type="password"
-                className="form-control"
                 aria-label="password"
                 aria-describedby="basic-addon1"
+                onBlur={handleValidateBySchema("password", passwordSchema)}
+                className={`form-control ${
+                  errors["password"] ? "is-invalid" : ""
+                }`}
               />
+              <div className="invalid-feedback">{errors["password"]}</div>
             </div>
           </div>
           <div className="modal-footer">
