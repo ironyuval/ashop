@@ -4,6 +4,7 @@ import { Genres } from "../server-shared/types";
 import Diagonal from "../components/GridList/Diagonal";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 function Product(props) {
   const params = useLocation();
@@ -13,8 +14,8 @@ function Product(props) {
 
   const [title, setTitle] = useState(product?.title || "");
   const [description, setDescription] = useState(product?.description || "");
-  const [price, setPrice] = useState(product?.price || "");
-  const [rating, setRatings] = useState(product?.rating || "");
+  const [price, setPrice] = useState(product?.price || 0);
+  const [rating, setRating] = useState(product?.rating || 0);
   const [images, setImages] = useState(
     product?.images || [
       {
@@ -40,28 +41,34 @@ function Product(props) {
     return options;
   };
 
-  const handleSubmit = () => {
-    const data = {
-      title,
-      description,
-      price,
-      rating,
-      images,
-      genre,
-    };
+  const handleSubmit = async () => {
+    try {
+      const data = {
+        title,
+        description,
+        price,
+        rating,
+        images,
+        genre,
+      };
 
-    if (isNew) {
-      api.Product.createProduct(data);
-    } else {
-      api.Product.updateProduct(product._id, data);
+      console.log(data);
+
+      if (isNew) {
+        await api.Product.createProduct(data);
+        toast.success("Product created successfully");
+      } else {
+        await api.Product.updateProduct(product._id, data);
+        toast.success("Product updated successfully");
+      }
+    } catch (e) {
+      console.log(e);
     }
   };
 
   const handleDelete = () => {
     setIsDeleteModalShown(true);
   };
-
-  console.log(product);
 
   return (
     <div
@@ -163,16 +170,16 @@ function Product(props) {
                 <select
                   value={rating}
                   onChange={(event) => {
-                    setRatings(event.target.value);
+                    setRating(parseInt(event.target.value));
                   }}
                   className="form-control"
                 >
-                  <option hidden>Choose Ratings</option>
-                  <option>5</option>
-                  <option>4</option>
-                  <option>3</option>
-                  <option>2</option>
-                  <option>1</option>
+                  <option value={0}>Choose Rating</option>
+                  <option value={5}>5</option>
+                  <option value={4}>4</option>
+                  <option value={3}>3</option>
+                  <option value={2}>2</option>
+                  <option value={1}>1</option>
                 </select>
               </div>
             </div>

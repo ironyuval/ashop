@@ -2,7 +2,7 @@ import Product from '../models/Product';
 import Features from '../utils/Features';
 
 export const createProduct = async (req, res) => {
-  const product = await Product.create({ ...req.body, createdBy: req.userId });
+  const product = await Product.create({ ...req.body, createdBy: req.user._id });
   res.status(201).json({
     success: true,
     product,
@@ -11,7 +11,7 @@ export const createProduct = async (req, res) => {
 
 export const createMockProducts = async (req, res) => {
   try {
-    const createdBy = req.userId;
+    const createdBy = req.user._id;
     const includesCreatedBy = req.body.map((product) => ({ ...product, createdBy }));
     await Product.insertMany(includesCreatedBy);
     res.status(201).json({

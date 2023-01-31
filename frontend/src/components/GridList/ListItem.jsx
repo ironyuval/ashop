@@ -10,7 +10,7 @@ const ListItem = ({
   toggleWishlist,
   toggleCart,
   handleClick,
-  userPermission,
+  showEdit,
 }) => {
   return (
     <div key={product._id} className="card m-auto text-center h-100">
@@ -50,7 +50,7 @@ const ListItem = ({
           type="button"
           className="btn btn color-dark-blue rounded-0"
         >
-          <i className="bi bi-pen"></i>
+          <i className={`bi ${showEdit ? "bi-pen" : "bi-info-circle"}`}></i>
         </button>
         <button
           onClick={() => toggleCart(product._id)}

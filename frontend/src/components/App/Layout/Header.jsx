@@ -1,8 +1,7 @@
-import { Permissions } from "../../../server-shared/types";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const getHeaderItems = (user) => ({
+export const getHeaderItems = (user) => ({
   Start: [
     {
       path: "/",
@@ -12,6 +11,7 @@ const getHeaderItems = (user) => ({
     {
       path: "/about",
       title: "about",
+      icon: "bi bi-question-circle",
     },
     {
       path: "/browse",
@@ -65,7 +65,7 @@ function Header() {
   const HeaderItems = getHeaderItems(user);
 
   return (
-    <nav className="navbar navbar-light grad navbar-expand-md bg ">
+    <nav className="navbar navbar-light grad navbar-expand-lg ">
       <div className="container-fluid ">
         <button
           className="navbar-toggler border-white mt-2"
@@ -103,8 +103,8 @@ function Header() {
               return (
                 <li key={index} className="nav-item">
                   <a
-                    data-bs-toggle="modal"
-                    data-bs-target={`#${item.toggle}`}
+                    data-bs-toggle={item.toggle && "modal"}
+                    data-bs-target={item.toggle && `#${item.toggle}`}
                     className={`nav-link ${
                       location.pathname === item.path ? "active" : ""
                     }`}

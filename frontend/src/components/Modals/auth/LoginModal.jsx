@@ -7,6 +7,7 @@ import {
   nameSchema,
   passwordSchema,
 } from "../../../validation/register.validation";
+import { isDevelopment } from "../../../utils";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
@@ -48,35 +49,22 @@ const LoginModal = () => {
     }
   };
 
-  const handleEmailChange = (ev) => {
-    setEmail(ev.target.value);
-  };
-
-  const handlePasswordChange = (ev) => {
-    setPassword(ev.target.value);
-  };
-
   const handleSubmit = async (ev) => {
     ev.preventDefault();
 
-    const validatedValue = loginSchema.validate({
-      email,
-      password,
-    });
-    const { error } = validatedValue;
+    const email = emailRef.current?.value;
+    const password = passwordRef.current?.value;
 
-    if (error) {
-      for (let item of error.details) {
-        toast.error(item.message.replaceAll('"', ""));
-      }
-    } else {
+    try {
       const response = await api.Auth.login(email, password);
       const token = response.data.token;
       dispatch(onTokenReceived(token));
       const loginModal = getModalById("loginModal");
       loginModal.hide();
-    }
+    } catch (e) {}
   };
+
+  const handleForgotPassword = () => {};
 
   return (
     <div className="modal fade" id="loginModal" tabIndex="-1" role="dialog">
@@ -102,6 +90,7 @@ const LoginModal = () => {
 
               <input
                 ref={emailRef}
+                defaultValue={isDevelopment ? "ironyuval65@gmail.com" : ""}
                 type="text"
                 aria-label="Email"
                 aria-describedby="basic-addon1"
@@ -117,6 +106,7 @@ const LoginModal = () => {
 
               <input
                 ref={passwordRef}
+                defaultValue={isDevelopment ? "123456" : ""}
                 type="password"
                 aria-label="password"
                 aria-describedby="basic-addon1"
@@ -126,6 +116,9 @@ const LoginModal = () => {
                 }`}
               />
               <div className="invalid-feedback">{errors["password"]}</div>
+            </div>
+            <div className="input-group">
+              <a className="mt-3">Forgot Password</a>
             </div>
           </div>
           <div className="modal-footer">
@@ -137,6 +130,7 @@ const LoginModal = () => {
               Close
             </button>
             <button
+              disabled={false}
               onClick={handleSubmit}
               type="button"
               className="btn btn-primary"

@@ -6,18 +6,21 @@ export const Genres = {
   SciFi: "scifi",
 };
 
+//User roles
 export const Roles = {
   User: "user",
   Admin: "admin",
   Master: "master",
 };
 
+//User roles groups
 export const Permissions = {
   Registered: [Roles.User, Roles.Admin, Roles.Master],
   Admin: [Roles.Admin, Roles.Master],
   Master: [Roles.Master],
 };
 
+//Product filters
 export const Filters = {
   price: {
     type: "range",

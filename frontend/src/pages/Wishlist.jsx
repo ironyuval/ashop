@@ -100,9 +100,9 @@ function Wishlist() {
     >
       <FiltersModal handleSubmit={handleAdvancedSearch} />
 
-      <div className="d-flex flex-column flex-lg-row align-items-center flex-wrap container-fluid bg  .bg-gradient .bg-gradient">
+      <div className="d-flex flex-column flex-lg-row align-items-center flex-wrap container-fluid bg-blue .bg-gradient">
         <div
-          className="ms-md-5"
+          className="ms-lg-5"
           style={{
             backgroundImage: `url(${Logo})`,
             height: "100px",

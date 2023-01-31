@@ -53,18 +53,10 @@ function Home() {
   }, []);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        flex: 1,
-        overflowY: "hidden",
-        backgroundColor: "#f5f5f5",
-      }}
-    >
-      <div className="d-flex flex-column flex-lg-row align-items-center flex-wrap container-fluid bg  .bg-gradient .bg-gradient">
+    <div className="d-flex flex-column overflow-hidden bg-grey">
+      <div className="d-flex flex-column flex-lg-row align-items-center flex-wrap container-fluid bg-blue .bg-gradient">
         <div
-          className="ms-md-5"
+          className="ms-lg-5"
           style={{
             backgroundImage: `url(${Logo})`,
             height: "100px",
@@ -97,19 +89,16 @@ function Home() {
         </div>
       </div>
       <div
+        className="d-flex flex-column"
         style={{
-          display: "flex",
-          flexDirection: "column",
-          flex: 1,
           overflowY: "scroll",
-          overflowX: "hidden",
         }}
       >
         <div className="mt-2 mb-2 w-100">
           <p className="ms-5">
             Book Depository: Free delivery worldwide on over 20 million books
           </p>
-          <div className="d-flex justify-content-center">
+          <div className="d-flex justify-content-center overflow-hidden">
             <video height="180" loop muted autoPlay controls="">
               <source src={CaptainVideo} type="video/mp4" />
               Your browser does not support the video tag.

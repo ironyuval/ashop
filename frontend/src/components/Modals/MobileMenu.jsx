@@ -1,4 +1,14 @@
+import { getHeaderItems } from "../App/Layout/Header";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 const MobileMenu = () => {
+  const user = useSelector((state) => state.core.user);
+
+  const navigate = useNavigate();
+
+  const HeaderItems = getHeaderItems(user);
+
   return (
     <div
       className="offcanvas offcanvas-start"
@@ -8,7 +18,7 @@ const MobileMenu = () => {
     >
       <div className="offcanvas-header">
         <h5 className="offcanvas-title" id="offcanvasExampleLabel">
-          Offcanvas
+          Menu
         </h5>
         <button
           type="button"
@@ -17,37 +27,45 @@ const MobileMenu = () => {
           aria-label="Close"
         ></button>
       </div>
-      <div className="offcanvas-body">
-        <div>
-          Some text as placeholder. In real life you can have the elements you
-          have chosen. Like, text, images, lists, etc.
-        </div>
-        <div className="dropdown mt-3">
-          <button
-            className="btn btn-secondary dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-          >
-            Dropdown button
-          </button>
-          <ul className="dropdown-menu">
-            <li>
-              <a className="dropdown-item" href="#">
-                Action
-              </a>
-            </li>
-            <li>
-              <a className="dropdown-item" href="#">
-                Another action
-              </a>
-            </li>
-            <li>
-              <a className="dropdown-item" href="#">
-                Something else here
-              </a>
-            </li>
-          </ul>
-        </div>
+      <div className="offcanvas-body grad">
+        <ul className="navbar-nav me-auto mb-2 mb-sm-0">
+          {HeaderItems.Start.map((item, index) => {
+            if (!item) return null;
+            return (
+              <li key={index} className="nav-item">
+                <a
+                  className={`nav-link ${
+                    location.pathname === item.path ? "active" : ""
+                  }`}
+                  aria-current="page"
+                  onClick={() => navigate(item.path)}
+                >
+                  {item.icon && <i className={`${item.icon} me-1`}></i>}
+                  {item.title}
+                </a>
+              </li>
+            );
+          })}
+          {HeaderItems.End.map((item, index) => {
+            if (!item) return null;
+            return (
+              <li key={index} className="nav-item">
+                <a
+                  data-bs-toggle={item.toggle && "modal"}
+                  data-bs-target={item.toggle && `#${item.toggle}`}
+                  className={`nav-link ${
+                    location.pathname === item.path ? "active" : ""
+                  }`}
+                  aria-current="page"
+                  onClick={() => item.path && navigate(item.path)}
+                >
+                  {item.icon && <i className={`${item.icon} me-1`}></i>}
+                  {item.title}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </div>
   );
