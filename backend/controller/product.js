@@ -15,7 +15,7 @@ export const createProduct = async (req, res) => {
 
   if (error) {
     const item = error.details[0];
-    const errorMessage = item.message.replace('" ', '')[1];
+    const errorMessage = item.message.replace('" ', '');
     throw (new Error(errorMessage));
   }
 
@@ -72,7 +72,7 @@ export const updateProduct = async (req, res) => {
 
   if (error) {
     const item = error.details[0];
-    const errorMessage = item.message.replace('" ', '')[1];
+    const errorMessage = item.message.replace('" ', '');
     throw (new Error(errorMessage));
   }
 

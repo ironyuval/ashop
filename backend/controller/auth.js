@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { registerSchema } from '../../frontend/src/server-shared/validation/register.validation';
+import { loginSchema } from '../../frontend/src/server-shared/validation/login.validation';
+
 import User from '../models/User';
 
 export const register = async (req, res) => {
@@ -15,7 +17,7 @@ export const register = async (req, res) => {
 
     if (error) {
       const item = error.details[0];
-      const errorMessage = item.message.replace('" ', '')[1];
+      const errorMessage = item.message.replace('" ', '');
       throw (new Error(errorMessage));
     }
 
@@ -57,6 +59,19 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
+    const validatedValue = loginSchema.validate({
+      email: req.body.email,
+      password: req.body.password,
+    });
+
+    const { error } = validatedValue;
+
+    if (error) {
+      const item = error.details[0];
+      const errorMessage = item.message.replace('" ', '');
+      throw (new Error(errorMessage));
+    }
+
     const user = await User.findOne({ email: req.body.email });
 
     if (!user) {
