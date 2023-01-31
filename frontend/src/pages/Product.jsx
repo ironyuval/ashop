@@ -16,8 +16,9 @@ function Product(props) {
   const user = useSelector((state) => state.core.user);
 
   const showEdit =
-    user.role === Roles.Master ||
-    (user.role === Roles.Admin && product.createdBy._id === user.id);
+    user &&
+    (user.role === Roles.Master ||
+      (user.role === Roles.Admin && product.createdBy._id === user.id));
 
   const [title, setTitle] = useState(product?.title || "");
   const [description, setDescription] = useState(product?.description || "");
