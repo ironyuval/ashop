@@ -41,7 +41,8 @@ const ListItem = ({
         src={product.images[0].url}
         alt="image"
       >
-        <Diagonal text={"test"} />
+        {/*         <Diagonal text={"test"} />
+         */}{" "}
       </div>
 
       <div className="btn-group">
