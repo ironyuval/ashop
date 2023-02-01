@@ -66,16 +66,56 @@ function Header() {
 
   return (
     <nav className="navbar navbar-light grad navbar-expand-lg ">
-      <div className="container-fluid ">
-        <button
-          className="navbar-toggler border-white mt-2"
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasExample"
-          aria-controls="offcanvasExample"
-        >
-          <i className="bi bi-list text-white"></i>
-        </button>
+      <div className="container-fluid">
+        <nav className="navbar navbar-toggler w-100">
+          <button
+            className="navbar-toggler border-white"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasExample"
+            aria-controls="offcanvasExample"
+          >
+            <i className="bi bi-list text-white"></i>
+          </button>
+          <ul className="navbar-nav me-auto mb-sm-0 d-flex flex-row">
+            {HeaderItems.Start.map((item, index) => {
+              if (!item) return null;
+              return (
+                <li key={index} className="nav-item ms-3">
+                  <a
+                    className={`nav-link ${
+                      location.pathname === item.path ? "active" : ""
+                    }`}
+                    aria-current="page"
+                    onClick={() => navigate(item.path)}
+                  >
+                    {item.icon && <i className={`${item.icon} me-1`}></i>}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+          <ul className="navbar-nav ms-auto mb-sm-0 d-none flex-row d-sm-flex">
+            {HeaderItems.End.map((item, index) => {
+              if (!item) return null;
+              return (
+                <li key={index} className="nav-item ms-3">
+                  <a
+                    data-bs-toggle={item.toggle && "modal"}
+                    data-bs-target={item.toggle && `#${item.toggle}`}
+                    className={`nav-link ${
+                      location.pathname === item.path ? "active" : ""
+                    }`}
+                    aria-current="page"
+                    onClick={() => navigate(item.path)}
+                  >
+                    {item.icon && <i className={`${item.icon} me-1`}></i>}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-sm-0">
             {HeaderItems.Start.map((item, index) => {
@@ -83,6 +123,8 @@ function Header() {
               return (
                 <li key={index} className="nav-item">
                   <a
+                    data-bs-toggle={item.toggle && "modal"}
+                    data-bs-target={item.toggle && `#${item.toggle}`}
                     className={`nav-link ${
                       location.pathname === item.path ? "active" : ""
                     }`}

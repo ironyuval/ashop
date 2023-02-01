@@ -93,7 +93,7 @@ const ProfileModal = () => {
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title" id="exampleModalLongTitle">
-              Logout
+              Profile
             </h5>
             <button
               type="button"
