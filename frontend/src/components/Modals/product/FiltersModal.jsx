@@ -83,12 +83,10 @@ const FiltersModal = ({ handleSubmit, handleReset }) => {
             </h5>
             <button
               type="button"
-              className="close"
               data-bs-dismiss="modal"
+              className="btn-close"
               aria-label="Close"
-            >
-              <span aria-hidden="true">X</span>
-            </button>
+            ></button>
           </div>
 
           <div className="modal-body">
