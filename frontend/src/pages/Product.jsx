@@ -130,9 +130,7 @@ function Product(props) {
               }}
               src={images[0].url}
               alt="image"
-            >
-              <Diagonal text={"test"} />
-            </div>
+            ></div>
           </div>
 
           <div
