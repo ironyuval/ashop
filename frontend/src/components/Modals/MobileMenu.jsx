@@ -34,6 +34,7 @@ const MobileMenu = () => {
             return (
               <li key={index} className="nav-item">
                 <a
+                  data-bs-dismiss="offcanvas"
                   className={`nav-link ${
                     location.pathname === item.path ? "active" : ""
                   }`}

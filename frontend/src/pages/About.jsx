@@ -2,7 +2,7 @@ import "./About.css";
 
 function About(props) {
   return (
-    <div className="container about m-auto">
+    <div className="container about m-auto overflow-auto">
       <h1>About This Project</h1>
       <p>An online comic eshop, created as MERN Stack development project.</p>
       <p>
