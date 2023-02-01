@@ -1,11 +1,8 @@
 import Logo from "../../assets/logo.png";
 import React from "react";
-import { useSelector } from "react-redux";
 import "./LoadingModal.css";
 
 export const LoadingModal = () => {
-  const isLoading = useSelector((state) => state.core.isLoading);
-  if (!isLoading) return null;
   return (
     <div className="d-flex h-100 position-relative">
       <div className="m-auto" tabIndex="-1" role="dialog">

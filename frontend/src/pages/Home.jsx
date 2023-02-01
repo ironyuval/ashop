@@ -4,28 +4,24 @@ import Logo from "../assets/logo.png";
 import CaptainVideo from "../assets/captain.mp4";
 import StanLeeVideo from "../assets/stanlee.mp4";
 import api from "../api";
-import { setIsLoading } from "../redux/slice";
 import { LoadingModal } from "../components/Modals/LoadingModal";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 
 function Home() {
   const [topRated, setTopRated] = useState([]);
   const [latest, setLatest] = useState([]);
   const navigate = useNavigate();
 
-  const isLoading = useSelector((state) => state.core.isLoading);
-
-  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(true);
 
   const searchRef = useRef();
 
   const getData = async () => {
     try {
-      dispatch(setIsLoading(true));
+      setIsLoading(true);
       const topRatedQueryParams = {
         page: 1,
         perPage: 6,
@@ -47,7 +43,7 @@ function Home() {
     } catch (e) {
       console.log(e);
     } finally {
-      dispatch(setIsLoading(false));
+      setIsLoading(false);
     }
   };
 

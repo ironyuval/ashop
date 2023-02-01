@@ -27,9 +27,7 @@ function Cart() {
   const state = useLocation().state;
   const search = (state && state.search) || "";
 
-  const dispatch = useDispatch();
-
-  const isLoading = useSelector((state) => state.core.isLoading);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getProducts({
@@ -45,7 +43,7 @@ function Cart() {
 
   const getProducts = async (params) => {
     try {
-      dispatch(setIsLoading(true));
+      setIsLoading(true);
 
       const { data } = await api.User.getCart(params);
 
@@ -58,7 +56,7 @@ function Cart() {
     } catch (e) {
       console.log(e);
     } finally {
-      dispatch(setIsLoading(false));
+      setIsLoading(false);
     }
   };
 
