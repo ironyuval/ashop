@@ -3,10 +3,13 @@ import api from "../api";
 import Logo from "../assets/logo.png";
 import FiltersModal from "../components/Modals/product/FiltersModal";
 import Paging from "../components/GridList/Paging";
+import { LoadingModal } from "../components/Modals/LoadingModal";
+import { setIsLoading } from "../redux/slice";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
 import { useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 function Browse() {
   const [products, setProducts] = useState([]);
@@ -21,6 +24,9 @@ function Browse() {
 
   const state = useLocation().state;
   const search = (state && state.search) || "";
+  const dispatch = useDispatch();
+
+  const isLoading = useSelector((state) => state.core.isLoading);
 
   useEffect(() => {
     getProducts({
@@ -36,6 +42,8 @@ function Browse() {
 
   const getProducts = async (params) => {
     try {
+      dispatch(setIsLoading(true));
+
       const { data } = await api.Product.getProducts(params);
       setProducts(data.products);
       setPagination((pagination) => ({
@@ -44,6 +52,8 @@ function Browse() {
       }));
     } catch (e) {
       console.log(e);
+    } finally {
+      dispatch(setIsLoading(false));
     }
   };
 
@@ -139,24 +149,28 @@ function Browse() {
         </div>
       </div>
 
-      <div
-        className="d-flex flex-column overflow-auto w-100"
-        style={{
-          flex: 1,
-        }}
-      >
-        <Paging
-          currentPage={pagination.page}
-          handleChange={handlePaging}
-          lastPage={Math.ceil(pagination.total / pagination.perPage)}
-        />
-        <List products={products} />
-        <Paging
-          currentPage={pagination.page}
-          handleChange={handlePaging}
-          lastPage={Math.ceil(pagination.total / pagination.perPage)}
-        />
-      </div>
+      {isLoading ? (
+        <LoadingModal />
+      ) : (
+        <div
+          className="d-flex flex-column overflow-auto w-100"
+          style={{
+            flex: 1,
+          }}
+        >
+          <Paging
+            currentPage={pagination.page}
+            handleChange={handlePaging}
+            lastPage={Math.ceil(pagination.total / pagination.perPage)}
+          />
+          <List products={products} />
+          <Paging
+            currentPage={pagination.page}
+            handleChange={handlePaging}
+            lastPage={Math.ceil(pagination.total / pagination.perPage)}
+          />
+        </div>
+      )}
     </div>
   );
 }

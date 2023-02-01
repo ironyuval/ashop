@@ -43,7 +43,6 @@ function App() {
         <AppRoutes />
       </Layout>
       <Fab onClick={() => navigate("/product")} />
-      <LoadingModal />
     </>
   );
 }

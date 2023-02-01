@@ -1,26 +1,19 @@
+import Logo from "../../assets/logo.png";
 import React from "react";
 import { useSelector } from "react-redux";
+import "./LoadingModal.css";
 
 export const LoadingModal = () => {
   const isLoading = useSelector((state) => state.core.isLoading);
-
   if (!isLoading) return null;
   return (
-    <div
-      style={{
-        position: "absolute",
-        backgroundColor: "rgba(0,0,0,0.5)",
-        zIndex: 1,
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-      tabIndex="-1"
-      role="dialog"
-    >
-      <div className="spinner-border text-primary" role="status"></div>
+    <div className="d-flex h-100 position-relative">
+      <div className="m-auto" tabIndex="-1" role="dialog">
+        <div className="container d-flex flex-column align-items-center">
+          <img src={Logo} className="rotate" />
+          <span style={{ position: "absolute", bottom: 0 }}>is loading...</span>
+        </div>
+      </div>
     </div>
   );
 };

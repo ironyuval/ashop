@@ -4,20 +4,28 @@ import Logo from "../assets/logo.png";
 import CaptainVideo from "../assets/captain.mp4";
 import StanLeeVideo from "../assets/stanlee.mp4";
 import api from "../api";
+import { setIsLoading } from "../redux/slice";
+import { LoadingModal } from "../components/Modals/LoadingModal";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 function Home() {
   const [topRated, setTopRated] = useState([]);
   const [latest, setLatest] = useState([]);
   const navigate = useNavigate();
 
+  const isLoading = useSelector((state) => state.core.isLoading);
+
+  const dispatch = useDispatch();
+
   const searchRef = useRef();
 
   const getData = async () => {
     try {
+      dispatch(setIsLoading(true));
       const topRatedQueryParams = {
         page: 1,
         perPage: 6,
@@ -38,6 +46,8 @@ function Home() {
       setLatest(latest.products);
     } catch (e) {
       console.log(e);
+    } finally {
+      dispatch(setIsLoading(false));
     }
   };
 
@@ -53,8 +63,8 @@ function Home() {
   }, []);
 
   return (
-    <div className="d-flex flex-column overflow-hidden bg-grey">
-      <div className="d-flex flex-column flex-lg-row align-items-center flex-wrap container-fluid bg-blue .bg-gradient">
+    <div className="d-flex flex-column overflow-hidden bg-grey h-100">
+      <div className="d-flex flex-column flex-lg-row align-items-center flex-wrap container-fluid bg-blue">
         <div
           className="ms-lg-5"
           style={{
@@ -88,32 +98,37 @@ function Home() {
           </div>
         </div>
       </div>
-      <div
-        className="d-flex flex-column"
-        style={{
-          overflowY: "scroll",
-        }}
-      >
-        <div className="mt-2 mb-2 w-100">
-          <p className="ms-5">
-            Book Depository: Free delivery worldwide on over 20 million books
-          </p>
-          <div className="d-flex justify-content-center overflow-hidden">
-            <video height="180" loop muted autoPlay controls="">
-              <source src={CaptainVideo} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-            <video height="180" loop muted autoPlay controls="">
-              <source src={StanLeeVideo} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+      {isLoading ? (
+        <LoadingModal />
+      ) : (
+        <div
+          className="d-flex flex-column"
+          style={{
+            overflowY: "scroll",
+          }}
+        >
+          <div className="d-flex flex-column mt-2 mb-2 w-100 justify-content-center align-items-center">
+            <p className="ms-5">
+              Discover a world of endless adventure with our online comic book
+              shop
+            </p>
+            <div className="d-flex justify-content-center overflow-hidden w-75">
+              <video height="180" loop muted autoPlay controls="">
+                <source src={CaptainVideo} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              <video height="180" loop muted autoPlay controls="">
+                <source src={StanLeeVideo} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
           </div>
+          <p className="ms-5">Top rated</p>
+          <List products={topRated} />
+          <p className="ms-5">Latest</p>
+          <List products={latest} />
         </div>
-        <p className="ms-5">Top rated</p>
-        <List products={topRated} />
-        <p className="ms-5">Latest</p>
-        <List products={latest} />
-      </div>
+      )}
     </div>
   );
 }
